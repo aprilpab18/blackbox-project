@@ -17,14 +17,12 @@ public class Main extends PApplet{
 
     public void setup() {
 
-        ava = loadImage("https://www.sportsfile.com/winshare/w540/Library/SF1314/2298029.jpg");
 
     }
 
     public void draw() {
-        background(36, 255, 28);
+        background(99, 255, 138);
 
-        image(ava, 200,100);
 
         xPos += 3;
 
@@ -33,11 +31,11 @@ public class Main extends PApplet{
         }
 
 
-        stroke(0);
-        strokeWeight(2);
+        stroke(255, 0, 251);
+        strokeWeight(3);
 
 
-        drawGrid(400, 100, 30);
+        drawGrid(450, 100, 35);
 
     }
 
