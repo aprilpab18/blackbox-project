@@ -8,7 +8,7 @@ public class Main extends PApplet{
     }
 
     public void settings() {
-        size(500, 500);
+        size(700, 700);
     }
 
 
@@ -64,6 +64,21 @@ public class Main extends PApplet{
         if (xPos > width+400) {
             xPos = -120;
         }
+
+
+        fill(0);
+        strokeWeight(2);
+
+
+
+        // Draw one hexagon
+
+        line(100, 600, 100, 620); // Left line
+        line(140, 600, 140, 620); // Right line
+        line(100, 600, 120, 590); // Top left line
+        line(120, 590, 140, 600); // Top right line
+        line(100, 620, 120, 630); // Bottom left line
+        line(120, 630, 140, 620); // Bottom right line
     }
 
 }
