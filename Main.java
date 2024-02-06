@@ -35,19 +35,21 @@ public class Main extends PApplet{
         strokeWeight(3);
 
 
-        drawGrid(450, 100, 35);
-
+//        drawGrid(450, 100, 35);
+        drawHexagon(100, 100, 35);
     }
 
 
     public void drawHexagon(int xPos, int yPos, int sideLength) { // Give coord of top of left vertical line
 
-        line(xPos, yPos, xPos, yPos+sideLength); // Left line
-        line(xPos+(sideLength*2), yPos, xPos+(2*sideLength), yPos+sideLength); // Right line
-        line(xPos, yPos, xPos+sideLength, yPos-(sideLength/2)); // Top left line
-        line(xPos+sideLength, yPos-(sideLength/2), xPos+(2*sideLength), yPos); // Top right line
-        line(xPos, yPos+sideLength, xPos+sideLength, yPos+(sideLength +  (sideLength/2))); // Bottom left line
-        line(xPos+sideLength, yPos+(sideLength +  (sideLength/2)), xPos+(sideLength*2), yPos+sideLength); // Bottom right line
+        // Middle = xPos, yPos
+
+        line(xPos-sideLength, yPos-(sideLength/2), xPos-sideLength, yPos+(sideLength/2)); // Left line
+        line(xPos+sideLength, yPos-(sideLength/2), xPos+sideLength, yPos+(sideLength/2)); // Right line
+        line(xPos-sideLength, yPos-(sideLength/2), xPos, yPos-sideLength); // Top left line
+        line(xPos+sideLength, yPos-(sideLength/2), xPos, yPos-sideLength); // Top right line
+        line(xPos-sideLength, yPos+(sideLength/2), xPos, yPos+sideLength); // Bottom left line
+        line(xPos+sideLength, yPos+(sideLength/2), xPos, yPos+sideLength); // Bottom right line
     }
 
 
