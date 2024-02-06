@@ -1,4 +1,5 @@
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class Main extends PApplet{
     public int xPos = -120;
@@ -12,12 +13,18 @@ public class Main extends PApplet{
     }
 
 
+    PImage ava;
+
     public void setup() {
+
+        ava = loadImage("https://www.sportsfile.com/winshare/w540/Library/SF1314/2298029.jpg");
 
     }
 
     public void draw() {
-        background(0);
+        background(36, 255, 28);
+
+        image(ava, 200,100);
 
         xPos += 3;
 
@@ -26,7 +33,7 @@ public class Main extends PApplet{
         }
 
 
-        stroke(255, 255, 0);
+        stroke(0);
         strokeWeight(2);
 
 
