@@ -8,7 +8,7 @@ public class Main extends PApplet{
     }
 
     public void settings() {
-        size(500, 500);
+        size(700, 700);
     }
 
 
@@ -17,53 +17,46 @@ public class Main extends PApplet{
     }
 
     public void draw() {
-        background(0, 14, 250);
-        fill(255);
-        rectMode(CENTER);
-        rect(width/2, height-10, width, 20);
-        ellipse(xPos, 400, 180, 180);
-        ellipse(xPos, 260, 140, 140);
-        ellipse(xPos, 140, 120, 120);
+        background(0);
 
-        // Face
-        fill(0);
-        ellipse(xPos-20, 120, 10, 10);
-        ellipse(xPos+20, 120, 10, 10);
-        stroke(250, 150, 0);
-        strokeWeight(10);
-        line(xPos ,145, xPos+40, 145);
-        stroke(0);
-        strokeWeight(1);
-        ellipse(xPos-10, 175, 10, 10);
-        ellipse(xPos-30, 160, 10, 10);
-        ellipse(xPos+10, 175, 10, 10);
-        ellipse(xPos+30, 160, 10, 10);
-
-        // Buttons
-        ellipse(xPos, 220, 10, 10);
-        ellipse(xPos, 260, 10, 10);
-        ellipse(xPos, 300, 10, 10);
-
-        // Arms
-        strokeWeight(6);
-        stroke(118, 83, 30);
-        line(xPos-70, 250, xPos-120, 300);
-        line(xPos+70, 250, xPos+120, 300);
-        strokeWeight(1);
-        stroke(0);
-
-        // Hat
-        rect(xPos, 80, 100, 10);
-        rect(xPos, 50, 70, 60);
-
-        textSize(35);
-        text("MERRY CHRISTMAS!", xPos-400, 200);
-        text("DO UR WEBWORK", xPos-390, 240);
         xPos += 3;
 
         if (xPos > width+400) {
             xPos = -120;
         }
+
+
+        stroke(255, 255, 0);
+        strokeWeight(2);
+
+
+
+        // Draw one hexagon
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5+i; j++) {
+                drawHexagon(250 - (40*j) + (20*i), 100 + (30*i));
+            }
+        }
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 8-i; j++) {
+                drawHexagon(30 + (40*j) + (20*i), 250 + (30*i));
+            }
+        }
+
+
+    }
+
+
+    public void drawHexagon(int xPos, int yPos) { // Give coord of top of left vertical line
+
+        line(xPos, yPos, xPos, yPos+20); // Left line
+        line(xPos+40, yPos, xPos+40, yPos+20); // Right line
+        line(xPos, yPos, xPos+20, yPos-10); // Top left line
+        line(xPos+20, yPos-10, xPos+40, yPos); // Top right line
+        line(xPos, yPos+20, xPos+20, yPos+30); // Bottom left line
+        line(xPos+20, yPos+30, xPos+40, yPos+20); // Bottom right line
     }
 
 }
