@@ -67,12 +67,14 @@ public class Main extends PApplet{
         strokeWeight(3);
 
 
+        // top half and middle of board
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5+i; j++) {
                 drawHexagon(xPos - ((sideLength*2)*j) + (sideLength*i), yPos + ((sideLength + (sideLength/2))*i), sideLength);
             }
         }
 
+        // bottom four rows
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 8-i; j++) {
                 drawHexagon(xPos-(11*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2)) + ((sideLength + (sideLength/2))*i), sideLength);
