@@ -3,6 +3,7 @@ import processing.core.PImage;
 
 public class Main extends PApplet{
     public int xPos = -120;
+    public boolean startScreen = true;
 
     public static void main(String[] args) {
         PApplet.main("Main", args);
@@ -13,43 +14,51 @@ public class Main extends PApplet{
     }
 
 
-    PImage ava;
 
     public void setup() {
 
-        ava = loadImage("https://www.sportsfile.com/winshare/w540/Library/SF1314/2298029.jpg");
 
     }
 
     public void draw() {
-        background(36, 255, 28);
-
-        image(ava, 200,100);
-
-        xPos += 3;
-
-        if (xPos > width+400) {
-            xPos = -120;
+        if (startScreen) {
+            if (mousePressed == false) {
+                displayStartScreen();
+            }
+            else {
+                startScreen = false;
+            }
         }
+        else {
+            background(0);
+
+            xPos += 3;
+
+            if (xPos > width + 400) {
+                xPos = -120;
+            }
 
 
-        stroke(0);
-        strokeWeight(2);
+            stroke(255, 255, 0);
+            strokeWeight(3);
 
 
-        drawGrid(400, 100, 30);
-
+            drawGrid(490, 150, 35);
+        }
     }
+
 
 
     public void drawHexagon(int xPos, int yPos, int sideLength) { // Give coord of top of left vertical line
 
-        line(xPos, yPos, xPos, yPos+sideLength); // Left line
-        line(xPos+(sideLength*2), yPos, xPos+(2*sideLength), yPos+sideLength); // Right line
-        line(xPos, yPos, xPos+sideLength, yPos-(sideLength/2)); // Top left line
-        line(xPos+sideLength, yPos-(sideLength/2), xPos+(2*sideLength), yPos); // Top right line
-        line(xPos, yPos+sideLength, xPos+sideLength, yPos+(sideLength +  (sideLength/2))); // Bottom left line
-        line(xPos+sideLength, yPos+(sideLength +  (sideLength/2)), xPos+(sideLength*2), yPos+sideLength); // Bottom right line
+        // Middle = xPos, yPos
+
+        line(xPos-sideLength, yPos-(sideLength/2), xPos-sideLength, yPos+(sideLength/2)); // Left line
+        line(xPos+sideLength, yPos-(sideLength/2), xPos+sideLength, yPos+(sideLength/2)); // Right line
+        line(xPos-sideLength, yPos-(sideLength/2), xPos, yPos-sideLength); // Top left line
+        line(xPos+sideLength, yPos-(sideLength/2), xPos, yPos-sideLength); // Top right line
+        line(xPos-sideLength, yPos+(sideLength/2), xPos, yPos+sideLength); // Bottom left line
+        line(xPos+sideLength, yPos+(sideLength/2), xPos, yPos+sideLength); // Bottom right line
     }
 
 
@@ -67,6 +76,10 @@ public class Main extends PApplet{
             }
         }
 
+    }
+
+    public void displayStartScreen() {
+        background(0, 0, 255);
     }
 
 }
