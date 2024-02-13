@@ -3,6 +3,7 @@ import processing.core.PImage;
 
 public class Main extends PApplet{
     public int xPos = -120;
+    public boolean startScreen = true;
 
     public static void main(String[] args) {
         PApplet.main("Main", args);
@@ -13,7 +14,6 @@ public class Main extends PApplet{
     }
 
 
-    PImage ava;
 
     public void setup() {
 
@@ -21,23 +21,32 @@ public class Main extends PApplet{
     }
 
     public void draw() {
-        background(99, 255, 138);
-
-
-        xPos += 3;
-
-        if (xPos > width+400) {
-            xPos = -120;
+        if (startScreen) {
+            if (mousePressed == false) {
+                displayStartScreen();
+            }
+            else {
+                startScreen = false;
+            }
         }
+        else {
+            background(0);
+
+            xPos += 3;
+
+            if (xPos > width + 400) {
+                xPos = -120;
+            }
 
 
-        stroke(255, 0, 251);
-        strokeWeight(3);
+            stroke(255, 255, 0);
+            strokeWeight(3);
 
 
-//        drawGrid(450, 100, 35);
-        drawHexagon(100, 100, 35);
+            drawGrid(490, 150, 35);
+        }
     }
+
 
 
     public void drawHexagon(int xPos, int yPos, int sideLength) { // Give coord of top of left vertical line
@@ -67,6 +76,10 @@ public class Main extends PApplet{
             }
         }
 
+    }
+
+    public void displayStartScreen() {
+        background(0, 0, 255);
     }
 
 }
