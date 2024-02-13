@@ -48,15 +48,26 @@ public class Main extends PApplet{
         }
     }
 
+
+
+
     public void keyReleased() { // WHAT HAPPENS WHEN A KEY IS RELEASED
 
         if (key == ENTER) {
-            shots[numOfRays] = Integer.parseInt(userInput);
+            int num = Integer.parseInt(userInput);
+            if (num >= 1 && num <= 54) {
+                shots[numOfRays] = num;
+            }
+            else {
+                println("NOT IN RANGE");
+            }
             numOfRays++;
             userInput = "";
         }
         else if (key == BACKSPACE) {
-            userInput = userInput.substring(0, userInput.length()-2);
+            if (!userInput.isEmpty()) {
+                userInput = userInput.substring(0, userInput.length()-1);
+            }
         }
         else {
             userInput += key;
