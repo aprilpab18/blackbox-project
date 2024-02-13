@@ -79,10 +79,6 @@ public class Main extends PApplet{
     }
 
     public void displayStartScreen() {
-
-        // ADD CODE FOR START SCREEN HERE :O
-
-
         background(0, 0, 255);
     }
 
