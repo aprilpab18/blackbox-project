@@ -39,11 +39,7 @@ public class Main extends PApplet{
             }
 
 
-            stroke(255, 255, 0);
-            strokeWeight(3);
-
-
-            drawGrid(490, 150, 35);
+            drawGrid(470, 150, 30);
         }
     }
 
@@ -64,6 +60,11 @@ public class Main extends PApplet{
 
 
     public void drawGrid(int xPos, int yPos, int sideLength) { // xPos of top left of left line of first row
+
+        stroke(255, 38, 125); // Colour of grid
+        strokeWeight(3);
+
+
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5+i; j++) {
                 drawHexagon(xPos - ((sideLength*2)*j) + (sideLength*i), yPos + ((sideLength + (sideLength/2))*i), sideLength);
@@ -75,6 +76,13 @@ public class Main extends PApplet{
                 drawHexagon(xPos-(11*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2)) + ((sideLength + (sideLength/2))*i), sideLength);
             }
         }
+
+
+
+
+        // NUMBERS
+
+
 
     }
 
