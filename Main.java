@@ -5,6 +5,8 @@ public class Main extends PApplet{
     public int xPos = -120;
     public boolean startScreen = true;
 
+    public int[][] blackBoxCoordinates = new int[61][2];
+
     public static void main(String[] args) {
         PApplet.main("Main", args);
     }
