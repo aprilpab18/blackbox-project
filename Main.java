@@ -4,6 +4,7 @@ import processing.core.PImage;
 public class Main extends PApplet{
     public int xPos = -120;
     public boolean startScreen = true;
+    public String userInput = "";
 
     public static void main(String[] args) {
         PApplet.main("Main", args);
@@ -39,10 +40,24 @@ public class Main extends PApplet{
             }
 
 
-            drawGrid(470, 150, 30);
+            drawGrid(470, 100, 30);
+
+
+            fill(255);
+            textSize(50);
+            text(userInput, width/2 - 30, 600);
         }
     }
 
+    public void keyReleased() {
+        userInput += key;
+        if (key == ENTER) {
+            userInput = "";
+        }
+        if (key == BACKSPACE) {
+            userInput = userInput.substring(0, userInput.length()-2);
+        }
+    }
 
 
     public void drawHexagon(int xPos, int yPos, int sideLength) { // Give coord of top of left vertical line
@@ -82,6 +97,27 @@ public class Main extends PApplet{
 
         // NUMBERS
 
+//        textSize(18);
+//
+//        int x = 200;
+//        int y = 120;
+//        int num = 1;
+//        boolean topCorner = true;
+//
+//        for (int i = 0; i < 9; i++) {
+//            text(num, x, y);
+//            num++;
+//            if (topCorner) {
+//                x -= 15;
+//                y += 25;
+//                topCorner = false;
+//            }
+//            else {
+//                x -= 15;
+//                y += 22;
+//                topCorner = true;
+//            }
+//        }
 
 
     }
