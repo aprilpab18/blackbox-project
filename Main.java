@@ -69,7 +69,7 @@ public class Main extends PApplet{
                 userInput = userInput.substring(0, userInput.length()-1);
             }
         }
-        else {
+        else if (Character.isDigit(key)){
             userInput += key;
         }
     }
