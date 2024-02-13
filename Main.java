@@ -2,11 +2,14 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Main extends PApplet{
-    public int xPos = -120;
+
     public boolean startScreen = true;
     public String userInput = "";
+    public int[] shots = new int[100];
+    public int numOfRays = 0;
 
-    public static void main(String[] args) {
+
+    public static void main(String[] args) { // IGNORE
         PApplet.main("Main", args);
     }
 
@@ -18,51 +21,49 @@ public class Main extends PApplet{
 
     public void setup() {
 
-
     }
 
-    public void draw() {
+
+    public void draw() { // TREAT LIKE MAIN FUNCTION
+
         if (startScreen) {
-            if (mousePressed == false) {
+            if (!mousePressed) {
                 displayStartScreen();
             }
             else {
                 startScreen = false;
             }
         }
-        else {
+
+        else { // AFTER START SCREEN -> GAMEPLAY
             background(0);
-
-            xPos += 3;
-
-            if (xPos > width + 400) {
-                xPos = -120;
-            }
 
 
             drawGrid(470, 100, 30);
 
-
+            // Text for user input (where to shoot array)
             fill(255);
             textSize(50);
             text(userInput, width/2 - 30, 600);
         }
     }
 
-    public void keyReleased() {
-        userInput += key;
+    public void keyReleased() { // WHAT HAPPENS WHEN A KEY IS RELEASED
+
         if (key == ENTER) {
+            shots[numOfRays] = Integer.parseInt(userInput);
+            numOfRays++;
             userInput = "";
         }
-        if (key == BACKSPACE) {
+        else if (key == BACKSPACE) {
             userInput = userInput.substring(0, userInput.length()-2);
+        }
+        else {
+            userInput += key;
         }
     }
 
-
     public void drawHexagon(int xPos, int yPos, int sideLength) { // Give coord of top of left vertical line
-
-        // Middle = xPos, yPos
 
         line(xPos-sideLength, yPos-(sideLength/2), xPos-sideLength, yPos+(sideLength/2)); // Left line
         line(xPos+sideLength, yPos-(sideLength/2), xPos+sideLength, yPos+(sideLength/2)); // Right line
@@ -70,9 +71,10 @@ public class Main extends PApplet{
         line(xPos+sideLength, yPos-(sideLength/2), xPos, yPos-sideLength); // Top right line
         line(xPos-sideLength, yPos+(sideLength/2), xPos, yPos+sideLength); // Bottom left line
         line(xPos+sideLength, yPos+(sideLength/2), xPos, yPos+sideLength); // Bottom right line
+
+        // Middle = xPos, yPos
+
     }
-
-
 
     public void drawGrid(int xPos, int yPos, int sideLength) { // xPos of top left of left line of first row
 
