@@ -5,6 +5,7 @@ import processing.core.PApplet;
 
 public class Main extends PApplet {
     Grid grid;
+    public boolean startScreen = true;
 
     public void settings() {
         size(700, 700);
@@ -15,8 +16,27 @@ public class Main extends PApplet {
     }
 
     public void draw() {
-        background(0);
-        grid.drawGrid(470, 150, 30);
+        if(startScreen){
+            if(!mousePressed){
+                displayStartScreen();
+            }
+            else{
+                startScreen = false;
+            }
+        }
+
+        // Start screen is false
+        else{
+            // Set black background
+            background(0);
+            // Call draw grid function
+            grid.drawGrid(470, 150, 30);
+        }
+
+    }
+
+    private void displayStartScreen() {
+        background(0,0,255);
     }
 
     public static void main(String[] args) {
