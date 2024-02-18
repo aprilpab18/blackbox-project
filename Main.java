@@ -2,10 +2,14 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Main extends PApplet{
-    public int xPos = -120;
-    public boolean startScreen = true;
 
-    public static void main(String[] args) {
+    public boolean startScreen = true;
+    public String userInput = "";
+    public int[] shots = new int[100];
+    public int numOfRays = 0;
+
+
+    public static void main(String[] args) { // IGNORE
         PApplet.main("Main", args);
     }
 
@@ -17,37 +21,60 @@ public class Main extends PApplet{
 
     public void setup() {
 
-
     }
 
-    public void draw() {
+
+    public void draw() { // TREAT LIKE MAIN FUNCTION
+
         if (startScreen) {
-            if (mousePressed == false) {
+            if (!mousePressed) {
                 displayStartScreen();
             }
             else {
                 startScreen = false;
             }
         }
-        else {
+
+        else { // AFTER START SCREEN -> GAMEPLAY
             background(0);
 
-            xPos += 3;
 
-            if (xPos > width + 400) {
-                xPos = -120;
-            }
+            drawGrid(470, 100, 30);
 
-
-            drawGrid(470, 150, 30);
+            // Text for user input (where to shoot array)
+            fill(255);
+            textSize(50);
+            text(userInput, width/2 - 30, 600);
         }
     }
 
 
 
-    public void drawHexagon(int xPos, int yPos, int sideLength) { // Give coord of top of left vertical line
 
-        // Middle = xPos, yPos
+    public void keyReleased() { // WHAT HAPPENS WHEN A KEY IS RELEASED
+
+        if (key == ENTER) {
+            int num = Integer.parseInt(userInput);
+            if (num >= 1 && num <= 54) {
+                shots[numOfRays] = num;
+            }
+            else {
+                println("NOT IN RANGE");
+            }
+            numOfRays++;
+            userInput = "";
+        }
+        else if (key == BACKSPACE) {
+            if (!userInput.isEmpty()) {
+                userInput = userInput.substring(0, userInput.length()-1);
+            }
+        }
+        else if (Character.isDigit(key)){
+            userInput += key;
+        }
+    }
+
+    public void drawHexagon(int xPos, int yPos, int sideLength) { // Give coord of top of left vertical line
 
         line(xPos-sideLength, yPos-(sideLength/2), xPos-sideLength, yPos+(sideLength/2)); // Left line
         line(xPos+sideLength, yPos-(sideLength/2), xPos+sideLength, yPos+(sideLength/2)); // Right line
@@ -55,9 +82,10 @@ public class Main extends PApplet{
         line(xPos+sideLength, yPos-(sideLength/2), xPos, yPos-sideLength); // Top right line
         line(xPos-sideLength, yPos+(sideLength/2), xPos, yPos+sideLength); // Bottom left line
         line(xPos+sideLength, yPos+(sideLength/2), xPos, yPos+sideLength); // Bottom right line
+
+        // Middle = xPos, yPos
+
     }
-
-
 
     public void drawGrid(int xPos, int yPos, int sideLength) { // xPos of top left of left line of first row
 
@@ -82,6 +110,27 @@ public class Main extends PApplet{
 
         // NUMBERS
 
+//        textSize(18);
+//
+//        int x = 200;
+//        int y = 120;
+//        int num = 1;
+//        boolean topCorner = true;
+//
+//        for (int i = 0; i < 9; i++) {
+//            text(num, x, y);
+//            num++;
+//            if (topCorner) {
+//                x -= 15;
+//                y += 25;
+//                topCorner = false;
+//            }
+//            else {
+//                x -= 15;
+//                y += 22;
+//                topCorner = true;
+//            }
+//        }
 
 
     }
