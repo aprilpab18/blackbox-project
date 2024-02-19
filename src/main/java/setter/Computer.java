@@ -20,7 +20,6 @@ public class Computer {
 
         }
 
-        System.out.println(atomNumbers);
         return atomNumbers;
     }
 

@@ -7,12 +7,14 @@ import processing.core.PApplet;
 public class Main extends PApplet {
     Grid grid;
     Computer computer;
-    public boolean startScreen = true;
 
+    public boolean startScreen = true;
     public String userInput = "";
     public int[] shots = new int[100];
     public int numOfRays = 0;
     public int[] atomBoxNumbers = new int[6];
+    public int[][] atomPositions = new int[6][2];
+    boolean showingAtoms = false;
 
     public void settings() {
         size(700, 700);
@@ -23,24 +25,44 @@ public class Main extends PApplet {
         computer = new Computer();
 
         atomBoxNumbers = computer.generateAtoms(6);
+        for (int i = 0; i < 6; i++) {
+            System.out.println(atomBoxNumbers[i]);
+        }
     }
 
     public void draw() {
-        if(startScreen){
-            if(!mousePressed){
+        if (startScreen) {
+            if (!mousePressed) {
                 displayStartScreen();
             }
-            else{
+            else {
                 startScreen = false;
             }
         }
 
-        // Start screen is false
-        else{
-            // Set black background
+        else { // AFTER START SCREEN -> GAMEPLAY
             background(0);
-            // Call draw grid function
-            grid.drawGrid(230, 150, 30);
+
+
+            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers); // NEW GRID POSITION !!!!!!!!!!!!!!
+
+
+            // Text for user input (where to shoot array)
+            fill(255);
+            textSize(50);
+            text(userInput, width/2 - 30, 600);
+
+
+            textSize(20);
+
+            if (showingAtoms) {
+                text("Press 'X' to hide the atoms", 10, 20);
+                grid.drawAtoms(atomPositions);
+            }
+            else {
+                text("Press 'X' to show the atoms", 10, 20);
+            }
+
         }
 
     }
@@ -74,6 +96,14 @@ public class Main extends PApplet {
         }
         else if (Character.isDigit(key)){
             userInput += key;
+        }
+        else if (key == 'x' || key == 'X') {
+            if (showingAtoms) {
+                showingAtoms = false;
+            }
+            else {
+                showingAtoms = true;
+            }
         }
     }
 

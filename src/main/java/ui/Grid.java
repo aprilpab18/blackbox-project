@@ -29,8 +29,9 @@ public class Grid{
 
 
 
-    public void drawGrid(int xPos, int yPos, int sideLength) { // xPos of top left of left line of first row
+    public int[][] drawGrid(int xPos, int yPos, int sideLength, int[] atomBoxNumbers) { // xPos of top left of left line of first row
 
+        int[][] atomPositions = new int[6][2];
         parent.stroke(255, 38, 125); // Colour of grid
         parent.strokeWeight(3);
 
@@ -40,8 +41,8 @@ public class Grid{
 
 
         for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5 + i; j++) {
-                drawHexagon(xPos + ((sideLength * 2) * j) - (sideLength * i), yPos + ((sideLength + (sideLength / 2)) * i), sideLength);
+            for (int j = 0; j < 5+i; j++) {
+                drawHexagon(xPos + ((sideLength*2)*j) - (sideLength*i), yPos + ((sideLength + (sideLength/2))*i), sideLength);
 
                 for (int k = 0; k < 6; k++) {
                     if (boxNumber == atomBoxNumbers[k]) {
@@ -49,25 +50,22 @@ public class Grid{
                     }
 
                     if (atom) {
-                        atomPositions[atomCount][0] = xPos + ((sideLength * 2) * j) - (sideLength * i);
-                        atomPositions[atomCount][1] = yPos + ((sideLength + (sideLength / 2)) * i);
-                        parent.fill(0, 0, 255);
-                        parent.ellipse(atomPositions[atomCount][0], atomPositions[atomCount][1], 30, 30);
-                        System.out.println("ATOM: " + boxNumber);
+                        atomPositions[atomCount][0] = xPos + ((sideLength*2)*j) - (sideLength*i);
+                        atomPositions[atomCount][1] = yPos + ((sideLength + (sideLength/2))*i);
                         atomCount++;
                         atom = false;
                     }
                 }
                 parent.textSize(15);
                 parent.fill(255);
-                parent.text(boxNumber, xPos + ((sideLength * 2) * j) - (sideLength * i), yPos + ((sideLength + (sideLength / 2)) * i));
+                parent.text(boxNumber, xPos + ((sideLength*2)*j) - (sideLength*i), yPos + ((sideLength + (sideLength/2))*i));
                 boxNumber++;
             }
         }
 
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 8 - i; j++) {
-                drawHexagon(xPos - (3 * sideLength) + ((sideLength * 2) * j) + (sideLength * i), yPos + (7 * sideLength + (sideLength / 2)) + ((sideLength + (sideLength / 2)) * i), sideLength);
+            for (int j = 0; j < 8-i; j++) {
+                drawHexagon(xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2)) + ((sideLength + (sideLength/2))*i), sideLength);
 
                 for (int k = 0; k < 6; k++) {
                     if (boxNumber == atomBoxNumbers[k]) {
@@ -75,21 +73,39 @@ public class Grid{
                     }
 
                     if (atom) {
-                        atomPositions[atomCount][0] = xPos - (3 * sideLength) + ((sideLength * 2) * j) + (sideLength * i);
-                        atomPositions[atomCount][1] = yPos + (7 * sideLength + (sideLength / 2)) + ((sideLength + (sideLength / 2)) * i);
-                        parent.fill(0, 0, 255);
-                        parent.ellipse(atomPositions[atomCount][0], atomPositions[atomCount][1], 30, 30);
-                        System.out.println("ATOM: " + boxNumber);
+                        atomPositions[atomCount][0] = xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i);
+                        atomPositions[atomCount][1] = yPos+(7*sideLength + (sideLength/2)) + ((sideLength + (sideLength/2))*i);
                         atomCount++;
                         atom = false;
                     }
                 }
 
                 parent.fill(255);
-                parent.text(boxNumber, xPos - (3 * sideLength) + ((sideLength * 2) * j) + (sideLength * i), yPos + (7 * sideLength + (sideLength / 2)) + ((sideLength + (sideLength / 2)) * i));
+                parent.text(boxNumber, xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2)) + ((sideLength + (sideLength/2))*i));
                 boxNumber++;
             }
         }
+
+        return atomPositions;
+
+
+    }
+
+
+    public void drawAtoms(int[][] atomPositions) {
+        for (int i = 0; i < 6; i++) {
+            parent.stroke(0, 0, 255);
+            parent.fill(0, 0, 255);
+            parent.ellipse(atomPositions[i][0], atomPositions[i][1], 30, 30);
+        }
+
+        // Circles of influence
+        for (int i = 0; i < 6; i++) {
+            parent.noFill();
+            parent.stroke(255, 255, 255, 120);
+            parent.ellipse(atomPositions[i][0], atomPositions[i][1], 120, 120);
+        }
+
     }
 
 }
