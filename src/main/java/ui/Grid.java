@@ -7,6 +7,7 @@ public class Grid{
 
     PApplet parent;
 
+
     public Grid(PApplet parent){
         this.parent = parent;
     }
@@ -104,6 +105,10 @@ public class Grid{
             parent.noFill();
             parent.stroke(255, 255, 255, 120);
             parent.ellipse(atomPositions[i][0], atomPositions[i][1], 120, 120);
+        }
+
+        if (PApplet.dist(parent.mouseX, parent.mouseY, atomPositions[0][0], atomPositions[0][1]) <= 60) {
+            parent.background(255);
         }
 
     }
