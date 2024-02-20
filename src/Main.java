@@ -24,10 +24,15 @@ public class Main extends PApplet {
         grid = new Grid(this);
         computer = new Computer();
 
-        atomBoxNumbers = computer.generateAtoms(6);
+        while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
+            atomBoxNumbers = computer.generateAtoms(6);
+        }
+
         for (int i = 0; i < 6; i++) {
             System.out.println(atomBoxNumbers[i]);
         }
+
+        System.out.println(computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length));
     }
 
     public void draw() {

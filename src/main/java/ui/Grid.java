@@ -5,9 +5,6 @@ import processing.core.PApplet;
 
 public class Grid{
 
-    public int[] atomBoxNumbers = new int[6];
-    public int[][] atomPositions = new int[6][2];
-
     PApplet parent;
 
     public Grid(PApplet parent){
@@ -56,9 +53,11 @@ public class Grid{
                         atom = false;
                     }
                 }
-                parent.textSize(15);
-                parent.fill(255);
-                parent.text(boxNumber, xPos + ((sideLength*2)*j) - (sideLength*i), yPos + ((sideLength + (sideLength/2))*i));
+
+                // PRINT BOX NUMBERS
+//                parent.textSize(15);
+//                parent.fill(255);
+//                parent.text(boxNumber, xPos + ((sideLength*2)*j) - (sideLength*i), yPos + ((sideLength + (sideLength/2))*i));
                 boxNumber++;
             }
         }
@@ -80,8 +79,9 @@ public class Grid{
                     }
                 }
 
-                parent.fill(255);
-                parent.text(boxNumber, xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2)) + ((sideLength + (sideLength/2))*i));
+                // PRINT BOX NUMBERS
+//                parent.fill(255);
+//                parent.text(boxNumber, xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2)) + ((sideLength + (sideLength/2))*i));
                 boxNumber++;
             }
         }
