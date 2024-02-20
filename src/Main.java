@@ -2,18 +2,18 @@ import main.java.ui.*;
 import main.java.setter.*;
 import processing.core.PApplet;
 
-import processing.core.PApplet;
 
 public class Main extends PApplet {
     Grid grid;
     Computer computer;
 
+    public int numOfAtoms = 6;
     public boolean startScreen = true;
     public String userInput = "";
     public int[] shots = new int[100];
     public int numOfRays = 0;
-    public int[] atomBoxNumbers = new int[6];
-    public int[][] atomPositions = new int[6][2];
+    public int[] atomBoxNumbers = new int[numOfAtoms];
+    public int[][] atomPositions = new int[numOfAtoms][2];
     boolean showingAtoms = false;
 
     public void settings() {
@@ -25,10 +25,10 @@ public class Main extends PApplet {
         computer = new Computer();
 
         while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
-            atomBoxNumbers = computer.generateAtoms(6);
+            atomBoxNumbers = computer.generateAtoms(numOfAtoms);
         }
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < numOfAtoms; i++) {
             System.out.println(atomBoxNumbers[i]);
         }
 
@@ -49,7 +49,7 @@ public class Main extends PApplet {
             background(0);
 
 
-            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers); // NEW GRID POSITION !!!!!!!!!!!!!!
+            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers); // Draws grid and makes array of atom coordinates
 
 
             // Text for user input (where to shoot array)
@@ -87,11 +87,11 @@ public class Main extends PApplet {
             int num = Integer.parseInt(userInput);
             if (num >= 1 && num <= 54) {
                 shots[numOfRays] = num;
+                numOfRays++;
             }
             else {
                 println("NOT IN RANGE");
             }
-            numOfRays++;
             userInput = "";
         }
         else if (key == BACKSPACE) {
