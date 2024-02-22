@@ -1,5 +1,5 @@
-import main.java.ui.*;
 import main.java.setter.*;
+import main.java.ui.*;
 import processing.core.PApplet;
 import processing.core.PImage;
 
