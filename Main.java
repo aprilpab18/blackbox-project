@@ -1,31 +1,41 @@
+import main.java.ui.*;
+import main.java.setter.*;
 import processing.core.PApplet;
-import processing.core.PImage;
 
-public class Main extends PApplet{
 
+public class Main extends PApplet {
+    Grid grid;
+    Computer computer;
+
+    public int numOfAtoms = 6;
     public boolean startScreen = true;
     public String userInput = "";
     public int[] shots = new int[100];
     public int numOfRays = 0;
-
-
-    public static void main(String[] args) { // IGNORE
-        PApplet.main("Main", args);
-    }
+    public int[] atomBoxNumbers = new int[numOfAtoms];
+    public int[][] atomPositions = new int[numOfAtoms][2];
+    boolean showingAtoms = false;
 
     public void settings() {
         size(700, 700);
     }
 
-
-
     public void setup() {
+        grid = new Grid(this);
+        computer = new Computer();
 
+        while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
+            atomBoxNumbers = computer.generateAtoms(numOfAtoms);
+        }
+
+        for (int i = 0; i < numOfAtoms; i++) {
+            System.out.println(atomBoxNumbers[i]);
+        }
+
+        System.out.println(computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length));
     }
 
-
-    public void draw() { // TREAT LIKE MAIN FUNCTION
-
+    public void draw() {
         if (startScreen) {
             if (!mousePressed) {
                 displayStartScreen();
@@ -39,17 +49,37 @@ public class Main extends PApplet{
             background(0);
 
 
-            drawGrid(470, 100, 30);
+            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers); // Draws grid and makes array of atom coordinates
+
 
             // Text for user input (where to shoot array)
             fill(255);
             textSize(50);
             text(userInput, width/2 - 30, 600);
+
+
+            textSize(20);
+
+            if (showingAtoms) {
+                text("Press 'X' to hide the atoms", 10, 20);
+                grid.drawAtoms(atomPositions);
+            }
+            else {
+                text("Press 'X' to show the atoms", 10, 20);
+            }
+
         }
+
     }
 
+    private void displayStartScreen() {
 
-
+        // ADD CODE FOR START SCREEN HERE :O
+        background(0, 0, 0);
+        textSize(40);
+        text("START SCREEN", 230, 300);
+        text("CLICK ANYWHERE TO START", 120, 400);
+    }
 
     public void keyReleased() { // WHAT HAPPENS WHEN A KEY IS RELEASED
 
@@ -57,11 +87,11 @@ public class Main extends PApplet{
             int num = Integer.parseInt(userInput);
             if (num >= 1 && num <= 54) {
                 shots[numOfRays] = num;
+                numOfRays++;
             }
             else {
                 println("NOT IN RANGE");
             }
-            numOfRays++;
             userInput = "";
         }
         else if (key == BACKSPACE) {
@@ -72,71 +102,19 @@ public class Main extends PApplet{
         else if (Character.isDigit(key)){
             userInput += key;
         }
-    }
-
-    public void drawHexagon(int xPos, int yPos, int sideLength) { // Give coord of top of left vertical line
-
-        line(xPos-sideLength, yPos-(sideLength/2), xPos-sideLength, yPos+(sideLength/2)); // Left line
-        line(xPos+sideLength, yPos-(sideLength/2), xPos+sideLength, yPos+(sideLength/2)); // Right line
-        line(xPos-sideLength, yPos-(sideLength/2), xPos, yPos-sideLength); // Top left line
-        line(xPos+sideLength, yPos-(sideLength/2), xPos, yPos-sideLength); // Top right line
-        line(xPos-sideLength, yPos+(sideLength/2), xPos, yPos+sideLength); // Bottom left line
-        line(xPos+sideLength, yPos+(sideLength/2), xPos, yPos+sideLength); // Bottom right line
-
-        // Middle = xPos, yPos
-
-    }
-
-    public void drawGrid(int xPos, int yPos, int sideLength) { // xPos of top left of left line of first row
-
-        stroke(255, 38, 125); // Colour of grid
-        strokeWeight(3);
-
-
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5+i; j++) {
-                drawHexagon(xPos - ((sideLength*2)*j) + (sideLength*i), yPos + ((sideLength + (sideLength/2))*i), sideLength);
+        else if (key == 'x' || key == 'X') {
+            if (showingAtoms) {
+                showingAtoms = false;
+            }
+            else {
+                showingAtoms = true;
             }
         }
-
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 8-i; j++) {
-                drawHexagon(xPos-(11*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2)) + ((sideLength + (sideLength/2))*i), sideLength);
-            }
-        }
-
-
-
-
-        // NUMBERS
-
-//        textSize(18);
-//
-//        int x = 200;
-//        int y = 120;
-//        int num = 1;
-//        boolean topCorner = true;
-//
-//        for (int i = 0; i < 9; i++) {
-//            text(num, x, y);
-//            num++;
-//            if (topCorner) {
-//                x -= 15;
-//                y += 25;
-//                topCorner = false;
-//            }
-//            else {
-//                x -= 15;
-//                y += 22;
-//                topCorner = true;
-//            }
-//        }
-
-
     }
 
-    public void displayStartScreen() {
-        background(0, 0, 255);
+    public static void main(String[] args) {
+        PApplet.main("Main");
     }
-
 }
+
+
