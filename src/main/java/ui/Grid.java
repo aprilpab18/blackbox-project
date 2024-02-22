@@ -2,14 +2,17 @@
 
 package main.java.ui;
 import processing.core.PApplet;
+import processing.core.PImage;
 
-public class Grid{
+public class Grid {
 
     PApplet parent;
+    PImage myImage;
 
 
-    public Grid(PApplet parent){
+    public Grid(PApplet parent, PImage myImage){
         this.parent = parent;
+        this.myImage = myImage;
     }
 
     public void drawHexagon(int xPos, int yPos, int sideLength) { // Give coord of top of left vertical line
@@ -110,6 +113,79 @@ public class Grid{
         if (PApplet.dist(parent.mouseX, parent.mouseY, atomPositions[0][0], atomPositions[0][1]) <= 60) {
             parent.background(255);
         }
+
+    }
+
+
+    public void drawImage(){
+        // Draw image over Hexagon Grid
+        parent.image(myImage, 0, 0, parent.width, parent.height);
+
+        // Design of numbers
+        parent.fill(255, 38, 125); // Set text color to pink
+        parent.textSize(18); // Set text size
+        parent.textAlign(parent.CENTER, parent.CENTER); // Align text to the center
+
+        // Setting numbers to borders
+        parent.text("1", 211, 66);
+        parent.text("2", 191, 97);
+        parent.text("3", 180, 112);
+        parent.text("4", 160, 143);
+        parent.text("5", 150, 157);
+        parent.text("6", 130, 188);
+        parent.text("7", 120, 202);
+        parent.text("8", 100, 233);
+        parent.text("9", 90, 247);
+        parent.text("10", 70, 280);
+
+        parent.text("11", 85, 311);
+        parent.text("12", 95, 326);
+        parent.text("13", 115, 357);
+        parent.text("14", 126, 372);
+        parent.text("15", 145, 401);
+        parent.text("16", 156, 417);
+        parent.text("17", 177, 448);
+        parent.text("18", 185, 463);
+        parent.text("19", 205, 492);
+
+        parent.text("20", 249, 495);
+        parent.text("21", 271, 495);
+        parent.text("22", 310, 495);
+        parent.text("23", 331, 495);
+        parent.text("24", 370, 495);
+        parent.text("25", 390, 495);
+        parent.text("26", 430, 495);
+        parent.text("27", 451, 495);
+        parent.text("28", 491, 495);
+
+        parent.text("29", 514, 464);
+        parent.text("30", 524, 448);
+        parent.text("31", 545, 417);
+        parent.text("32", 556, 402);
+        parent.text("33", 574, 372);
+        parent.text("34", 585, 357);
+        parent.text("35", 605, 327);
+        parent.text("36", 617, 311);
+
+        parent.text("37", 635, 280);
+        parent.text("38", 614, 248);
+        parent.text("39", 605, 233);
+        parent.text("40", 585, 203);
+        parent.text("41", 575, 188);
+        parent.text("42", 555, 159);
+        parent.text("43", 545, 143);
+        parent.text("44", 522, 112);
+        parent.text("45", 514, 97);
+        parent.text("46", 493, 67);
+
+        parent.text("47", 451, 66);
+        parent.text("48", 430, 66);
+        parent.text("49", 390, 66);
+        parent.text("50", 370, 66);
+        parent.text("51", 331, 66);
+        parent.text("52", 310, 66);
+        parent.text("53", 271, 66);
+        parent.text("54", 249, 66);
 
     }
 
