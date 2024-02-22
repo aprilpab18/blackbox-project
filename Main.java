@@ -60,7 +60,7 @@ public class Main extends PApplet {
             // Text for user input (where to shoot array)
             fill(255);
             textSize(50);
-            text(userInput, width/2 - 30, 600);
+            text(userInput, width/2, 600);
 
 
             textSize(20);
