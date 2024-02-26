@@ -2,7 +2,7 @@ package main.java.setter;
 
 import java.util.Random;
 
-import processing.core.PApplet;
+//import processing.core.PApplet;
 
 public class Computer {
 
