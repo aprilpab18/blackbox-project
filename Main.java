@@ -56,10 +56,9 @@ public class Main extends PApplet {
 
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers); // Draws grid and makes array of atom coordinates
             grid.drawImage();
-            fill(0);
-            ellipse(305, 480, 10, 10);
+
             stroke(0, 0, 255);
-            line(95, 260, 245, 480);
+            line(605, 300, 460, 80);
 
             // Text for user input (where to shoot array)
             fill(255);
