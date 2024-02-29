@@ -17,6 +17,7 @@ public class Main extends PApplet {
     public int[] atomBoxNumbers = new int[numOfAtoms];
     public int[][] atomPositions = new int[numOfAtoms][2];
     boolean showingAtoms = false;
+    public int selectedNumber = -1;
 
     public void settings() {
         size(700, 700);
@@ -55,7 +56,15 @@ public class Main extends PApplet {
 
 
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers); // Draws grid and makes array of atom coordinates
-            grid.drawImage();
+
+            if (userInput != "" && Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) <= 54) {
+                selectedNumber = Integer.parseInt(userInput);
+            }
+            else {
+                selectedNumber = -1;
+            }
+
+            grid.drawImage(selectedNumber);
 
             stroke(0, 0, 255);
             line(605, 300, 460, 80);

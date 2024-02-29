@@ -117,75 +117,86 @@ public class Grid {
     }
 
 
-    public void drawImage(){
+    public void drawImage(int selectedNumber){
         // Draw image over Hexagon Grid
         parent.image(myImage, 0, 0, parent.width, parent.height);
 
         // Design of numbers
+
         parent.fill(255, 38, 125); // Set text color to pink
         parent.textSize(18); // Set text size
         parent.textAlign(parent.CENTER, parent.CENTER); // Align text to the center
 
         // Setting numbers to borders
-        parent.text("1", 211, 66);
-        parent.text("2", 191, 97);
-        parent.text("3", 180, 112);
-        parent.text("4", 160, 143);
-        parent.text("5", 150, 157);
-        parent.text("6", 130, 188);
-        parent.text("7", 120, 202);
-        parent.text("8", 100, 233);
-        parent.text("9", 90, 247);
-        parent.text("10", 70, 280);
 
-        parent.text("11", 85, 311);
-        parent.text("12", 95, 326);
-        parent.text("13", 115, 357);
-        parent.text("14", 126, 372);
-        parent.text("15", 145, 401);
-        parent.text("16", 156, 417);
-        parent.text("17", 177, 448);
-        parent.text("18", 185, 463);
-        parent.text("19", 205, 492);
+        int[][] numberPositions = {
+                {211, 66}, // 1
+                {191, 97}, // 2
+                {180, 112}, // 3
+                {160, 143}, // 4
+                {150, 157}, // 5
+                {130, 188}, // 6
+                {120, 202}, // 7
+                {100, 233}, // 8
+                {90, 247}, // 9
+                {70, 280}, // 10
+                {85, 311}, // 11
+                {95, 326}, // 12
+                {115, 357}, // 13
+                {126, 372}, // 14
+                {145, 401}, // 15
+                {156, 417}, // 16
+                {177, 448}, // 17
+                {185, 463}, // 18
+                {205, 492}, // 19
+                {249, 495}, // 20
+                {271, 495}, // 21
+                {310, 495}, // 22
+                {331, 495}, // 23
+                {370, 495}, // 24
+                {390, 495}, // 25
+                {430, 495}, // 26
+                {451, 495}, // 27
+                {491, 495}, // 28
+                {514, 464}, // 29
+                {524, 448}, // 30
+                {545, 417}, // 31
+                {556, 402}, // 32
+                {574, 372}, // 33
+                {585, 357}, // 34
+                {605, 327}, // 35
+                {617, 311}, // 36
+                {635, 280}, // 37
+                {614, 248}, // 38
+                {605, 233}, // 39
+                {585, 203}, // 40
+                {575, 188}, // 41
+                {555, 159}, // 42
+                {545, 143}, // 43
+                {522, 112}, // 44
+                {514, 97}, // 45
+                {493, 67}, // 46
+                {451, 63}, // 47
+                {430, 63}, // 48
+                {390, 63}, // 49
+                {370, 63}, // 50
+                {331, 63}, // 51
+                {310, 63}, // 52
+                {271, 63}, // 53
+                {249, 63} // 54
+        };
 
-        parent.text("20", 249, 495);
-        parent.text("21", 271, 495);
-        parent.text("22", 310, 495);
-        parent.text("23", 331, 495);
-        parent.text("24", 370, 495);
-        parent.text("25", 390, 495);
-        parent.text("26", 430, 495);
-        parent.text("27", 451, 495);
-        parent.text("28", 491, 495);
 
-        parent.text("29", 514, 464);
-        parent.text("30", 524, 448);
-        parent.text("31", 545, 417);
-        parent.text("32", 556, 402);
-        parent.text("33", 574, 372);
-        parent.text("34", 585, 357);
-        parent.text("35", 605, 327);
-        parent.text("36", 617, 311);
+        for (int i = 1; i < 55; i++) {
+            if (i == selectedNumber) {
+                parent.fill(255);
+            }
+            else {
+                parent.fill(255, 38, 125);
+            }
 
-        parent.text("37", 635, 280);
-        parent.text("38", 614, 248);
-        parent.text("39", 605, 233);
-        parent.text("40", 585, 203);
-        parent.text("41", 575, 188);
-        parent.text("42", 555, 159);
-        parent.text("43", 545, 143);
-        parent.text("44", 522, 112);
-        parent.text("45", 514, 97);
-        parent.text("46", 493, 67);
-
-        parent.text("47", 451, 66);
-        parent.text("48", 430, 66);
-        parent.text("49", 390, 66);
-        parent.text("50", 370, 66);
-        parent.text("51", 331, 66);
-        parent.text("52", 310, 66);
-        parent.text("53", 271, 66);
-        parent.text("54", 249, 66);
+            parent.text(i, numberPositions[i-1][0], numberPositions[i-1][1]);
+        }
 
     }
 
