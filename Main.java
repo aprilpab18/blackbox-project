@@ -9,6 +9,8 @@ public class Main extends PApplet {
     Computer computer;
     StartMenu startMenu;
 
+    Rays rays;
+
     public int numOfAtoms = 6;
     public boolean startScreen = true;
     public String userInput = "";
@@ -29,6 +31,7 @@ public class Main extends PApplet {
         computer = new Computer();
         grid = new Grid(this, myImage);
         startMenu = new StartMenu(this);
+        rays = new Rays(this);
 
         while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
             atomBoxNumbers = computer.generateAtoms(numOfAtoms);
@@ -66,6 +69,23 @@ public class Main extends PApplet {
 
             grid.drawImage(selectedNumber);
 
+
+
+
+            // calculates the angle between two points
+            float angle  = (float) Math.atan2(480 - 80, 480 - 220);
+
+            // Down and right angle:
+            float downAndRight = 0.97999F;
+            Rays.drawRay(rays.rayPositions[52][0], rays.rayPositions[52][1], downAndRight, 500, this);
+
+            // down and left
+            float downAndLeft = 0.97999F * 2.2F;
+            float f = 2.155978F;
+            Rays.drawRay(rays.rayPositions[51][0], rays.rayPositions[51][1], f, 500, this);
+
+
+            // draws test line
             stroke(0, 0, 255);
             line(605, 300, 460, 80);
 
@@ -107,36 +127,52 @@ public class Main extends PApplet {
 
 
 
-    public void keyReleased() { // WHAT HAPPENS WHEN A KEY IS RELEASED
+    public void keyReleased() { // Method called when a key is released
 
+        // Check if the ENTER key is released
         if (key == ENTER) {
+            // Try parsing the userInput to an integer
             int num = Integer.parseInt(userInput);
+            // Check if the parsed number is within the range 1 to 54
             if (num >= 1 && num <= 54) {
+                // If it's within the range, store it in the shots array and increment the number of rays
                 shots[numOfRays] = num;
                 numOfRays++;
-            }
-            else {
+            } else {
+                // If it's not within the range, print a message
                 println("NOT IN RANGE");
             }
+            // Reset userInput to an empty string
             userInput = "";
+
+            /*
+            * Num will be the point that the ray is sent from (i.e. rayPostions - 1)
+            */
+
         }
+        // Check if the BACKSPACE key is released
         else if (key == BACKSPACE) {
+            // If userInput is not empty, remove the last character
             if (!userInput.isEmpty()) {
                 userInput = userInput.substring(0, userInput.length()-1);
             }
         }
+        // Check if the released key is a digit
         else if (Character.isDigit(key)){
+            // If it's a digit, add it to userInput
             userInput += key;
         }
+        // Check if the released key is 'x' or 'X'
         else if (key == 'x' || key == 'X') {
+            // Toggle the showingAtoms variable
             if (showingAtoms) {
                 showingAtoms = false;
-            }
-            else {
+            } else {
                 showingAtoms = true;
             }
         }
     }
+
 
     public static void main(String[] args) {
         PApplet.main("Main");

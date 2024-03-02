@@ -128,7 +128,6 @@ public class Grid {
         parent.textAlign(parent.CENTER, parent.CENTER); // Align text to the center
 
         // Setting numbers to borders
-
         int[][] numberPositions = {
                 {211, 66}, // 1
                 {191, 97}, // 2

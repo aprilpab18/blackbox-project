@@ -1,6 +1,13 @@
 package main.java.setter;
+import processing.core.*;
 
 public class Rays {
+
+    PApplet parent;
+
+    public Rays(PApplet parent){
+        this.parent = parent;
+    }
     public int[][] rayPositions = {
             {220, 80, 480, 480, 1}, // 1
             {200, 100, 500, 100, 3}, // 2
@@ -58,12 +65,23 @@ public class Rays {
             {245, 80, 95, 300, 2}, // 54
     };
 
+
     // 1 = Down and right
     // 2 = Down and left
     // 3 = Right
     // 4 = Left
     // 5 = Up and right
     // 6 = Up and left
+
+    public static void drawRay(float startX, float startY, float angle, float lineLength, PApplet sketch) {
+        sketch.stroke(0, 255, 0); // Colour of grid
+        sketch.strokeWeight(3);
+
+        float endX = startX + sketch.cos(angle) * lineLength;
+        float endY = startY + sketch.sin(angle) * lineLength;
+
+        sketch.line(startX, startY, endX, endY);
+    }
 
 
 
