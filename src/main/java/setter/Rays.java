@@ -74,7 +74,7 @@ public class Rays {
     // 6 = Up and left
 
     public static void drawRay(float startX, float startY, float angle, float lineLength, PApplet sketch) {
-        sketch.stroke(0, 255, 0); // Colour of grid
+        sketch.stroke(0, 255, 0); // Colour of rays
         sketch.strokeWeight(3);
 
         float endX = startX + sketch.cos(angle) * lineLength;

@@ -40,11 +40,7 @@ public class Main extends PApplet {
         for (int i = 0; i < numOfAtoms; i++) {
             System.out.println(atomBoxNumbers[i]);
         }
-        println(dist(220, 80, 480, 480));
-        println(dist(485, 80, 220, 480));
 
-
-//        System.out.println(computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length));
     }
 
     public void draw() {
@@ -60,9 +56,11 @@ public class Main extends PApplet {
         else { // AFTER START SCREEN -> GAMEPLAY
             background(0);
 
+            // Draws grid and makes array of atom coordinates
+            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
+            println("y = " + atomPositions[0][1]);
 
-            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers); // Draws grid and makes array of atom coordinates
-
+            // Highlight selected number
             if (userInput != "" && Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) <= 54) {
                 selectedNumber = Integer.parseInt(userInput);
             }
@@ -70,32 +68,51 @@ public class Main extends PApplet {
                 selectedNumber = -1;
             }
 
+            // Draw grid
             grid.drawImage(selectedNumber);
 
+            // Draw rays
             for (int i = 0; i < numOfRays; i++) {
                 int rayNumInList = shots[i] - 1;
 
                 int direction = rays.rayPositions[rayNumInList][4];
                 float angle = 0;
 
-                // 1 = Down and right
-                // 2 = Down and left
-                if (direction == 1) {
+                if (direction == 1) { // Down and right
                     angle = 0.97999F;
                 }
-                else if (direction == 2) {
+                else if (direction == 2) { // Down and left
                     angle = 2.155978F;
                 }
+                else if (direction == 3) { // Right
+                    angle = 0F;
+                }
+                else if (direction == 4) { // Left
+//                    angle = -1.5707964F;
+                }
+//                else if (direction == 5) { // Up and right
+//                      angle = ;
+//                }
+//                else if (direction == 6) { // Up and left
+//                      angle = ;
+//                }
 
-//                println("Direction = " + direction);
-//                line(125, 215, 305, 480);
 
-                rays.drawRay(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], angle, dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], rays.rayPositions[rayNumInList][2], rays.rayPositions[rayNumInList][3]), this);
+                float distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], rays.rayPositions[rayNumInList][2], rays.rayPositions[rayNumInList][3]);
+
+                for (int j = 0; j < numOfAtoms; j++) {
+                    if (atomPositions[i][1] == rays.rayPositions[rayNumInList][1]) {
+                        distance = 1;
+                    }
+                }
+
+                rays.drawRay(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], angle, distance, this);
             }
 
 
             // calculates the angle between two points
-//            float angle  = (float) Math.atan2(480 - 80, 480 - 220);
+//            float angle  = (float) Math.atan2(80 - 620, 280 - 280); // x2 - x1, y2 - y1 620, 280, 80, 280
+//            println("Angle: "+ angle);
 //
 //            // Down and right angle:
 //            float downAndRight = 0.97999F;
@@ -111,11 +128,13 @@ public class Main extends PApplet {
 //            stroke(0, 0, 255);
 //            line(605, 300, 460, 80);
 
-            // Text for user input (where to shoot array)
+            // Text for user input (where to shoot a ray)
             fill(255);
             textSize(50);
             text(userInput, width/2, 600);
 
+
+            // Show/hide atoms
 
             textSize(20);
             textAlign(0, 0);
@@ -132,14 +151,6 @@ public class Main extends PApplet {
 
     }
 
-    private void displayStartScreen() {
-
-        // ADD CODE FOR START SCREEN HERE :O
-        background(0, 0, 0);
-        textSize(40);
-        text("START SCREEN", 230, 300);
-        text("CLICK ANYWHERE TO START", 120, 400);
-    }
 
     private void displayEndScreen() {
 
