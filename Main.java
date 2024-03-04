@@ -40,6 +40,9 @@ public class Main extends PApplet {
         for (int i = 0; i < numOfAtoms; i++) {
             System.out.println(atomBoxNumbers[i]);
         }
+        println(dist(220, 80, 480, 480));
+        println(dist(485, 80, 220, 480));
+
 
 //        System.out.println(computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length));
     }
@@ -69,25 +72,44 @@ public class Main extends PApplet {
 
             grid.drawImage(selectedNumber);
 
+            for (int i = 0; i < numOfRays; i++) {
+                int rayNumInList = shots[i] - 1;
 
+                int direction = rays.rayPositions[rayNumInList][4];
+                float angle = 0;
+
+                // 1 = Down and right
+                // 2 = Down and left
+                if (direction == 1) {
+                    angle = 0.97999F;
+                }
+                else if (direction == 2) {
+                    angle = 2.155978F;
+                }
+
+//                println("Direction = " + direction);
+//                line(125, 215, 305, 480);
+
+                rays.drawRay(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], angle, dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], rays.rayPositions[rayNumInList][2], rays.rayPositions[rayNumInList][3]), this);
+            }
 
 
             // calculates the angle between two points
-            float angle  = (float) Math.atan2(480 - 80, 480 - 220);
-
-            // Down and right angle:
-            float downAndRight = 0.97999F;
-            Rays.drawRay(rays.rayPositions[52][0], rays.rayPositions[52][1], downAndRight, 500, this);
-
-            // down and left
-            float downAndLeft = 0.97999F * 2.2F;
-            float f = 2.155978F;
-            Rays.drawRay(rays.rayPositions[51][0], rays.rayPositions[51][1], f, 500, this);
+//            float angle  = (float) Math.atan2(480 - 80, 480 - 220);
+//
+//            // Down and right angle:
+//            float downAndRight = 0.97999F;
+//            Rays.drawRay(rays.rayPositions[52][0], rays.rayPositions[52][1], downAndRight, 500, this);
+//
+//            // down and left
+//            // float downAndLeft = 0.97999F * 2.2F;
+//            float f = 2.155978F;
+//            Rays.drawRay(rays.rayPositions[51][0], rays.rayPositions[51][1], f, 500, this);
 
 
             // draws test line
-            stroke(0, 0, 255);
-            line(605, 300, 460, 80);
+//            stroke(0, 0, 255);
+//            line(605, 300, 460, 80);
 
             // Text for user input (where to shoot array)
             fill(255);
@@ -146,8 +168,8 @@ public class Main extends PApplet {
             userInput = "";
 
             /*
-            * Num will be the point that the ray is sent from (i.e. rayPostions - 1)
-            */
+             * Num will be the point that the ray is sent from (i.e. rayPostions - 1)
+             */
 
         }
         // Check if the BACKSPACE key is released
@@ -178,4 +200,3 @@ public class Main extends PApplet {
         PApplet.main("Main");
     }
 }
-
