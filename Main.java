@@ -58,7 +58,7 @@ public class Main extends PApplet {
 
             // Draws grid and makes array of atom coordinates
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
-            println("y = " + atomPositions[0][1]);
+//            println("y = " + atomPositions[0][1]);
 
             // Highlight selected number
             if (userInput != "" && Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) <= 54) {
@@ -99,9 +99,10 @@ public class Main extends PApplet {
 
 
                 float distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], rays.rayPositions[rayNumInList][2], rays.rayPositions[rayNumInList][3]);
+//                println("Distance = " + distance);
 
                 for (int j = 0; j < numOfAtoms; j++) {
-                    if (atomPositions[i][1] == rays.rayPositions[rayNumInList][1]) {
+                    if (atomPositions[j][1] == rays.rayPositions[rayNumInList][1]) {
                         distance = 1;
                     }
                 }
@@ -165,19 +166,21 @@ public class Main extends PApplet {
         // Check if the ENTER key is released
         if (key == ENTER) {
             // Try parsing the userInput to an integer
-            int num = Integer.parseInt(userInput);
-            // Check if the parsed number is within the range 1 to 54
-            if (num >= 1 && num <= 54) {
-                // If it's within the range, store it in the shots array and increment the number of rays
-                shots[numOfRays] = num;
-                numOfRays++;
-            } else {
-                // If it's not within the range, print a message
-                println("NOT IN RANGE");
-            }
-            // Reset userInput to an empty string
-            userInput = "";
+            if (userInput != "") {
 
+                int num = Integer.parseInt(userInput);
+                // Check if the parsed number is within the range 1 to 54
+                if (num >= 1 && num <= 54) {
+                    // If it's within the range, store it in the shots array and increment the number of rays
+                    shots[numOfRays] = num;
+                    numOfRays++;
+                } else {
+                    // If it's not within the range, print a message
+                    println("NOT IN RANGE");
+                }
+                // Reset userInput to an empty string
+                userInput = "";
+            }
             /*
              * Num will be the point that the ray is sent from (i.e. rayPostions - 1)
              */
