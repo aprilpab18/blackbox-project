@@ -57,7 +57,7 @@ public class Main extends PApplet {
             background(0);
 
             // Draws grid and makes array of atom coordinates
-            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
+//            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
 
             // Highlight selected number
             if (userInput != "" && Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) <= 54) {
@@ -68,7 +68,12 @@ public class Main extends PApplet {
             }
 
             // Draw grid
-            grid.drawImage(selectedNumber);
+            // grid.drawImage(selectedNumber); // ADD BACK AFTER TESTING
+
+
+
+            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers); // REMOVE AFTER TESTING
+
 
             // Draw rays
             for (int i = 0; i < numOfRays; i++) {
@@ -98,7 +103,6 @@ public class Main extends PApplet {
 
 
                 float distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], rays.rayPositions[rayNumInList][2], rays.rayPositions[rayNumInList][3]);
-//                println("Distance = " + distance);
 
                 for (int j = 0; j < numOfAtoms; j++) {
                     if (atomPositions[j][1] == rays.rayPositions[rayNumInList][1]) {
@@ -113,6 +117,20 @@ public class Main extends PApplet {
                 }
 
                 rays.drawRay(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], angle, distance, this);
+
+
+                // vv TESTING vv
+//                float testX = 460;
+//                float testY = 80;
+//                stroke(255);
+//                while (testX < 650) {
+//                    ellipse(testX, testY, 1, 1);
+//                    testX++;
+//                    testY += 1.5;
+//                }
+
+
+
             }
 
 
