@@ -1,5 +1,6 @@
 package main.java.setter;
 
+import java.util.Arrays;
 import java.util.Random;
 
 //import processing.core.PApplet;
@@ -13,6 +14,8 @@ public class Computer {
             Random random = new Random();
             atomNumbers[i] = random.nextInt(60);
         }
+
+        Arrays.sort(atomNumbers);
 
         return atomNumbers;
     }

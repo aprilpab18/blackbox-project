@@ -88,7 +88,7 @@ public class Main extends PApplet {
                     angle = 0F;
                 }
                 else if (direction == 4) { // Left
-//                    angle = -1.5707964F;
+                    angle = PI;
                 }
 //                else if (direction == 5) { // Up and right
 //                      angle = ;
@@ -103,7 +103,13 @@ public class Main extends PApplet {
 
                 for (int j = 0; j < numOfAtoms; j++) {
                     if (atomPositions[j][1] == rays.rayPositions[rayNumInList][1]) {
-                        distance = 1;
+                        if (atomPositions[j][0] > rays.rayPositions[rayNumInList][0]) { // Hit from left
+                            distance = atomPositions[j][0] - rays.rayPositions[rayNumInList][0];
+                            break;
+                        }
+                        else { // Hit from right
+                            distance = rays.rayPositions[rayNumInList][0] - atomPositions[j][0];
+                        }
                     }
                 }
 
