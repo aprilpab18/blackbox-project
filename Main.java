@@ -44,6 +44,9 @@ public class Main extends PApplet {
     }
 
     public void draw() {
+
+        startScreen = false;
+
         if (startScreen) {
             if (!mousePressed) {
                 startMenu.displayStartScreen();
