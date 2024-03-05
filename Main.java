@@ -58,7 +58,6 @@ public class Main extends PApplet {
 
             // Draws grid and makes array of atom coordinates
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
-//            println("y = " + atomPositions[0][1]);
 
             // Highlight selected number
             if (userInput != "" && Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) <= 54) {
@@ -90,12 +89,12 @@ public class Main extends PApplet {
                 else if (direction == 4) { // Left
                     angle = PI;
                 }
-//                else if (direction == 5) { // Up and right
-//                      angle = ;
-//                }
-//                else if (direction == 6) { // Up and left
-//                      angle = ;
-//                }
+                else if (direction == 5) { // Up and right
+                      angle = -0.97999F;
+                }
+                else if (direction == 6) { // Up and left
+                      angle = -2.155978F;
+                }
 
 
                 float distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], rays.rayPositions[rayNumInList][2], rays.rayPositions[rayNumInList][3]);
