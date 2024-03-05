@@ -26,7 +26,7 @@ public class Main extends PApplet {
     }
 
     public void setup() {
-        PImage myImage = loadImage("resources/board-w-triangles.png");
+        PImage myImage = loadImage("resources/temp_grid.png");
 
         computer = new Computer();
         grid = new Grid(this, myImage);
@@ -94,7 +94,7 @@ public class Main extends PApplet {
                 float angle = 0;
 
                 if (direction == 1) { // Down and right
-                    angle = 0.97999F;
+                    angle = 1.03F;
                 }
                 else if (direction == 2) { // Down and left
                     angle = 2.155978F;
@@ -106,10 +106,10 @@ public class Main extends PApplet {
                     angle = PI;
                 }
                 else if (direction == 5) { // Up and right
-                      angle = -0.97999F;
+                    angle = -1.03F;;
                 }
                 else if (direction == 6) { // Up and left
-                      angle = -2.155978F;
+                    angle = -2.155978F;
                 }
 
 
