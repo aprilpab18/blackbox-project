@@ -69,7 +69,18 @@ public class Main extends PApplet {
 
             // Draw grid
             // grid.drawImage(selectedNumber); // ADD BACK AFTER TESTING
+            println(mouseX + ", " + mouseY);
 
+//            float xTest = 215;
+//            float yTest = 75;
+
+            stroke(255);
+            line(215, 75, 485, 525);
+//            while (xTest < 600) {
+//                ellipse(xTest, yTest, 1, 1);
+//                xTest++;
+//                yTest += 1.67;
+//            }
 
 
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers); // REMOVE AFTER TESTING
