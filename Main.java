@@ -26,7 +26,7 @@ public class Main extends PApplet {
     }
 
     public void setup() {
-        PImage myImage = loadImage("resources/temp_grid.png");
+        PImage myImage = loadImage("resources/board-w-triangles.png");
 
         computer = new Computer();
         grid = new Grid(this, myImage);
@@ -44,9 +44,6 @@ public class Main extends PApplet {
     }
 
     public void draw() {
-
-        startScreen = false;
-
         if (startScreen) {
             if (!mousePressed) {
                 startMenu.displayStartScreen();
@@ -60,7 +57,7 @@ public class Main extends PApplet {
             background(0);
 
             // Draws grid and makes array of atom coordinates
-            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
+//            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
 
             // Highlight selected number
             if (userInput != "" && Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) <= 54) {
@@ -71,14 +68,14 @@ public class Main extends PApplet {
             }
 
             // Draw grid
-             grid.drawImage(selectedNumber); // ADD BACK AFTER TESTING
+            // grid.drawImage(selectedNumber); // ADD BACK AFTER TESTING
             println(mouseX + ", " + mouseY);
 
 //            float xTest = 215;
 //            float yTest = 75;
 
             stroke(255);
-            //line(215, 75, 485, 525);
+            line(215, 75, 485, 525);
 //            while (xTest < 600) {
 //                ellipse(xTest, yTest, 1, 1);
 //                xTest++;
@@ -130,8 +127,8 @@ public class Main extends PApplet {
                     }
                 }
 
-                rays.drawRay(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], angle, distance, this);
-
+//                rays.drawRay(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], angle, distance, this);
+                line(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], rays.rayPositions[rayNumInList][2], rays.rayPositions[rayNumInList][3]);
 
                 // vv TESTING vv
 //                float testX = 460;
