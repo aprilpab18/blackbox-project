@@ -26,7 +26,7 @@ public class Main extends PApplet {
     }
 
     public void setup() {
-        PImage myImage = loadImage("resources/temp_grid.png");
+        PImage myImage = loadImage("resources/board-w-triangles.png");
 
         computer = new Computer();
         grid = new Grid(this, myImage);
@@ -69,10 +69,17 @@ public class Main extends PApplet {
 
             // Draw grid
              grid.drawImage(selectedNumber); // ADD BACK AFTER TESTING
-            println(mouseX + ", " + mouseY);
+            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
 
-            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers); // REMOVE AFTER TESTING
 
+            // TEST DEFLECTIONS -> 60 degrees
+//            float angleTest = 2 * PI * ((float) 58.8 /360);
+//            rays.drawRay(215, 75, angleTest, 85, this);
+//            angleTest += (2 * PI * ((float) 62 / 360));
+//            rays.drawRay(260, 150, angleTest, 200, this);
+//            angleTest = 2 * PI * ((float) 58.8 /360);
+//            angleTest -= (2 * PI * ((float) 58.8 / 360));
+//            rays.drawRay(260, 150, angleTest, 300, this);
 
             // Draw rays
             for (int i = 0; i < numOfRays; i++) {
@@ -82,10 +89,10 @@ public class Main extends PApplet {
                 float angle = 0;
 
                 if (direction == 1) { // Down and right
-                    angle = 1.03F;
+                    angle = 2 * PI * ((float) 58.8 /360);
                 }
                 else if (direction == 2) { // Down and left
-                    angle = 2.155978F;
+                    angle = 2 * PI * ((float) 120.8 /360);
                 }
                 else if (direction == 3) { // Right
                     angle = 0F;
@@ -94,10 +101,10 @@ public class Main extends PApplet {
                     angle = PI;
                 }
                 else if (direction == 5) { // Up and right
-                    angle = -1.03F;;
+                    angle = -2 * PI * ((float) 58.8 /360);
                 }
                 else if (direction == 6) { // Up and left
-                    angle = -2.155978F;
+                    angle = -2 * PI * ((float) 120.8 /360);
                 }
 
 
@@ -115,18 +122,84 @@ public class Main extends PApplet {
                     }
                 }
 
-//                rays.drawRay(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], angle, distance, this);
-                line(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], rays.rayPositions[rayNumInList][2], rays.rayPositions[rayNumInList][3]);
 
-                // vv TESTING vv
-//                float testX = 460;
-//                float testY = 80;
-//                stroke(255);
-//                while (testX < 650) {
-//                    ellipse(testX, testY, 1, 1);
-//                    testX++;
-//                    testY += 1.5;
-//                }
+
+                // vv MOVE TO ANOTHER FILE !!!!!!!!!!!!! vv
+
+                stroke(255);
+
+
+                if (direction == 1) { // Down and right
+                    for (int j = 0; j < numOfAtoms; j++) {
+                        float testX = rays.rayPositions[rayNumInList][0];
+                        float testY = rays.rayPositions[rayNumInList][1];
+
+                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 30 && testX < rays.rayPositions[rayNumInList][2] && testY < rays.rayPositions[rayNumInList][3]) {
+                            testX++;
+                            testY += 1.66;
+                        }
+
+                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 30) {
+                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
+                            println("ABSORBED");
+                            break;
+                        }
+                    }
+                }
+                else if (direction == 2) { // Down and left
+                    for (int j = 0; j < numOfAtoms; j++) {
+                        float testX = rays.rayPositions[rayNumInList][0];
+                        float testY = rays.rayPositions[rayNumInList][1];
+
+                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 30 && testX > rays.rayPositions[rayNumInList][2] && testY < rays.rayPositions[rayNumInList][3]) {
+                            testX--;
+                            testY += 1.66;
+                        }
+
+                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 30) {
+                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
+                            println("ABSORBED");
+                            break;
+                        }
+                    }
+                }
+                else if (direction == 5) { // Up and right
+                    for (int j = 0; j < numOfAtoms; j++) {
+                        float testX = rays.rayPositions[rayNumInList][0];
+                        float testY = rays.rayPositions[rayNumInList][1];
+
+                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 30 && testX < rays.rayPositions[rayNumInList][2] && testY > rays.rayPositions[rayNumInList][3]) {
+                            testX++;
+                            testY -= 1.66;
+                        }
+
+                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 30) {
+                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
+                            println("ABSORBED");
+//                            break;
+                        }
+                    }
+                }
+                else if (direction == 6) { // Up and left
+                    for (int j = 0; j < numOfAtoms; j++) {
+                        float testX = rays.rayPositions[rayNumInList][0];
+                        float testY = rays.rayPositions[rayNumInList][1];
+
+                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 30 && testX > rays.rayPositions[rayNumInList][2] && testY > rays.rayPositions[rayNumInList][3]) {
+                            testX--;
+                            testY -= 1.66;
+                        }
+
+                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 30) {
+                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
+                            println("ABSORBED");
+//                            break;
+                        }
+                    }
+                }
+
+
+                rays.drawRay(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], angle, distance, this);
 
 
 
@@ -152,9 +225,10 @@ public class Main extends PApplet {
 //            line(605, 300, 460, 80);
 
             // Text for user input (where to shoot a ray)
+            drawInputBox();
             fill(255);
-            textSize(50);
-            text(userInput, width/2, 600);
+            textSize(30);
+            text("Enter Ray Co-ord: " + userInput, width/2, 618);
 
 
             // Show/hide atoms
@@ -182,8 +256,8 @@ public class Main extends PApplet {
     }
 
 
-
-    public void keyReleased() { // Method called when a key is released
+    // Method called when a key is released
+    public void keyReleased() {
 
         // Check if the ENTER key is released
         if (key == ENTER) {
@@ -231,6 +305,13 @@ public class Main extends PApplet {
         }
     }
 
+    // Method to draw input box UI
+    public void drawInputBox() {
+        stroke(255, 255, 255);
+        fill(0);
+        // Draw the rectangle
+        rect(145, 585, 410, 70, 12, 12, 12, 12);
+    }
 
     public static void main(String[] args) {
         PApplet.main("Main");
