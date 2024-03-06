@@ -152,9 +152,10 @@ public class Main extends PApplet {
 //            line(605, 300, 460, 80);
 
             // Text for user input (where to shoot a ray)
+            drawInputBox();
             fill(255);
-            textSize(50);
-            text(userInput, width/2, 600);
+            textSize(30);
+            text("Enter Ray Co-ord: " + userInput, width/2, 618);
 
 
             // Show/hide atoms
@@ -182,8 +183,8 @@ public class Main extends PApplet {
     }
 
 
-
-    public void keyReleased() { // Method called when a key is released
+    // Method called when a key is released
+    public void keyReleased() {
 
         // Check if the ENTER key is released
         if (key == ENTER) {
@@ -231,6 +232,13 @@ public class Main extends PApplet {
         }
     }
 
+    // Method to draw input box UI
+    public void drawInputBox() {
+        stroke(255, 255, 255);
+        fill(0);
+        // Draw the rectangle
+        rect(145, 585, 410, 70, 12, 12, 12, 12);
+    }
 
     public static void main(String[] args) {
         PApplet.main("Main");
