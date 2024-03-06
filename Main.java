@@ -8,8 +8,8 @@ public class Main extends PApplet {
     Grid grid;
     Computer computer;
     StartMenu startMenu;
-
     Rays rays;
+    RayMarkers rayMarkers;
 
     public int numOfAtoms = 6;
     public boolean startScreen = true;
@@ -32,6 +32,7 @@ public class Main extends PApplet {
         grid = new Grid(this, myImage);
         startMenu = new StartMenu(this);
         rays = new Rays(this);
+        rayMarkers = new RayMarkers(this);
 
         while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
             atomBoxNumbers = computer.generateAtoms(numOfAtoms);
@@ -77,6 +78,9 @@ public class Main extends PApplet {
             // Draw rays
             for (int i = 0; i < numOfRays; i++) {
                 int rayNumInList = shots[i] - 1;
+
+                // Test Markers (Insert Boolean Logic After Rays Implemented)
+                rayMarkers.drawNoAtom(rayNumInList);
 
                 int direction = rays.rayPositions[rayNumInList][4];
                 float angle = 0;
