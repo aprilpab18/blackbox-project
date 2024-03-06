@@ -67,57 +67,232 @@ public class Main extends PApplet {
                 selectedNumber = -1;
             }
 
+
             // Draw grid
              grid.drawImage(selectedNumber); // ADD BACK AFTER TESTING
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
 
 
-            // TEST DEFLECTIONS -> 60 degrees
-//            float angleTest = 2 * PI * ((float) 58.8 /360);
-//            rays.drawRay(215, 75, angleTest, 85, this);
-//            angleTest += (2 * PI * ((float) 62 / 360));
-//            rays.drawRay(260, 150, angleTest, 200, this);
-//            angleTest = 2 * PI * ((float) 58.8 /360);
-//            angleTest -= (2 * PI * ((float) 58.8 / 360));
-//            rays.drawRay(260, 150, angleTest, 300, this);
+            float[] angles = {
+                    2 * PI * ((float) 58.8 /360), // Down and right
+                    2 * PI * ((float) 120.8 /360), // Down and left
+                    0F, // Right
+                    PI, // Left
+                    -2 * PI * ((float) 58.8 /360), // Up and right
+                    -2 * PI * ((float) 120.8 /360) // Up and left
+            };
 
             // Draw rays
             for (int i = 0; i < numOfRays; i++) {
                 int rayNumInList = shots[i] - 1;
 
                 int direction = rays.rayPositions[rayNumInList][4];
-                float angle = 0;
-
-                if (direction == 1) { // Down and right
-                    angle = 2 * PI * ((float) 58.8 /360);
-                }
-                else if (direction == 2) { // Down and left
-                    angle = 2 * PI * ((float) 120.8 /360);
-                }
-                else if (direction == 3) { // Right
-                    angle = 0F;
-                }
-                else if (direction == 4) { // Left
-                    angle = PI;
-                }
-                else if (direction == 5) { // Up and right
-                    angle = -2 * PI * ((float) 58.8 /360);
-                }
-                else if (direction == 6) { // Up and left
-                    angle = -2 * PI * ((float) 120.8 /360);
-                }
+                float angle = angles[direction-1];
+                boolean circleOfInfluence = false;
+                boolean directHit = false;
+                float influenceX = 0;
+                float influenceY = 0;
 
 
+                // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
                 float distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], rays.rayPositions[rayNumInList][2], rays.rayPositions[rayNumInList][3]);
 
+
+                // CHECK FOR CIRCLES OF INFLUENCE
+
+                // IF CIRCLE OF INFLUENCE -> WHILE IN CIRCLE OF INFLUENCE:
+                //      IF DIST(TESTX, TEXTY, ATOM) < 15 -> DIRECT HIT
+                //      OTHERWISE BOUNCE
+
+
+
+
+                if (direction == 1) { // Down and right
+                    for (int j = 0; j < numOfAtoms; j++) {
+                        float testX = rays.rayPositions[rayNumInList][0];
+                        float testY = rays.rayPositions[rayNumInList][1];
+
+                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 15 && testX < rays.rayPositions[rayNumInList][2] && testY < rays.rayPositions[rayNumInList][3]) {
+                            testX++;
+                            testY += 1.66;
+
+                            if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 60 && !circleOfInfluence) {
+                                circleOfInfluence = true;
+                                influenceX = testX;
+                                influenceY = testY;
+                            }
+                        }
+
+                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 15) {
+                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
+//                            println("ABSORBED");
+                            directHit = true;
+                            break;
+                        }
+
+                        if (circleOfInfluence) { // Circle of influence and NOT direct hit
+//                            println("BOUNCE");
+                            distance = dist(influenceX, influenceY, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1]);
+
+                            float newAngle = angle;
+
+                            if (influenceX > atomPositions[j][0]) {
+                                newAngle -= (float) (2 * PI * (58.8/360));
+                                rays.drawRay(influenceX, influenceY, newAngle, 200, this);
+                            }
+                            else {
+                                newAngle += (2 * PI * ((float) 62.8 /360));
+                                rays.drawRay(influenceX, influenceY, newAngle, 200, this);
+                            }
+
+                            break;
+                        }
+                    }
+                }
+                else if (direction == 2) { // Down and left
+                    for (int j = 0; j < numOfAtoms; j++) {
+                        float testX = rays.rayPositions[rayNumInList][0];
+                        float testY = rays.rayPositions[rayNumInList][1];
+
+                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 15 && testX > rays.rayPositions[rayNumInList][2] && testY < rays.rayPositions[rayNumInList][3]) {
+                            testX--;
+                            testY += 1.66;
+
+                            if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 60 && !circleOfInfluence) {
+                                circleOfInfluence = true;
+                                influenceX = testX;
+                                influenceY = testY;
+                            }
+                        }
+
+                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 15) {
+                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
+//                            println("ABSORBED");
+                            directHit = true;
+                            break;
+                        }
+
+                        if (circleOfInfluence) { // Circle of influence and NOT direct hit
+//                            println("BOUNCE");
+                            distance = dist(influenceX, influenceY, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1]);
+
+                            float newAngle = angle;
+
+                            if (influenceX > atomPositions[j][0]) {
+                                newAngle -= (float) (2 * PI * (61.8/360));
+                                rays.drawRay(influenceX, influenceY, newAngle, 200, this);
+                            }
+                            else {
+                                newAngle += (float) (2 * PI * (58.8/360));
+                                rays.drawRay(influenceX, influenceY, newAngle, 200, this);
+                            }
+
+                            break;
+                        }
+                    }
+                }
+                else if (direction == 5) { // Up and right
+                    for (int j = numOfAtoms - 1; j >= 0; j--) {
+                        float testX = rays.rayPositions[rayNumInList][0];
+                        float testY = rays.rayPositions[rayNumInList][1];
+
+                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 15 && testX < rays.rayPositions[rayNumInList][2] && testY > rays.rayPositions[rayNumInList][3]) {
+                            testX++;
+                            testY -= 1.66;
+
+                            if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 60 && !circleOfInfluence) {
+                                circleOfInfluence = true;
+                                influenceX = testX;
+                                influenceY = testY;
+                            }
+                        }
+
+                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 15) {
+                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
+//                            println("ABSORBED");
+                            directHit = true;
+                            break;
+                        }
+
+                        if (circleOfInfluence) { // Circle of influence and NOT direct hit
+//                            println("BOUNCE");
+                            distance = dist(influenceX, influenceY, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1]);
+
+                            float newAngle = angle;
+
+                            if (influenceX > atomPositions[j][0]) {
+                                newAngle += (float) (2 * PI * (58.8/360));
+                                rays.drawRay(influenceX, influenceY, newAngle, 200, this);
+                            }
+                            else {
+                                newAngle -= (2 * PI * ((float) 62.8 /360));
+                                rays.drawRay(influenceX, influenceY, newAngle, 200, this);
+                            }
+
+                            break;
+                        }
+                    }
+                }
+                else if (direction == 6) { // Up and left
+                    for (int j = numOfAtoms - 1; j >= 0; j--) {
+                        float testX = rays.rayPositions[rayNumInList][0];
+                        float testY = rays.rayPositions[rayNumInList][1];
+
+                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 15 && testX > rays.rayPositions[rayNumInList][2] && testY > rays.rayPositions[rayNumInList][3]) {
+                            testX--;
+                            testY -= 1.66;
+
+                            if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 60 && !circleOfInfluence) {
+                                circleOfInfluence = true;
+                                influenceX = testX;
+                                influenceY = testY;
+                            }
+                        }
+
+                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 15) {
+                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
+//                            println("ABSORBED");
+                            directHit = true;
+                            break;
+                        }
+
+                        if (circleOfInfluence) { // Circle of influence and NOT direct hit
+//                            println("BOUNCE");
+                            distance = dist(influenceX, influenceY, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1]);
+
+                            float newAngle = angle;
+
+                            if (influenceX > atomPositions[j][0]) {
+                                newAngle += (2 * PI * ((float) 62.8 /360));
+                                rays.drawRay(influenceX, influenceY, newAngle, 200, this);
+                            }
+                            else {
+                                newAngle -= (2 * PI * ((float) 58.8 /360));
+                                rays.drawRay(influenceX, influenceY, newAngle, 200, this);
+                            }
+
+                            break;
+                        }
+                    }
+                }
+
+
+
+
+
+
+
+                // Direct hit from side
                 for (int j = 0; j < numOfAtoms; j++) {
                     if (atomPositions[j][1] == rays.rayPositions[rayNumInList][1]) {
                         if (atomPositions[j][0] > rays.rayPositions[rayNumInList][0]) { // Hit from left
                             distance = atomPositions[j][0] - rays.rayPositions[rayNumInList][0];
+                            directHit = true;
                             break;
                         }
                         else { // Hit from right
                             distance = rays.rayPositions[rayNumInList][0] - atomPositions[j][0];
+                            directHit = true;
                         }
                     }
                 }
@@ -129,74 +304,72 @@ public class Main extends PApplet {
                 stroke(255);
 
 
-                if (direction == 1) { // Down and right
-                    for (int j = 0; j < numOfAtoms; j++) {
-                        float testX = rays.rayPositions[rayNumInList][0];
-                        float testY = rays.rayPositions[rayNumInList][1];
-
-                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 30 && testX < rays.rayPositions[rayNumInList][2] && testY < rays.rayPositions[rayNumInList][3]) {
-                            testX++;
-                            testY += 1.66;
-                        }
-
-                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 30) {
-                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
-                            println("ABSORBED");
-                            break;
-                        }
-                    }
-                }
-                else if (direction == 2) { // Down and left
-                    for (int j = 0; j < numOfAtoms; j++) {
-                        float testX = rays.rayPositions[rayNumInList][0];
-                        float testY = rays.rayPositions[rayNumInList][1];
-
-                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 30 && testX > rays.rayPositions[rayNumInList][2] && testY < rays.rayPositions[rayNumInList][3]) {
-                            testX--;
-                            testY += 1.66;
-                        }
-
-                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 30) {
-                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
-                            println("ABSORBED");
-                            break;
-                        }
-                    }
-                }
-                else if (direction == 5) { // Up and right
-                    for (int j = 0; j < numOfAtoms; j++) {
-                        float testX = rays.rayPositions[rayNumInList][0];
-                        float testY = rays.rayPositions[rayNumInList][1];
-
-                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 30 && testX < rays.rayPositions[rayNumInList][2] && testY > rays.rayPositions[rayNumInList][3]) {
-                            testX++;
-                            testY -= 1.66;
-                        }
-
-                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 30) {
-                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
-                            println("ABSORBED");
+//                if (direction == 1) { // Down and right
+//                    for (int j = 0; j < numOfAtoms; j++) {
+//                        float testX = rays.rayPositions[rayNumInList][0];
+//                        float testY = rays.rayPositions[rayNumInList][1];
+//
+//                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 30 && testX < rays.rayPositions[rayNumInList][2] && testY < rays.rayPositions[rayNumInList][3]) {
+//                            testX++;
+//                            testY += 1.66;
+//                        }
+//
+//                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 30) {
+//                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
+//                            println("ABSORBED");
 //                            break;
-                        }
-                    }
-                }
-                else if (direction == 6) { // Up and left
-                    for (int j = 0; j < numOfAtoms; j++) {
-                        float testX = rays.rayPositions[rayNumInList][0];
-                        float testY = rays.rayPositions[rayNumInList][1];
-
-                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 30 && testX > rays.rayPositions[rayNumInList][2] && testY > rays.rayPositions[rayNumInList][3]) {
-                            testX--;
-                            testY -= 1.66;
-                        }
-
-                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 30) {
-                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
-                            println("ABSORBED");
+//                        }
+//                    }
+//                }
+//                else if (direction == 2) { // Down and left
+//                    for (int j = 0; j < numOfAtoms; j++) {
+//                        float testX = rays.rayPositions[rayNumInList][0];
+//                        float testY = rays.rayPositions[rayNumInList][1];
+//
+//                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 30 && testX > rays.rayPositions[rayNumInList][2] && testY < rays.rayPositions[rayNumInList][3]) {
+//                            testX--;
+//                            testY += 1.66;
+//                        }
+//
+//                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 30) {
+//                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
+//                            println("ABSORBED");
 //                            break;
-                        }
-                    }
-                }
+//                        }
+//                    }
+//                }
+//                else if (direction == 5) { // Up and right
+//                    for (int j = 0; j < numOfAtoms; j++) {
+//                        float testX = rays.rayPositions[rayNumInList][0];
+//                        float testY = rays.rayPositions[rayNumInList][1];
+//
+//                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 30 && testX < rays.rayPositions[rayNumInList][2] && testY > rays.rayPositions[rayNumInList][3]) {
+//                            testX++;
+//                            testY -= 1.66;
+//                        }
+//
+//                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 30) {
+//                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
+//                            println("ABSORBED");
+//                        }
+//                    }
+//                }
+//                else if (direction == 6) { // Up and left
+//                    for (int j = 0; j < numOfAtoms; j++) {
+//                        float testX = rays.rayPositions[rayNumInList][0];
+//                        float testY = rays.rayPositions[rayNumInList][1];
+//
+//                        while (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) > 30 && testX > rays.rayPositions[rayNumInList][2] && testY > rays.rayPositions[rayNumInList][3]) {
+//                            testX--;
+//                            testY -= 1.66;
+//                        }
+//
+//                        if (dist(testX, testY, atomPositions[j][0], atomPositions[j][1]) <= 30) {
+//                            distance = dist(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], atomPositions[j][0], atomPositions[j][1]);
+//                            println("ABSORBED");
+//                        }
+//                    }
+//                }
 
 
                 rays.drawRay(rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], angle, distance, this);
@@ -268,8 +441,13 @@ public class Main extends PApplet {
                 // Check if the parsed number is within the range 1 to 54
                 if (num >= 1 && num <= 54) {
                     // If it's within the range, store it in the shots array and increment the number of rays
+
+                    // !!!!!!!!!! CHECK IF RAY ALREADY IN SHOTS ARRAY !!!!!!!!!! -> DISPLAY MESSAGE IF SO
+
+                    // else { // NOT A DUPLICATE
                     shots[numOfRays] = num;
                     numOfRays++;
+                    // }
                 } else {
                     // If it's not within the range, print a message
                     println("NOT IN RANGE");
