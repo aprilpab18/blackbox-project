@@ -13,6 +13,12 @@ public class Main extends PApplet {
 
     public int numOfAtoms = 6;
     public boolean startScreen = true;
+
+    // Variable for storing if ray input is out of range
+    public boolean inputInRange = true;
+
+    // Variable for storing if ray input has been used already
+    public boolean duplicateInput = false;
     public String userInput = "";
     public int[] shots = new int[100];
     public int numOfRays = 0;
@@ -44,6 +50,8 @@ public class Main extends PApplet {
     }
 
     public void draw() {
+
+        startScreen = false;
         if (startScreen) {
             if (!mousePressed) {
                 startMenu.displayStartScreen();
@@ -401,11 +409,25 @@ public class Main extends PApplet {
             drawInputBox();
             fill(255);
             textSize(30);
-            text("Enter Ray Co-ord: " + userInput, width/2, 618);
+            text("Enter Ray Co-ord: " + userInput, width/2, 595);
+
+            // If number is not in range
+            if(!inputInRange){
+                fill(255, 0, 0);
+                textSize(20);
+                text("Number not in range, please try again.", width/2, 625);
+            }
+
+            if(duplicateInput){
+                fill(255, 0, 0);
+                textSize(20);
+                text("Duplicate input number, please try again.", width/2, 625);
+            }
 
 
             // Show/hide atoms
 
+            fill(255);
             textSize(20);
             textAlign(0, 0);
 
@@ -441,16 +463,26 @@ public class Main extends PApplet {
                 // Check if the parsed number is within the range 1 to 54
                 if (num >= 1 && num <= 54) {
                     // If it's within the range, store it in the shots array and increment the number of rays
+                    inputInRange = true;
 
                     // !!!!!!!!!! CHECK IF RAY ALREADY IN SHOTS ARRAY !!!!!!!!!! -> DISPLAY MESSAGE IF SO
+                    for(int i = 0; i < shots.length; i++){
+                        if (num == shots[i]) {
+                            duplicateInput = true;
+                            break;
+                        }
+                    }
 
-                    // else { // NOT A DUPLICATE
+                    if (!duplicateInput) { // NOT A DUPLICATE
                     shots[numOfRays] = num;
                     numOfRays++;
-                    // }
+                    }
+
                 } else {
                     // If it's not within the range, print a message
-                    println("NOT IN RANGE");
+                    // Print to screen instead
+                    inputInRange = false;
+
                 }
                 // Reset userInput to an empty string
                 userInput = "";
@@ -488,7 +520,7 @@ public class Main extends PApplet {
         stroke(255, 255, 255);
         fill(0);
         // Draw the rectangle
-        rect(145, 585, 410, 70, 12, 12, 12, 12);
+        rect(145, 570, 410, 80, 12, 12, 12, 12);
     }
 
     public static void main(String[] args) {
