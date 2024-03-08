@@ -5,6 +5,7 @@ public class StartMenu {
 
     // ACCESS TO PApplet TO USE PROCESSING FEATURES
     private PApplet parent;
+    private boolean startPressed = false;
 
 
 
@@ -30,7 +31,7 @@ public class StartMenu {
 
 
     // METHODS
-    public void displayStartScreen() {
+    public void displayStartMenu() {
         parent.background(0);
 
         // Draw Atoms (Inner Circle)
@@ -43,6 +44,9 @@ public class StartMenu {
 
         // TITLE
         drawTitle();
+
+        // Buttons
+        drawStartButton(300,375);
 
     }
 
@@ -97,12 +101,6 @@ public class StartMenu {
 
         parent.fill(255, 38, 125);
         parent.text("+", parent.width / 2 - titleWidth + parent.textWidth("Black Box "), parent.height / 2);
-
-        // Description
-        String description = "Press screen to start!";
-        parent.textSize(25);
-        parent.fill(255);
-        parent.text(description, parent.width / 2 - parent.textWidth(description) / 2 - 5, parent.height / 2 + 40);
     }
 
     private void drawRay(float y) {
@@ -118,5 +116,37 @@ public class StartMenu {
             speed *= -1; // bounce back
         }
 
+    }
+
+    // Methods for Start button
+    public void drawStartButton(int x, int y) {
+        // Check if the mouse is over the button
+        boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 100 && parent.mouseY >= y && parent.mouseY <= y + 50);
+
+        // Check if mouse is pressed
+        boolean mousePressed = parent.mousePressed;
+
+        // Hover Logic
+        if (mouseOver) {
+            parent.stroke(255, 255, 255);
+            parent.fill(150); // Lighter shade
+        } else {
+            parent.stroke(255, 255, 255);
+            parent.fill(0);
+        }
+        parent.rect(x, y, 100, 50, 12, 12, 12, 12);
+
+        // Title
+        parent.textSize(25);
+        parent.fill(255,38,125);
+        parent.text("START", x + 18,y + 33);
+
+        if (mouseOver && mousePressed) {
+            startPressed = true;
+        }
+    }
+
+    public boolean isStartPressed() {
+        return startPressed;
     }
 }

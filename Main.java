@@ -54,10 +54,10 @@ public class Main extends PApplet {
     public void draw() {
 
         if (startScreen) {
-            if (!mousePressed) {
-                startMenu.displayStartScreen();
-            }
-            else {
+            startMenu.displayStartMenu();
+
+            // Check start button is pressed to continue
+            if (startMenu.isStartPressed()) {
                 startScreen = false;
             }
         }
@@ -88,6 +88,7 @@ public class Main extends PApplet {
 
                 int direction = rays.rayPositions[rayNumInList][4];
                 rays.drawRayWithBounces(atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, this);
+                RayMarkers.drawAbsorbed(rayNumInList);
             }
 
 
