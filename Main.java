@@ -78,16 +78,13 @@ public class Main extends PApplet {
 
 
             // Draw grid
-             grid.drawImage(selectedNumber); // ADD BACK AFTER TESTING
+            grid.drawImage(selectedNumber); // ADD BACK AFTER TESTING
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
 
 
             // Draw rays
             for (int i = 0; i < numOfRays; i++) {
                 int rayNumInList = shots[i] - 1;
-
-                // Test Markers (Insert Boolean Logic After Rays Implemented)
-                rayMarkers.drawNoAtom(rayNumInList);
 
                 int direction = rays.rayPositions[rayNumInList][4];
                 rays.drawRayWithBounces(atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, this);
@@ -100,7 +97,7 @@ public class Main extends PApplet {
             textSize(30);
             text("Enter Ray Co-ord: " + userInput, width/2, 595);
 
-            // If number is not in range
+            // ERROR HANDLING - If number is not in range
             if(!inputInRange){
                 fill(255, 0, 0);
                 textSize(20);

@@ -4,68 +4,7 @@ import processing.core.PApplet;
 
 public class RayMarkers {
     // INSTANCE VARIABLES
-    PApplet parent;
-
-    // CONSTANTS
-    private final int OPPOSITE_RAY = 27;
-
-    // Co-ords of Grid
-    int[][] numberPositions = {
-            {211, 66}, // 1
-            {191, 97}, // 2
-            {180, 114}, // 3
-            {160, 147}, // 4
-            {150, 162}, // 5
-            {130, 200}, // 6
-            {121, 215}, // 7
-            {100, 249}, // 8
-            {90, 265}, // 9
-            {70, 300}, // 10
-            {86, 333}, // 11
-            {95, 349}, // 12
-            {115, 383}, // 13
-            {127, 401}, // 14
-            {145, 433}, // 15
-            {156, 449}, // 16
-            {177, 485}, // 17
-            {187, 501}, // 18
-            {205, 533}, // 19
-            {249, 535}, // 20
-            {271, 535}, // 21
-            {310, 535}, // 22
-            {331, 535}, // 23
-            {370, 535}, // 24
-            {390, 535}, // 25
-            {430, 535}, // 26
-            {451, 535}, // 27
-            {491, 535}, // 28
-            {514, 502}, // 29
-            {524, 485}, // 30
-            {545, 449}, // 31
-            {556, 434}, // 32
-            {574, 400}, // 33
-            {585, 383}, // 34
-            {604, 349}, // 35
-            {614, 333}, // 36
-            {635, 300}, // 37
-            {614, 264}, // 38
-            {605, 248}, // 39
-            {585, 215}, // 40
-            {575, 198}, // 41
-            {555, 167}, // 42
-            {545, 148}, // 43
-            {522, 115}, // 44
-            {514, 97}, // 45
-            {493, 67}, // 46
-            {451, 63}, // 47
-            {430, 63}, // 48
-            {390, 63}, // 49
-            {370, 63}, // 50
-            {331, 63}, // 51
-            {310, 63}, // 52
-            {271, 63}, // 53
-            {249, 63} // 54
-    };
+    static PApplet parent;
 
     // CONSTRUCTOR
     public RayMarkers(PApplet parent) {
@@ -73,15 +12,17 @@ public class RayMarkers {
     }
 
     // Method to draw marker
-    private void drawMarker(int r, int g, int b, int position){
+    private static void drawMarker(int r, int g, int b, int position){
         parent.noStroke();
         parent.fill(r, g, b);
 
         // VARIABLES for position
         int x;
         int y;
-        int firstIndex = numberPositions[position][0];
-        int secondIndex = numberPositions[position][1];
+
+        // VARIABLES for indexes of marker co-ordinates
+        int firstIndex = MarkerCoords.numberPositions[position][0];
+        int secondIndex = MarkerCoords.numberPositions[position][1];
 
         // CONSTANTS for x CO-ORDS
         int topLeftX = firstIndex - 19;
@@ -134,30 +75,51 @@ public class RayMarkers {
 
     // METHODS TO DRAW DIFFERENT MARKERS
 
-    // No Atom => RED
-    public void drawNoAtom(int input){
-        drawMarker(255,0,0, input);
-        drawMarker(255,0,0, input + OPPOSITE_RAY);
+    // No Atom => RED, DONE!
+    public static void drawNoAtom(int index) {
+        // User Inputted Marker
+        drawMarker(255, 0, 0, index);
+
+        // FIND OPPOSITE MARKER
+        int length = MarkerCoords.straightOppMarkers.length;
+        int coord = index + 1; // actual ray co-ord as on grid
+
+        for (int i = 0; i < length; i++) {
+            if (MarkerCoords.straightOppMarkers[i][0] == coord) { // first column
+                drawMarker(255, 0, 0, MarkerCoords.straightOppMarkers[i][1] - 1);
+            } else if (MarkerCoords.straightOppMarkers[i][1] == coord) {  // second column
+                drawMarker(255, 0, 0, MarkerCoords.straightOppMarkers[i][0] - 1);
+            }
+        }
     }
 
-    // Absorbed => GREEN, one co-ord
-    public void drawAbsorbed(int input){
-        drawMarker(0,255,0, input);
+    // Absorbed => GREEN, one co-ord, DONE!
+    public static void drawAbsorbed(int index){
+        drawMarker(0,255,0, index);
     }
-//
-//
-//    // Deflected 60 => BLUE
-//    public void drawDeflected60(){
-//
-//    }
-//
-//    // Deflected 120 => PINK
-//    public void drawDeflected120(){
-//
-//    }
-//
-//    // Deflected 180 => PURPLE, one co-ord
-//    public void drawDeflected180(){
-//
-//    }
+
+
+    // Deflected 60 => BLUE
+    public static void drawDeflected60(int index){
+        drawMarker(0,0,255, index);
+        drawMarker(0,0,255, index);
+
+        /* TODO
+         * Implement opposite marker from calculations  */
+    }
+
+    // Deflected 120 => PINK
+    public void drawDeflected120(int index){
+        drawMarker(255,0,0, index);
+        drawMarker(255,0,0, index);
+
+        /* TODO
+         * Implement opposite marker from calculations  */
+    }
+
+    // Deflected 180 => PURPLE, DONE
+    public void drawDeflected180(int index){
+        drawMarker(128,0,128, index);
+        drawMarker(128,0,128, index);
+    }
 }
