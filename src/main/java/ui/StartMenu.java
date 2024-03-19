@@ -5,7 +5,9 @@ public class StartMenu {
 
     // ACCESS TO PApplet TO USE PROCESSING FEATURES
     private PApplet parent;
+    public InstructMenu instructMenu;
     private boolean startPressed = false;
+    public boolean instructScreen = false;
 
 
 
@@ -26,8 +28,8 @@ public class StartMenu {
     // CONSTRUCTOR
     public StartMenu(PApplet parent) {
         this.parent = parent;
+        this.instructMenu = new InstructMenu(parent, this);
     }
-
 
 
     // METHODS
@@ -46,11 +48,17 @@ public class StartMenu {
         drawTitle();
 
         // Buttons
-        drawStartButton(300,375);
+        drawStartButton(200,375);
+        drawInstructButton(340, 375);
+
+        // Displaying Instructions Screen
+        if (instructScreen) {
+            instructMenu.displayInstructMenu();
+        }
 
     }
 
-    private void drawAtom(float x, float y) {
+    public void drawAtom(float x, float y) {
         // ATOM
         parent.fill(0, 150, 255);           // Blue
         parent.ellipse(x, y, 35, 35); // Drawing circle
@@ -103,7 +111,7 @@ public class StartMenu {
         parent.text("+", parent.width / 2 - titleWidth + parent.textWidth("Black Box "), parent.height / 2);
     }
 
-    private void drawRay(float y) {
+    public void drawRay(float y) {
 
         // Draw ray dynamically
         parent.line(0, y, x, y);
@@ -149,4 +157,37 @@ public class StartMenu {
     public boolean isStartPressed() {
         return startPressed;
     }
+
+    public void drawInstructButton(int x, int y) {
+        // Check if the mouse is over the button
+        boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 155 && parent.mouseY >= y && parent.mouseY <= y + 50);
+
+        // Check if mouse is pressed
+        boolean mousePressed = parent.mousePressed;
+
+        // Hover Logic
+        if (mouseOver) {
+            parent.stroke(255, 255, 255);
+            parent.fill(150); // Lighter shade
+        } else {
+            parent.stroke(255, 255, 255);
+            parent.fill(0);
+        }
+        parent.rect(x, y, 157, 50, 12, 12, 12, 12);
+
+        // Title
+        parent.textSize(25);
+        parent.fill(255,38,125);
+        parent.text("Instructions", x + 18,y + 33);
+
+        if (mouseOver && mousePressed) {
+            instructScreen = true;
+        }
+
+    }
+
+    public boolean isInstructDisplayed() {
+        return instructScreen;
+    }
+
 }

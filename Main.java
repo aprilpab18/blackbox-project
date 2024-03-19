@@ -65,6 +65,11 @@ public class Main extends PApplet {
         else { // AFTER START SCREEN -> GAMEPLAY
             background(0);
 
+            // Instructions Menu
+            if (startMenu.isInstructDisplayed()) {
+                startMenu.instructMenu.displayInstructMenu();
+            }
+
             // Draws grid and makes array of atom coordinates
 //            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
 
@@ -162,8 +167,8 @@ public class Main extends PApplet {
                     }
 
                     if (!duplicateInput) { // NOT A DUPLICATE
-                    shots[numOfRays] = num;
-                    numOfRays++;
+                        shots[numOfRays] = num;
+                        numOfRays++;
                     }
 
                 } else {
