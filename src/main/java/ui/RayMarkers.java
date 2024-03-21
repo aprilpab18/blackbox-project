@@ -124,7 +124,21 @@ public class RayMarkers {
     }
 
     // Ray Marker Key
-    public void drawRayMarkerKey() {
-        // TODO
+    public static void drawRayMarkerKey(int x, int y) {
+        parent.stroke(255, 255, 255);
+        parent.fill(0);
+
+        // Draw the rectangle
+        parent.rect(x, y, 250, 280, 12, 12, 12, 12);
+
+        // Text
+        drawDetails();
+    }
+
+    public static void drawDetails(){
+        // Title
+        parent.fill(255);
+        parent.textSize(20);
+        parent.text("Ray Markers Key", 807, 80);
     }
 }

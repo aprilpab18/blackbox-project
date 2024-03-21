@@ -118,7 +118,6 @@ public class Main extends PApplet {
 
 
             // Show/hide atoms
-
             fill(255);
             textSize(20);
             textAlign(0, 0);
@@ -130,6 +129,9 @@ public class Main extends PApplet {
             else {
                 text("Press 'X' to show the atoms", 10, 20);
             }
+
+            // RAY MARKERS
+            RayMarkers.drawRayMarkerKey(750,50);
 
         }
 
