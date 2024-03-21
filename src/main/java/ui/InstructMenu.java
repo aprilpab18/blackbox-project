@@ -24,10 +24,10 @@ public class InstructMenu {
         drawInstructions();
 
         // Buttons
-        startMenu.drawStartButton(293,550);
+        startMenu.drawStartButton(493,550);
     }
 
     private void drawInstructions() {
-
+        // TODO
     }
 }

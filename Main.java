@@ -29,11 +29,11 @@ public class Main extends PApplet {
     public int[][] rayExitCoordinates = new int[54][2];
 
     public void settings() {
-        size(700, 700);
+        size(1100, 700);
     }
 
     public void setup() {
-        PImage myImage = loadImage("resources/board-w-triangles.png");
+        PImage myImage = loadImage("resources/extended-board.png");
 
         computer = new Computer();
         grid = new Grid(this, myImage);
@@ -101,19 +101,19 @@ public class Main extends PApplet {
             drawInputBox();
             fill(255);
             textSize(30);
-            text("Enter Ray Co-ord: " + userInput, width/2, 595);
+            text("Enter Ray Co-ord: " + userInput, 350, 595);
 
             // ERROR HANDLING - If number is not in range
             if(!inputInRange){
                 fill(255, 0, 0);
                 textSize(20);
-                text("Number not in range, please try again.", width/2, 625);
+                text("Number not in range, please try again.", 350, 625);
             }
 
             if(duplicateInput){
                 fill(255, 0, 0);
                 textSize(20);
-                text("Duplicate input number, please try again.", width/2, 625);
+                text("Duplicate input number, please try again.", 350, 625);
             }
 
 

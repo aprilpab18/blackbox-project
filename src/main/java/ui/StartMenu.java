@@ -38,7 +38,7 @@ public class StartMenu {
 
         // Draw Atoms (Inner Circle)
         drawAtom(100, 100);
-        drawAtom(600, 600);
+        drawAtom(1000, 600);
 
         // Draw Rays
         drawRay(250);
@@ -48,8 +48,8 @@ public class StartMenu {
         drawTitle();
 
         // Buttons
-        drawStartButton(200,375);
-        drawInstructButton(340, 375);
+        drawStartButton(400,375);
+        drawInstructButton(530, 375);
 
         // Displaying Instructions Screen
         if (instructScreen) {
@@ -120,7 +120,7 @@ public class StartMenu {
         x += speed;
 
         // Change direction when the ray reaches the end
-        if (x >= 700 || x < 0) {
+        if (x >= 1100 || x < 0) {
             speed *= -1; // bounce back
         }
 
