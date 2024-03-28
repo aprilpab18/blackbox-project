@@ -33,7 +33,7 @@ public class Main extends PApplet {
     }
 
     public void setup() {
-        PImage myImage = loadImage("resources/extended-board.png");
+        PImage myImage = loadImage("resources/board.png");
 
         computer = new Computer();
         grid = new Grid(this, myImage);
