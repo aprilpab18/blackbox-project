@@ -26,7 +26,7 @@ public class Main extends PApplet {
     public int[][] atomPositions = new int[numOfAtoms][2];
     boolean showingAtoms = false;
     public int selectedNumber = -1;
-    public int[][] rayExitCoordinates = new int[54][2];
+    public float[][] rayExitCoordinates = new float[54][2];
 
     public void settings() {
         size(1100, 700);
@@ -92,8 +92,10 @@ public class Main extends PApplet {
                 int rayNumInList = shots[i] - 1;
 
                 int direction = rays.rayPositions[rayNumInList][4];
-                rays.drawRayWithBounces(atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, this);
+                rayExitCoordinates[i] = rays.drawRayWithBounces(atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, this);
                 RayMarkers.drawAbsorbed(rayNumInList);
+                fill(155, 0, 255);
+                ellipse(rayExitCoordinates[i][0], rayExitCoordinates[i][1], 10, 10);
             }
 
 
