@@ -3,7 +3,7 @@ import processing.core.PApplet;
 
 
 public class RayMarkers {
-    // INSTANCE VARIABLES
+    // ACCESS TO PApplet TO USE PROCESSING FEATURES
     static PApplet parent;
 
     // CONSTRUCTOR
@@ -11,7 +11,7 @@ public class RayMarkers {
         this.parent = parent;
     }
 
-    // Method to draw marker
+    // Method for logic to draw marker
     private static void drawMarker(int r, int g, int b, int position){
         parent.noStroke();
         parent.fill(r, g, b);
@@ -37,7 +37,7 @@ public class RayMarkers {
         int rightY = secondIndex - 4;
         int topY =   secondIndex - 20;
 
-        // CALCULATING LOCATIONS
+        // CALCULATING LOCATIONS (for now)
         if (position >= 0 && position <= 8){ // top left
             x = topLeftX;
             y = leftY;
@@ -119,17 +119,18 @@ public class RayMarkers {
 
     // Deflected 180 => PURPLE, DONE
     public void drawDeflected180(int index){
-        drawMarker(128,0,128, index);
-        drawMarker(128,0,128, index);
+        drawMarker(138,43,226, index);
+        drawMarker(138,43,226, index);
     }
 
+    // METHODS FOR RAY MARKER KEY
     // Ray Marker Key
     public static void drawRayMarkerKey(int x, int y) {
         parent.stroke(255, 255, 255);
         parent.fill(0);
 
         // Draw the rectangle
-        parent.rect(x, y, 250, 280, 12, 12, 12, 12);
+        parent.rect(x, y, 250, 245, 12, 12, 12, 12);
 
         // Text
         drawDetails();
@@ -137,8 +138,31 @@ public class RayMarkers {
 
     public static void drawDetails(){
         // Title
+        drawText(20, "Ray Markers Key", 807, 80);
+
+        // Key
+        drawKey(255,0,0,775,105); // Red
+        drawText(17,"No Atom Found", 800, 115);
+        drawKey(0,255,0,775,140); // Green
+        drawText(17,"Ray Absorbed", 800, 150);
+        drawKey(0,0,255,775,175); // Blue
+        drawText(17,"Ray Deflected 60 \u00B0", 800, 185);
+        drawKey(255,38,125,775,210); // Pink
+        drawText(17,"Ray Deflected 120 \u00B0", 800, 220);
+        drawKey(138,43,226,775,245); // Purple
+        drawText(17,"Ray Deflected 180 \u00B0", 800, 255);
+
+    }
+
+    public static void drawText(int size, String text, int x, int y){
         parent.fill(255);
-        parent.textSize(20);
-        parent.text("Ray Markers Key", 807, 80);
+        parent.textSize(size);
+        parent.text(text, x, y);
+    }
+
+    public static void drawKey(int r, int g, int b, int x, int y) {
+        parent.noStroke();
+        parent.fill(r, g, b);
+        parent.rect(x,y,10,10);
     }
 }

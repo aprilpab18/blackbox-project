@@ -33,7 +33,7 @@ public class Main extends PApplet {
     }
 
     public void setup() {
-        PImage myImage = loadImage("resources/extended-board.png");
+        PImage myImage = loadImage("resources/board.png");
 
         computer = new Computer();
         grid = new Grid(this, myImage);
@@ -110,7 +110,7 @@ public class Main extends PApplet {
                 text("Number not in range, please try again.", 350, 625);
             }
 
-            if(duplicateInput){
+            else if(duplicateInput){
                 fill(255, 0, 0);
                 textSize(20);
                 text("Duplicate input number, please try again.", 350, 625);
