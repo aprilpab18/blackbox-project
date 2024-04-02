@@ -9,6 +9,9 @@ public class Grid {
     PApplet parent;
     PImage myImage;
 
+    public int[][] hexagonCentreCoordinates = new int[61][2];
+
+
 
     public Grid(PApplet parent, PImage myImage){
         this.parent = parent;
@@ -53,6 +56,7 @@ public class Grid {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5+i; j++) {
                 drawHexagon(xPos + ((sideLength*2)*j) - (sideLength*i), yPos + ((sideLength + (sideLength/2))*i) + (5*i), sideLength);
+                hexagonCentreCoordinates[boxNumber] = new int[] {xPos + ((sideLength*2)*j) - (sideLength*i), yPos + ((sideLength + (sideLength/2))*i) + (5*i)};
 
                 for (int k = 0; k < 6; k++) {
                     if (boxNumber == atomBoxNumbers[k]) {
@@ -78,6 +82,8 @@ public class Grid {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 8-i; j++) {
                 drawHexagon(xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2) + 25) + ((sideLength + (sideLength/2))*i) + (5*i), sideLength);
+                hexagonCentreCoordinates[boxNumber] = new int[] {xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2) + 25) + ((sideLength + (sideLength/2))*i) + (5*i)};
+
 
                 for (int k = 0; k < 6; k++) {
                     if (boxNumber == atomBoxNumbers[k]) {
@@ -99,8 +105,8 @@ public class Grid {
             }
         }
 
-        return atomPositions;
 
+        return atomPositions;
 
     }
 

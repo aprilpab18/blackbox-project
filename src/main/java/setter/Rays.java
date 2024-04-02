@@ -165,7 +165,7 @@ public class Rays {
     public static float[] drawRayWithBounces(int[][] atomPositions, float startX, float startY, int direction, boolean firstRay, PApplet sketch) {
         float[] endOfLine = new float[] {0, 0};
 
-        float[] angles = {
+        float[] angles = { // radians()
                 2 * sketch.PI * ((float) 58.8 /360), // Down and right
                 2 * sketch.PI * ((float) 120.8 /360), // Down and left
                 0F, // Right
@@ -207,7 +207,7 @@ public class Rays {
             int[] exit = {0, 0};
             float[] testCoords = {startX, startY};
 
-            while (true) {
+            while (true) { // sets distance to max value, finding exit opp from where you shot from
                 boolean exitSet = false;
                 for (int i = 0; i < downAndRightExits.length; i++) {
                     if (sketch.dist(testCoords[0], testCoords[1], downAndRightExits[i][0], downAndRightExits[i][1]) < 15) {
@@ -223,7 +223,7 @@ public class Rays {
                 }
 
                 testCoords[0]++;
-                testCoords[1] += 1.72;
+                testCoords[1] += 1.68;
 
                 if (testCoords[0] > sketch.width || testCoords[1] > sketch.height) {
                     sketch.print("NO EXIT FOUND");
@@ -244,7 +244,7 @@ public class Rays {
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] < exit[0] && testCoords[1] < exit[1]) {
                     testCoords[0]++;
-                    testCoords[1] += 1.72;
+                    testCoords[1] += 1.68;
 
 
                     // CIRCLE OF INFLUENCE FOUND
@@ -268,7 +268,7 @@ public class Rays {
                     distance = sketch.dist(influenceX, influenceY, startX, startY);
 
 
-                    float newAngle = angle;
+//                    float newAngle = angle;
 
                     drawRay(startX, startY, angles[0], distance, sketch);
 
@@ -284,7 +284,7 @@ public class Rays {
                 }
             }
 
-            endOfLine = drawRay(startX, startY, angles[0], distance, sketch);
+            endOfLine = drawRay(startX, startY, angles[0], distance, sketch); // doesn't hit anything
         }
 
 
@@ -315,7 +315,7 @@ public class Rays {
                 }
 
                 testCoords[0]--;
-                testCoords[1] += 1.72;
+                testCoords[1] += 1.68;
 
                 if (testCoords[0] < 0 || testCoords[1] > sketch.height) {
                     sketch.print("NO EXIT FOUND");
@@ -334,7 +334,7 @@ public class Rays {
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] > exit[0] && testCoords[1] < exit[1]) {
                     testCoords[0]--;
-                    testCoords[1] += 1.72;
+                    testCoords[1] += 1.68;
 
 
                     // CIRCLE OF INFLUENCE FOUND
@@ -398,7 +398,7 @@ public class Rays {
                 }
 
                 testCoords[0]++;
-                testCoords[1] += 0.04;
+//                testCoords[1] += 0.02;
 
                 if (testCoords[0] > sketch.width) {
                     sketch.print("NO EXIT FOUND");
@@ -417,7 +417,7 @@ public class Rays {
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] < exit[0]) {
                     testCoords[0]++;
-                    testCoords[1] += 0.04;
+//                    testCoords[1] += 0.02;
 
 
                     // CIRCLE OF INFLUENCE FOUND
@@ -487,7 +487,7 @@ public class Rays {
                 }
 
                 testCoords[0]--;
-                testCoords[1] += 0.04;
+//                testCoords[1] += 0.02;
 
                 if (testCoords[0] < 0) {
                     sketch.print("NO EXIT FOUND");
@@ -507,7 +507,7 @@ public class Rays {
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] > exit[0]) {
                     testCoords[0]--;
-                    testCoords[1] += 0.04;
+//                    testCoords[1] += 0.02;
 
 
                     // CIRCLE OF INFLUENCE FOUND
@@ -574,7 +574,7 @@ public class Rays {
                 }
 
                 testCoords[0]++;
-                testCoords[1] -= 1.72;
+                testCoords[1] -= 1.68;
 
                 if (testCoords[0] > sketch.width || testCoords[1] < 0) {
                     sketch.print("NO EXIT FOUND");
@@ -592,7 +592,7 @@ public class Rays {
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] < exit[0] && testCoords[1] > exit[1]) {
 
                     testCoords[0]++;
-                    testCoords[1] -= 1.72;
+                    testCoords[1] -= 1.68;
 
 //                    sketch.ellipse(testCoords[0], testCoords[1], 3, 3);
 
@@ -659,7 +659,7 @@ public class Rays {
                 }
 
                 testCoords[0]--;
-                testCoords[1] -= 1.72;
+                testCoords[1] -= 1.68;
 
                 if (testCoords[0] > sketch.width || testCoords[1] < 0) {
                     sketch.print("NO EXIT FOUND");
@@ -674,7 +674,7 @@ public class Rays {
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] > exit[0] && testCoords[1] > exit[1]) {
                     testCoords[0]--;
-                    testCoords[1] -= 1.72;
+                    testCoords[1] -= 1.68;
 
 
                     // CIRCLE OF INFLUENCE FOUND

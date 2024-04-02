@@ -99,16 +99,6 @@ public class Main extends PApplet {
                 rayExitCoordinates[i] = rays.drawRayWithBounces(atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
                 RayMarkers.drawAbsorbed(rayNumInList);
 
-                // CHECK IF REFLECTED
-//                if (dist(rayExitCoordinates[i][0], rayExitCoordinates[i][1], rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1]) < 59) {
-//                    rayExitCoordinates[i] = new float[] {-2, -2};
-//                    System.out.println("REFLECTED");
-//                }
-
-                fill(155, 0, 255);
-                ellipse(rayExitCoordinates[i][0], rayExitCoordinates[i][1], 10, 10);
-
-
             }
 
 
