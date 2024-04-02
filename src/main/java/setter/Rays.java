@@ -1,4 +1,5 @@
 package main.java.setter;
+import main.java.ui.StartMenu;
 import processing.core.*;
 
 public class Rays {
@@ -161,7 +162,7 @@ public class Rays {
 
 
 
-    public static float[] drawRayWithBounces(int[][] atomPositions, float startX, float startY, int direction, PApplet sketch) {
+    public static float[] drawRayWithBounces(int[][] atomPositions, float startX, float startY, int direction, boolean firstRay, PApplet sketch) {
         float[] endOfLine = new float[] {0, 0};
 
         float[] angles = {
@@ -184,6 +185,15 @@ public class Rays {
         float influenceX = 0;
         float influenceY = 0;
 
+
+        // CHECK FOR REFLECTED
+        for (int i = 0; i < numOfAtoms; i++) {
+            if (sketch.dist(startX, startY, atomPositions[i][0], atomPositions[i][1]) < 59 && firstRay) {
+                endOfLine = new float[] {-2, -2};
+                System.out.println("REFLECTED");
+                return endOfLine;
+            }
+        }
 
 
 
@@ -213,7 +223,7 @@ public class Rays {
                 }
 
                 testCoords[0]++;
-                testCoords[1] += 1.66;
+                testCoords[1] += 1.72;
 
                 if (testCoords[0] > sketch.width || testCoords[1] > sketch.height) {
                     sketch.print("NO EXIT FOUND");
@@ -234,7 +244,7 @@ public class Rays {
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] < exit[0] && testCoords[1] < exit[1]) {
                     testCoords[0]++;
-                    testCoords[1] += 1.66;
+                    testCoords[1] += 1.72;
 
 
                     // CIRCLE OF INFLUENCE FOUND
@@ -263,11 +273,11 @@ public class Rays {
                     drawRay(startX, startY, angles[0], distance, sketch);
 
                     if (influenceX > atomPositions[j][0]) { // HITS RIGHT SIDE OF CIRCLE -> BOUNCES RIGHT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 3, sketch);
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 3, false, sketch);
 
                     }
                     else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES DOWN AND LEFT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 2, sketch);
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 2, false, sketch);
                     }
 
 //                    break;
@@ -305,7 +315,7 @@ public class Rays {
                 }
 
                 testCoords[0]--;
-                testCoords[1] += 1.66;
+                testCoords[1] += 1.72;
 
                 if (testCoords[0] < 0 || testCoords[1] > sketch.height) {
                     sketch.print("NO EXIT FOUND");
@@ -324,7 +334,7 @@ public class Rays {
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] > exit[0] && testCoords[1] < exit[1]) {
                     testCoords[0]--;
-                    testCoords[1] += 1.66;
+                    testCoords[1] += 1.72;
 
 
                     // CIRCLE OF INFLUENCE FOUND
@@ -352,9 +362,9 @@ public class Rays {
                     drawRay(startX, startY, angles[1], distance, sketch);
 
                     if (influenceX > atomPositions[j][0]) { // HITS RIGHT SIDE OF CIRCLE -> BOUNCES DOWN AND RIGHT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 1, sketch);
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 1, false, sketch);
                     } else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES LEFT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 4, sketch);
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 4, false, sketch);
                     }
 
 //                    break;
@@ -388,6 +398,7 @@ public class Rays {
                 }
 
                 testCoords[0]++;
+                testCoords[1] += 0.04;
 
                 if (testCoords[0] > sketch.width) {
                     sketch.print("NO EXIT FOUND");
@@ -406,6 +417,7 @@ public class Rays {
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] < exit[0]) {
                     testCoords[0]++;
+                    testCoords[1] += 0.04;
 
 
                     // CIRCLE OF INFLUENCE FOUND
@@ -433,10 +445,10 @@ public class Rays {
                     drawRay(startX, startY, angles[2], distance, sketch);
 
                     if (influenceY > atomPositions[j][1]) { // HITS BOTTOM HALF OF CIRCLE -> BOUNCES DOWN AND RIGHT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 1, sketch);
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 1, false, sketch);
                     }
                     else { // HITS TOP HALF OF CIRCLE -> BOUNCES UP AND RIGHT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 5, sketch);
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 5, false, sketch);
 
                     }
 
@@ -475,6 +487,7 @@ public class Rays {
                 }
 
                 testCoords[0]--;
+                testCoords[1] += 0.04;
 
                 if (testCoords[0] < 0) {
                     sketch.print("NO EXIT FOUND");
@@ -494,6 +507,7 @@ public class Rays {
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] > exit[0]) {
                     testCoords[0]--;
+                    testCoords[1] += 0.04;
 
 
                     // CIRCLE OF INFLUENCE FOUND
@@ -521,10 +535,10 @@ public class Rays {
                     drawRay(startX, startY, angles[3], distance, sketch);
 
                     if (influenceY > atomPositions[j][1]) { // HITS BOTTOM HALF OF CIRCLE -> BOUNCES DOWN AND LEFT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 2, sketch);
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 2, false, sketch);
                     }
                     else { // HITS TOP HALF OF CIRCLE -> BOUNCES UP AND LEFT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 6, sketch);
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 6, false, sketch);
                     }
 
 //                    break;
@@ -560,7 +574,7 @@ public class Rays {
                 }
 
                 testCoords[0]++;
-                testCoords[1] -= 1.66;
+                testCoords[1] -= 1.72;
 
                 if (testCoords[0] > sketch.width || testCoords[1] < 0) {
                     sketch.print("NO EXIT FOUND");
@@ -578,7 +592,7 @@ public class Rays {
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] < exit[0] && testCoords[1] > exit[1]) {
 
                     testCoords[0]++;
-                    testCoords[1] -= 1.66;
+                    testCoords[1] -= 1.72;
 
 //                    sketch.ellipse(testCoords[0], testCoords[1], 3, 3);
 
@@ -608,9 +622,9 @@ public class Rays {
                     drawRay(startX, startY, angles[4], distance, sketch);
 
                     if (influenceX > atomPositions[j][0]) { // HITS RIGHT SIDE OF CIRCLE -> BOUNCES RIGHT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 3, sketch);
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 3, false, sketch);
                     } else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES UP AND LEFT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 6, sketch);
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 6, false, sketch);
                     }
 
 //                    break;
@@ -645,7 +659,7 @@ public class Rays {
                 }
 
                 testCoords[0]--;
-                testCoords[1] -= 1.66;
+                testCoords[1] -= 1.72;
 
                 if (testCoords[0] > sketch.width || testCoords[1] < 0) {
                     sketch.print("NO EXIT FOUND");
@@ -660,7 +674,7 @@ public class Rays {
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] > exit[0] && testCoords[1] > exit[1]) {
                     testCoords[0]--;
-                    testCoords[1] -= 1.66;
+                    testCoords[1] -= 1.72;
 
 
                     // CIRCLE OF INFLUENCE FOUND
@@ -688,9 +702,9 @@ public class Rays {
                     drawRay(startX, startY, angles[5], distance, sketch);
 
                     if (influenceX > atomPositions[j][0]) { // HITS RIGHT SIDE OF CIRCLE -> BOUNCES LEFT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 5, sketch);
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 5, false, sketch);
                     } else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES UP AND RIGHT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 4, sketch);
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 4, false, sketch);
                     }
 
 //                    break;
@@ -699,6 +713,10 @@ public class Rays {
             }
             endOfLine = drawRay(startX, startY, angles[5], distance, sketch);
 
+        }
+
+        if (directHit) {
+            endOfLine = new float[] {-1, -1};
         }
         return endOfLine;
     }

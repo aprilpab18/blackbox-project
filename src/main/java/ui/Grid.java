@@ -32,7 +32,8 @@ public class Grid {
 
 //        // FOR TESTING - SHOW MIDDLES OF HEXAGONS
 //        parent.stroke(255, 255, 0);
-//        parent.ellipse(xPos, yPos, 5, 5);
+//        parent.ellipse(xPos, yPos, 5
+//        , 5);
 
     }
 
@@ -115,7 +116,7 @@ public class Grid {
         for (int i = 0; i < 6; i++) {
             parent.noFill();
             parent.stroke(255, 255, 255, 120);
-            parent.ellipse(atomPositions[i][0], atomPositions[i][1], 120, 120);
+            parent.ellipse(atomPositions[i][0], atomPositions[i][1], 118, 118);
         }
 
 //        if (PApplet.dist(parent.mouseX, parent.mouseY, atomPositions[0][0], atomPositions[0][1]) <= 60) {
