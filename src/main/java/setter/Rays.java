@@ -149,6 +149,36 @@ public class Rays {
 
 
 
+    public static int[] setExit(float startX, float startY, int xChange, int yChange, int[][] exits, PApplet sketch) {
+        int[] exit= new int[] {0, 0};
+        float[] testCoords = {startX, startY};
+
+        while (true) {
+            boolean exitSet = false;
+            for (int i = 0; i < exits.length; i++) {
+                if (sketch.dist(testCoords[0], testCoords[1], exits[i][0], exits[i][1]) < 15) {
+                    exit = new int[]{exits[i][0], exits[i][1]};
+
+                    exitSet = true;
+                    break;
+                }
+            }
+
+            if (exitSet) {
+                break;
+            }
+
+            testCoords[0] += (xChange / 2);
+            testCoords[1] += (yChange / 2);
+
+            if (testCoords[0] > sketch.width || testCoords[1] < 0) {
+                sketch.print("NO EXIT FOUND");
+                break;
+            }
+        }
+        return exit;
+    }
+
     public static float[] drawRay(float startX, float startY, float angle, float lineLength, PApplet sketch) {
         sketch.stroke(0, 255, 0); // Colour of rays
         sketch.strokeWeight(3);
@@ -166,12 +196,12 @@ public class Rays {
         float[] endOfLine = new float[] {0, 0};
 
         float[] angles = { // radians()
-                2 * sketch.PI * ((float) 58.8 /360), // Down and right
-                2 * sketch.PI * ((float) 120.8 /360), // Down and left
-                0F, // Right
-                sketch.PI, // Left
-                -2 * sketch.PI * ((float) 58.8 /360), // Up and right
-                -2 * sketch.PI * ((float) 120.8 /360) // Up and left
+                sketch.radians((float) 58.8), // Down and right
+                sketch.radians((float) 120.8), // Down and left
+                sketch.radians((float) 0), // Right
+                sketch.radians((float) 180), // Left
+                sketch.radians((float) 300.8), // Up and right
+                sketch.radians((float) 238.8), // Up and left
         };
 
         float angle = angles[direction - 1];
@@ -201,54 +231,24 @@ public class Rays {
 
         if (direction == 1) { // Down and right ---------------------------------------------------------------------------------------------------
 
-            float distance = 0;
-
             // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-            int[] exit = {0, 0};
-            float[] testCoords = {startX, startY};
+            int[] exit = setExit(startX, startY, 30, 50, downAndRightExits, sketch);
+            float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
-            while (true) { // sets distance to max value, finding exit opp from where you shot from
-                boolean exitSet = false;
-                for (int i = 0; i < downAndRightExits.length; i++) {
-                    if (sketch.dist(testCoords[0], testCoords[1], downAndRightExits[i][0], downAndRightExits[i][1]) < 15) {
-                        exit = new int[]{downAndRightExits[i][0], downAndRightExits[i][1]};
-                        distance = sketch.dist(startX, startY, exit[0], exit[1]);
-                        exitSet = true;
-                        break;
-                    }
-                }
-
-                if (exitSet) {
-                    break;
-                }
-
-                testCoords[0]++;
-                testCoords[1] += 1.68;
-
-                if (testCoords[0] > sketch.width || testCoords[1] > sketch.height) {
-                    sketch.print("NO EXIT FOUND");
-                    break;
-                }
-            }
-
-
-            // ^^ SET DISTANCE TO MAX POSSIBLE DISTANCE TO EXIT ^^
 
 
 
 
 
             for (int j = 0; j < numOfAtoms; j++) {
-                testCoords = new float[]{startX, startY};
-
-
+                float[] testCoords = {startX, startY};
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] < exit[0] && testCoords[1] < exit[1]) {
-                    testCoords[0]++;
-                    testCoords[1] += 1.68;
+                    testCoords[0] += 15;
+                    testCoords[1] += 25;
 
 
                     // CIRCLE OF INFLUENCE FOUND
-                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 59 && !circleOfInfluence) {
+                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 65 && !circleOfInfluence) {
                         circleOfInfluence = true;
                         influenceX = testCoords[0];
                         influenceY = testCoords[1];
@@ -279,8 +279,6 @@ public class Rays {
                     else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES DOWN AND LEFT
                         return drawRayWithBounces(atomPositions, influenceX, influenceY, 2, false, sketch);
                     }
-
-//                    break;
                 }
             }
 
@@ -293,52 +291,22 @@ public class Rays {
 
         else if (direction == 2) { // Down and left ---------------------------------------------------------------------------------------------------
 
-            float distance = 0;
-
             // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-            int[] exit = {0, 0};
-            float[] testCoords = {startX, startY};
-
-            while (true) {
-                boolean exitSet = false;
-                for (int i = 0; i < downAndLeftExits.length; i++) {
-                    if (sketch.dist(testCoords[0], testCoords[1], downAndLeftExits[i][0], downAndLeftExits[i][1]) < 15) {
-                        exit = new int[]{downAndLeftExits[i][0], downAndLeftExits[i][1]};
-                        distance = sketch.dist(startX, startY, exit[0], exit[1]);
-                        exitSet = true;
-                        break;
-                    }
-                }
-
-                if (exitSet) {
-                    break;
-                }
-
-                testCoords[0]--;
-                testCoords[1] += 1.68;
-
-                if (testCoords[0] < 0 || testCoords[1] > sketch.height) {
-                    sketch.print("NO EXIT FOUND");
-                    break;
-                }
-            }
-
-            // ^^ SET DISTANCE TO MAX POSSIBLE DISTANCE TO EXIT ^^
-
-
+            int[] exit = setExit(startX, startY, -30, 50, downAndLeftExits, sketch);
+            float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
 
             for (int j = 0; j < numOfAtoms; j++) {
-                testCoords = new float[]{startX, startY};
+                float[] testCoords = {startX, startY};
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] > exit[0] && testCoords[1] < exit[1]) {
-                    testCoords[0]--;
-                    testCoords[1] += 1.68;
+                    testCoords[0] -= 15;
+                    testCoords[1] += 25;
 
 
                     // CIRCLE OF INFLUENCE FOUND
-                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 59 && !circleOfInfluence && sketch.dist(testCoords[0], testCoords[1], startX, startY) > 10) {
+                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 65 && !circleOfInfluence && sketch.dist(testCoords[0], testCoords[1], startX, startY) > 10) {
                         circleOfInfluence = true;
                         influenceX = testCoords[0];
                         influenceY = testCoords[1];
@@ -366,8 +334,6 @@ public class Rays {
                     } else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES LEFT
                         return drawRayWithBounces(atomPositions, influenceX, influenceY, 4, false, sketch);
                     }
-
-//                    break;
                 }
             }
             endOfLine = drawRay(startX, startY, angles[1], distance, sketch);
@@ -376,52 +342,22 @@ public class Rays {
 
         else if (direction == 3) { // Right ---------------------------------------------------------------------------------------------------
 
-            float distance = 0;
-
             // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-            int[] exit = {0, 0};
-            float[] testCoords = {startX, startY};
-
-            while (true) {
-                boolean exitSet = false;
-                for (int i = 0; i < rightExits.length; i++) {
-                    if (sketch.dist(testCoords[0], testCoords[1], rightExits[i][0], rightExits[i][1]) < 15) {
-                        exit = new int[]{rightExits[i][0], rightExits[i][1]};
-                        distance = sketch.dist(startX, startY, exit[0], exit[1]);
-                        exitSet = true;
-                        break;
-                    }
-                }
-
-                if (exitSet) {
-                    break;
-                }
-
-                testCoords[0]++;
-//                testCoords[1] += 0.02;
-
-                if (testCoords[0] > sketch.width) {
-                    sketch.print("NO EXIT FOUND");
-                    break;
-                }
-            }
-
-            // ^^ SET DISTANCE TO MAX POSSIBLE DISTANCE TO EXIT ^^
-
+            int[] exit = setExit(startX, startY, 60, 0, rightExits, sketch);
+            float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
 
             for (int j = 0; j < numOfAtoms; j++) {
-                testCoords = new float[]{startX, startY};
+                float[] testCoords = {startX, startY};
 
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] < exit[0]) {
-                    testCoords[0]++;
-//                    testCoords[1] += 0.02;
+                    testCoords[0] += 30;
 
 
                     // CIRCLE OF INFLUENCE FOUND
-                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 59 && !circleOfInfluence) {
+                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 65 && !circleOfInfluence) {
                         circleOfInfluence = true;
                         influenceX = testCoords[0];
                         influenceY = testCoords[1];
@@ -451,9 +387,6 @@ public class Rays {
                         return drawRayWithBounces(atomPositions, influenceX, influenceY, 5, false, sketch);
 
                     }
-
-//                        break;
-
                 }
             }
 
@@ -465,53 +398,21 @@ public class Rays {
         else if (direction == 4) { // Left ---------------------------------------------------------------------------------------------------
 
 
-            float distance = 0;
-
             // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-            int[] exit = {0, 0};
-            float[] testCoords = {startX, startY};
-
-            while (true) {
-                boolean exitSet = false;
-                for (int i = 0; i < leftExits.length; i++) {
-                    if (sketch.dist(testCoords[0], testCoords[1], leftExits[i][0], leftExits[i][1]) < 15) {
-                        exit = new int[]{leftExits[i][0], leftExits[i][1]};
-                        distance = sketch.dist(startX, startY, exit[0], exit[1]);
-                        exitSet = true;
-                        break;
-                    }
-                }
-
-                if (exitSet) {
-                    break;
-                }
-
-                testCoords[0]--;
-//                testCoords[1] += 0.02;
-
-                if (testCoords[0] < 0) {
-                    sketch.print("NO EXIT FOUND");
-                    break;
-                }
-            }
-
-
-            // ^^ SET DISTANCE TO MAX POSSIBLE DISTANCE TO EXIT ^^
-
+            int[] exit = setExit(startX, startY, -60, 0, leftExits, sketch);
+            float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
 
             for (int j = numOfAtoms-1; j >= 0; j--) {
-                testCoords = new float[]{startX, startY};
+                float[] testCoords = {startX, startY};
 
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] > exit[0]) {
-                    testCoords[0]--;
-//                    testCoords[1] += 0.02;
-
+                    testCoords[0] -= 30;
 
                     // CIRCLE OF INFLUENCE FOUND
-                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 59 && !circleOfInfluence) {
+                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 65 && !circleOfInfluence) {
                         circleOfInfluence = true;
                         influenceX = testCoords[0];
                         influenceY = testCoords[1];
@@ -540,9 +441,6 @@ public class Rays {
                     else { // HITS TOP HALF OF CIRCLE -> BOUNCES UP AND LEFT
                         return drawRayWithBounces(atomPositions, influenceX, influenceY, 6, false, sketch);
                     }
-
-//                    break;
-
                 }
             }
 
@@ -552,53 +450,25 @@ public class Rays {
 
 
         else if (direction == 5) { // Up and right ---------------------------------------------------------------------------------------------------
-            float distance = 0;
+
 
             // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-            int[] exit = {0, 0};
-            float[] testCoords = {startX, startY};
-
-            while (true) {
-                boolean exitSet = false;
-                for (int i = 0; i < upAndRightExits.length; i++) {
-                    if (sketch.dist(testCoords[0], testCoords[1], upAndRightExits[i][0], upAndRightExits[i][1]) < 15) {
-                        exit = new int[]{upAndRightExits[i][0], upAndRightExits[i][1]};
-                        distance = sketch.dist(startX, startY, exit[0], exit[1]);
-                        exitSet = true;
-                        break;
-                    }
-                }
-
-                if (exitSet) {
-                    break;
-                }
-
-                testCoords[0]++;
-                testCoords[1] -= 1.68;
-
-                if (testCoords[0] > sketch.width || testCoords[1] < 0) {
-                    sketch.print("NO EXIT FOUND");
-                    break;
-                }
-            }
-
-            // ^^ SET DISTANCE TO MAX POSSIBLE DISTANCE TO EXIT ^^
+            int[] exit = setExit(startX, startY, 30, -50, upAndRightExits, sketch);
+            float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
 
             for (int j = numOfAtoms - 1; j >= 0; j--) {
-                testCoords = new float[]{startX, startY};
+                float[] testCoords = {startX, startY};
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] < exit[0] && testCoords[1] > exit[1]) {
 
-                    testCoords[0]++;
-                    testCoords[1] -= 1.68;
-
-//                    sketch.ellipse(testCoords[0], testCoords[1], 3, 3);
+                    testCoords[0] += 15;
+                    testCoords[1] -= 25;
 
 
                     // CIRCLE OF INFLUENCE FOUND
-                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 59 && !circleOfInfluence) {
+                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 65 && !circleOfInfluence) {
                         circleOfInfluence = true;
                         influenceX = testCoords[0];
                         influenceY = testCoords[1];
@@ -626,8 +496,6 @@ public class Rays {
                     } else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES UP AND LEFT
                         return drawRayWithBounces(atomPositions, influenceX, influenceY, 6, false, sketch);
                     }
-
-//                    break;
                 }
             }
             endOfLine = drawRay(startX, startY, angles[4], distance, sketch);
@@ -637,48 +505,21 @@ public class Rays {
 
         else if (direction == 6) { // Up and left ---------------------------------------------------------------------------------------------------
 
-            float distance = 0;
-
             // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-            int[] exit = {0, 0};
-            float[] testCoords = {startX, startY};
+            int[] exit = setExit(startX, startY, -30, -50, upAndLeftExits, sketch);
+            float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
-            while (true) {
-                boolean exitSet = false;
-                for (int i = 0; i < upAndLeftExits.length; i++) {
-                    if (sketch.dist(testCoords[0], testCoords[1], upAndLeftExits[i][0], upAndLeftExits[i][1]) < 15) {
-                        exit = new int[]{upAndLeftExits[i][0], upAndLeftExits[i][1]};
-                        distance = sketch.dist(startX, startY, exit[0], exit[1]);
-                        exitSet = true;
-                        break;
-                    }
-                }
-
-                if (exitSet) {
-                    break;
-                }
-
-                testCoords[0]--;
-                testCoords[1] -= 1.68;
-
-                if (testCoords[0] > sketch.width || testCoords[1] < 0) {
-                    sketch.print("NO EXIT FOUND");
-                    break;
-                }
-            }
-
-            // ^^ SET DISTANCE TO MAX POSSIBLE DISTANCE TO EXIT ^^
 
             for (int j = numOfAtoms - 1; j >= 0; j--) {
-                testCoords = new float[]{startX, startY};
+                float[] testCoords = {startX, startY};
 
                 while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] > exit[0] && testCoords[1] > exit[1]) {
-                    testCoords[0]--;
-                    testCoords[1] -= 1.68;
+                    testCoords[0] -= 15;
+                    testCoords[1] -= 25;
 
 
                     // CIRCLE OF INFLUENCE FOUND
-                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 59 && !circleOfInfluence) {
+                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 65 && !circleOfInfluence) {
                         circleOfInfluence = true;
                         influenceX = testCoords[0];
                         influenceY = testCoords[1];
@@ -706,10 +547,7 @@ public class Rays {
                     } else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES UP AND RIGHT
                         return drawRayWithBounces(atomPositions, influenceX, influenceY, 4, false, sketch);
                     }
-
-//                    break;
                 }
-
             }
             endOfLine = drawRay(startX, startY, angles[5], distance, sketch);
 
@@ -720,6 +558,11 @@ public class Rays {
         }
         return endOfLine;
     }
+
+
+
+
+
 
 
 

@@ -48,10 +48,12 @@ public class Main extends PApplet {
         while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
             atomBoxNumbers = computer.generateAtoms(numOfAtoms);
         }
+//        atomBoxNumbers = new int[] {32, 13, 14, 45, 47, 28};
+//        Arrays.sort(atomBoxNumbers);
 
-        for (int i = 0; i < numOfAtoms; i++) {
-            System.out.println(atomBoxNumbers[i]);
-        }
+//        for (int i = 0; i < numOfAtoms; i++) {
+//            System.out.println(atomBoxNumbers[i]);
+//        }
 
     }
 
@@ -137,6 +139,7 @@ public class Main extends PApplet {
 
             // RAY MARKERS
             RayMarkers.drawRayMarkerKey(750,50);
+//            System.out.println("1 = " + grid.hexagonCentreCoordinates[0][0] + "\n6 = " + grid.hexagonCentreCoordinates[5][0]);
 
         }
 

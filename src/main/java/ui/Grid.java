@@ -34,9 +34,8 @@ public class Grid {
 
 
 //        // FOR TESTING - SHOW MIDDLES OF HEXAGONS
-//        parent.stroke(255, 255, 0);
-//        parent.ellipse(xPos, yPos, 5
-//        , 5);
+        parent.stroke(255, 255, 0);
+        parent.ellipse(xPos, yPos, 1, 1);
 
     }
 
@@ -74,7 +73,7 @@ public class Grid {
                 // PRINT BOX NUMBERS
 //                parent.textSize(15);
 //                parent.fill(255);
-//                parent.text(boxNumber, xPos + ((sideLength*2)*j) - (sideLength*i), yPos + ((sideLength + (sideLength/2))*i));
+//                parent.text(boxNumber, hexagonCentreCoordinates[boxNumber][0], hexagonCentreCoordinates[boxNumber][1]);
                 boxNumber++;
             }
         }
@@ -100,7 +99,7 @@ public class Grid {
 
                 // PRINT BOX NUMBERS
 //                parent.fill(255);
-//                parent.text(boxNumber, xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2)) + ((sideLength + (sideLength/2))*i));
+//                parent.text(boxNumber, hexagonCentreCoordinates[boxNumber][0], hexagonCentreCoordinates[boxNumber][1]);
                 boxNumber++;
             }
         }
