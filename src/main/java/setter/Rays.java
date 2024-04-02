@@ -226,7 +226,6 @@ public class Rays {
         }
 
 
-
         // vvv CHECKS FOR EACH DIRECTION vvv
 
         if (direction == 1) { // Down and right ---------------------------------------------------------------------------------------------------
@@ -239,12 +238,16 @@ public class Rays {
 
 
 
-
             for (int j = 0; j < numOfAtoms; j++) {
                 float[] testCoords = {startX, startY};
-                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] < exit[0] && testCoords[1] < exit[1]) {
-                    testCoords[0] += 15;
-                    testCoords[1] += 25;
+                if (firstRay) {
+                    testCoords[0] -= 15;
+                    testCoords[1] -= 25;
+                }
+
+                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && (testCoords[0] + 30) < exit[0] && (testCoords[1] + 50) < exit[1]) {
+                    testCoords[0] += 30;
+                    testCoords[1] += 50;
 
 
                     // CIRCLE OF INFLUENCE FOUND
@@ -299,10 +302,14 @@ public class Rays {
 
             for (int j = 0; j < numOfAtoms; j++) {
                 float[] testCoords = {startX, startY};
+                if (firstRay) {
+                    testCoords[0] += 15;
+                    testCoords[1] -= 25;
+                }
 
-                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] > exit[0] && testCoords[1] < exit[1]) {
-                    testCoords[0] -= 15;
-                    testCoords[1] += 25;
+                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && (testCoords[0] - 30) > exit[0] && (testCoords[1] + 50) < exit[1]) {
+                    testCoords[0] -= 30;
+                    testCoords[1] += 50;
 
 
                     // CIRCLE OF INFLUENCE FOUND
@@ -350,10 +357,12 @@ public class Rays {
 
             for (int j = 0; j < numOfAtoms; j++) {
                 float[] testCoords = {startX, startY};
+                if (firstRay) {
+                    testCoords[0] -= 30;
+                }
 
-
-                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] < exit[0]) {
-                    testCoords[0] += 30;
+                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && (testCoords[0] + 60) < exit[0]) {
+                    testCoords[0] += 60;
 
 
                     // CIRCLE OF INFLUENCE FOUND
@@ -406,10 +415,13 @@ public class Rays {
 
             for (int j = numOfAtoms-1; j >= 0; j--) {
                 float[] testCoords = {startX, startY};
+                if (firstRay) {
+                    testCoords[0] += 30;
+                }
 
+                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && (testCoords[0] - 60) > exit[0]) {
+                    testCoords[0] -= 60;
 
-                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] > exit[0]) {
-                    testCoords[0] -= 30;
 
                     // CIRCLE OF INFLUENCE FOUND
                     if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 65 && !circleOfInfluence) {
@@ -460,11 +472,16 @@ public class Rays {
 
             for (int j = numOfAtoms - 1; j >= 0; j--) {
                 float[] testCoords = {startX, startY};
+                if (firstRay) {
+                    testCoords[0] -= 15;
+                    testCoords[1] += 25;
+                }
 
-                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] < exit[0] && testCoords[1] > exit[1]) {
 
-                    testCoords[0] += 15;
-                    testCoords[1] -= 25;
+                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && (testCoords[0] + 30) < exit[0] && (testCoords[1] - 50) > exit[1]) {
+
+                    testCoords[0] += 30;
+                    testCoords[1] -= 50;
 
 
                     // CIRCLE OF INFLUENCE FOUND
@@ -512,10 +529,14 @@ public class Rays {
 
             for (int j = numOfAtoms - 1; j >= 0; j--) {
                 float[] testCoords = {startX, startY};
+                if (firstRay) {
+                    testCoords[0] += 15;
+                    testCoords[1] += 25;
+                }
 
-                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && testCoords[0] > exit[0] && testCoords[1] > exit[1]) {
-                    testCoords[0] -= 15;
-                    testCoords[1] -= 25;
+                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && (testCoords[0] - 30) > exit[0] && (testCoords[1] - 50) > exit[1]) {
+                    testCoords[0] -= 30;
+                    testCoords[1] -= 50;
 
 
                     // CIRCLE OF INFLUENCE FOUND
