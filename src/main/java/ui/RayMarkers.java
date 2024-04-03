@@ -76,9 +76,9 @@ public class RayMarkers {
     // METHODS TO DRAW DIFFERENT MARKERS
 
     // No Atom => RED, DONE!
-    public static void drawNoAtom(int index) {
-        // User Inputted Marker
-        drawMarker(255, 0, 0, index);
+//    public static void drawNoAtom(int index) {
+//        // User Inputted Marker
+//        drawMarker(255, 0, 0, index);
 
 //        // FIND OPPOSITE MARKER
 //        int length = MarkerCoords.straightOppMarkers.length;
@@ -91,7 +91,7 @@ public class RayMarkers {
 //                drawMarker(255, 0, 0, MarkerCoords.straightOppMarkers[i][0] - 1);
 //            }
 //        }
-    }
+//    }
 
     // Absorbed => GREEN, one co-ord, DONE!
     public static void drawAbsorbed(int index){
@@ -102,10 +102,9 @@ public class RayMarkers {
     // Deflected => Different Colours
     public static void drawDeflected(int index){
         drawMarker(0,0,255, index);
-        drawMarker(0,0,255, index);
 
-        /* TODO
-         * Implement opposite marker from calculations  */
+        // TODO
+        // Find exit coordinate
     }
 
     // Reflected 180 => PURPLE, DONE
@@ -120,7 +119,7 @@ public class RayMarkers {
         parent.fill(0);
 
         // Draw the rectangle
-        parent.rect(x, y, 250, 230, 12, 12, 12, 12);
+        parent.rect(x, y, 250, 215, 12, 12, 12, 12);
 
         // Text
         drawDetails();
@@ -132,15 +131,14 @@ public class RayMarkers {
 
         // Key
         drawKey(255,0,0,775,105); // Red
-        drawText(17,"No Atom Found", 800, 115);
-        drawKey(0,255,0,775,140); // Green
-        drawText(17,"Ray Absorbed", 800, 150);
-        drawKey(138,43,226,775,175); // Purple
-        drawText(17,"Ray Reflected 180 \u00B0", 800, 185);
-        drawKey(0,0,255,775,210); // Blue
-        drawText(17,"Ray Deflected", 800, 220);
-        drawText(15, "(Changes colour for each set", 800, 240);
-        drawText(15, "of deflected ray start and end)", 800, 260);
+        drawText(17,"Ray Absorbed", 800, 115);
+        drawKey(138,43,226,775,140); // Green
+        drawText(17, "Ray Reflected 180 \u00B0", 800, 150);
+        drawKey(0,0,255,775,175); // Blue
+        drawText(17,"Ray Deflected or", 800, 185);
+        drawText(17,"No Atom Found", 800, 205);
+        drawText(15, "(Changes colour for each set", 800, 230);
+        drawText(15, "of deflected ray start and end)", 800, 250);
 
 
     }

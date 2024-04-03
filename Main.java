@@ -89,7 +89,7 @@ public class Main extends PApplet {
 
 
             // Draw grid
-            grid.drawImage(selectedNumber); // ADD BACK AFTER TESTING
+            grid.drawImage(selectedNumber);
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
 
             // Draw rays
@@ -97,8 +97,8 @@ public class Main extends PApplet {
                 int rayNumInList = shots[i] - 1;
 
                 int direction = rays.rayPositions[rayNumInList][4];
-                rayExitCoordinates[i] = rays.drawRayWithBounces(atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
-                RayMarkers.drawAbsorbed(rayNumInList);
+                rayExitCoordinates[i] = rays.drawRayWithBounces(rayNumInList, atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
+//                RayMarkers.drawAbsorbed(rayNumInList);
                 fill(155, 0, 255);
                 ellipse(rayExitCoordinates[i][0], rayExitCoordinates[i][1], 10, 10);
 
