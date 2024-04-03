@@ -34,8 +34,8 @@ public class Grid {
 
 
 //        // FOR TESTING - SHOW MIDDLES OF HEXAGONS
-        parent.stroke(255, 255, 0);
-        parent.ellipse(xPos, yPos, 1, 1);
+//        parent.stroke(255, 255, 0);
+//        parent.ellipse(xPos, yPos, 1, 1);
 
     }
 

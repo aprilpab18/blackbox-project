@@ -48,7 +48,7 @@ public class Main extends PApplet {
         while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
             atomBoxNumbers = computer.generateAtoms(numOfAtoms);
         }
-//        atomBoxNumbers = new int[] {32, 13, 14, 45, 47, 28};
+//        atomBoxNumbers = new int[] {1, 2, 3, 38, 46, 54};
 //        Arrays.sort(atomBoxNumbers);
 
 //        for (int i = 0; i < numOfAtoms; i++) {
@@ -92,7 +92,6 @@ public class Main extends PApplet {
             grid.drawImage(selectedNumber); // ADD BACK AFTER TESTING
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
 
-
             // Draw rays
             for (int i = 0; i < numOfRays; i++) {
                 int rayNumInList = shots[i] - 1;
@@ -100,6 +99,8 @@ public class Main extends PApplet {
                 int direction = rays.rayPositions[rayNumInList][4];
                 rayExitCoordinates[i] = rays.drawRayWithBounces(atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
                 RayMarkers.drawAbsorbed(rayNumInList);
+                fill(155, 0, 255);
+                ellipse(rayExitCoordinates[i][0], rayExitCoordinates[i][1], 10, 10);
 
             }
 

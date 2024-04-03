@@ -179,6 +179,10 @@ public class Rays {
         return exit;
     }
 
+    // SET ATOMS HIT FUNCTION ------------------------------
+    // CHECK FOR REFLECT FUNCTION --------------------------
+
+
     public static float[] drawRay(float startX, float startY, float angle, float lineLength, PApplet sketch) {
         sketch.stroke(0, 255, 0); // Colour of rays
         sketch.strokeWeight(3);
@@ -234,53 +238,88 @@ public class Rays {
             int[] exit = setExit(startX, startY, 30, 50, downAndRightExits, sketch);
             float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
+            float[] testCoords = {startX, startY};
+            if (firstRay) {
+                testCoords[0] -= 15;
+                testCoords[1] -= 25;
+            }
+
+            int numOfCirclesOfInfluence = 0;
+
+            while ((testCoords[0] + 30) < exit[0] && (testCoords[1] + 50) < exit[1] && numOfCirclesOfInfluence == 0) {
+                testCoords[0] += 30;
+                testCoords[1] += 50;
 
 
-
-
-            for (int j = 0; j < numOfAtoms; j++) {
-                float[] testCoords = {startX, startY};
-                if (firstRay) {
-                    testCoords[0] -= 15;
-                    testCoords[1] -= 25;
-                }
-
-                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && (testCoords[0] + 30) < exit[0] && (testCoords[1] + 50) < exit[1]) {
-                    testCoords[0] += 30;
-                    testCoords[1] += 50;
-
-
-                    // CIRCLE OF INFLUENCE FOUND
-                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 65 && !circleOfInfluence) {
-                        circleOfInfluence = true;
+                int[] atomsHit = new int[6];
+                for (int i = 0; i < numOfAtoms; i++) {
+                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[i][0], atomPositions[i][1]) <= 65) {
+                        atomsHit[numOfCirclesOfInfluence] = i;
+                        numOfCirclesOfInfluence++;
                         influenceX = testCoords[0];
                         influenceY = testCoords[1];
                     }
                 }
 
+                if (numOfCirclesOfInfluence == 1) {
+                    // CHECK FOR DIRECT HIT
+                    for (int i = 0; i < numOfAtoms; i++) {
+                        if (sketch.dist(testCoords[0]+30, testCoords[1]+50, atomPositions[i][0], atomPositions[i][1]) < 5) {
+                            directHit = true;
+                            distance = sketch.dist(atomPositions[i][0], atomPositions[i][1], startX, startY);
+                            break;
+                        }
+                    }
 
-                // DIRECT HIT
-                if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 15) {
-                    distance = sketch.dist(startX, startY, atomPositions[j][0], atomPositions[j][1]);
-                    directHit = true;
-                    break;
-                }
+                    // ELSE BOUNCE
+                    if (!directHit) {
+                        distance = sketch.dist(influenceX, influenceY, startX, startY);
+                        drawRay(startX, startY, angles[0], distance, sketch);
 
-                // CIRCLE OF INFLUENCE AND NOT DIRECT HIT
-                if (circleOfInfluence) {
-                    distance = sketch.dist(influenceX, influenceY, startX, startY);
-
-
-//                    float newAngle = angle;
-
-                    drawRay(startX, startY, angles[0], distance, sketch);
-
-                    if (influenceX > atomPositions[j][0]) { // HITS RIGHT SIDE OF CIRCLE -> BOUNCES RIGHT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 3, false, sketch);
+                        if (influenceX > atomPositions[atomsHit[0]][0]) { // HITS RIGHT SIDE OF CIRCLE -> BOUNCES RIGHT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 3, false, sketch);
+                        }
+                        else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES DOWN AND LEFT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 2, false, sketch);
+                        }
 
                     }
-                    else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES DOWN AND LEFT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 2, false, sketch);
+                }
+                else if (numOfCirclesOfInfluence > 1) {
+                    // DEAL WITH MULTIPLE CIRCLES !!!
+                    System.out.println("MULTIPLE CIRCLES OF INFLUENCE");
+                    distance = sketch.dist(influenceX, influenceY, startX, startY);
+                    drawRay(startX, startY, angles[0], distance, sketch);
+
+
+                    boolean reflect = false;
+                    // ONE ABOVE THE OTHER -> REFLECT
+                    // BESIDE EACH OTHER -> BOUNCE
+
+
+                    int y = atomPositions[atomsHit[0]][1];
+                    for (int i = 1; i < numOfCirclesOfInfluence; i++) {
+                        if (y != atomPositions[atomsHit[i]][1]) {
+                            reflect = true;
+                            break;
+                        }
+                    }
+
+
+
+
+                    if (reflect) { // ONE ABOVE THE OTHER
+                        if (sketch.dist(atomPositions[atomsHit[0]][0], atomPositions[atomsHit[0]][1], atomPositions[atomsHit[1]][0], atomPositions[atomsHit[1]][1]) <= 60) {
+                            // BOUNCE LEFT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 4, false, sketch);
+                        }
+                        else {
+                            // REFLECT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 6, false, sketch);
+                        }
+                    }
+                    else { // BESIDE
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 5, false, sketch);
                     }
                 }
             }
@@ -299,50 +338,85 @@ public class Rays {
             float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
+            float[] testCoords = {startX, startY};
+            if (firstRay) {
+                testCoords[0] += 15;
+                testCoords[1] -= 25;
+            }
 
-            for (int j = 0; j < numOfAtoms; j++) {
-                float[] testCoords = {startX, startY};
-                if (firstRay) {
-                    testCoords[0] += 15;
-                    testCoords[1] -= 25;
-                }
+            int numOfCirclesOfInfluence = 0;
 
-                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && (testCoords[0] - 30) > exit[0] && (testCoords[1] + 50) < exit[1]) {
+
+
+                while ((testCoords[0] - 30) > exit[0] && (testCoords[1] + 50) < exit[1] && numOfCirclesOfInfluence == 0) {
                     testCoords[0] -= 30;
                     testCoords[1] += 50;
 
 
-                    // CIRCLE OF INFLUENCE FOUND
-                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 65 && !circleOfInfluence && sketch.dist(testCoords[0], testCoords[1], startX, startY) > 10) {
-                        circleOfInfluence = true;
-                        influenceX = testCoords[0];
-                        influenceY = testCoords[1];
+                    int[] atomsHit = new int[6];
+                    for (int i = 0; i < numOfAtoms; i++) {
+                        if (sketch.dist(testCoords[0], testCoords[1], atomPositions[i][0], atomPositions[i][1]) <= 65) {
+                            atomsHit[numOfCirclesOfInfluence] = i;
+                            numOfCirclesOfInfluence++;
+                            influenceX = testCoords[0];
+                            influenceY = testCoords[1];
+                        }
+                    }
+
+                    if (numOfCirclesOfInfluence == 1) {
+                        // CHECK FOR DIRECT HIT
+                        for (int i = 0; i < numOfAtoms; i++) {
+                            if (sketch.dist(testCoords[0] - 30, testCoords[1] + 50, atomPositions[i][0], atomPositions[i][1]) < 5) {
+                                directHit = true;
+                                distance = sketch.dist(atomPositions[i][0], atomPositions[i][1], startX, startY);
+                                break;
+                            }
+                        }
+
+                        // ELSE BOUNCE
+                        if (!directHit) {
+                            distance = sketch.dist(influenceX, influenceY, startX, startY);
+                            drawRay(startX, startY, angles[1], distance, sketch);
+
+                            if (influenceX > atomPositions[atomsHit[0]][0]) { // HITS RIGHT SIDE OF CIRCLE -> BOUNCES DOWN AND RIGHT
+                                return drawRayWithBounces(atomPositions, influenceX, influenceY, 1, false, sketch);
+                            } else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES LEFT
+                                return drawRayWithBounces(atomPositions, influenceX, influenceY, 4, false, sketch);
+                            }
+                        }
+                    } else if (numOfCirclesOfInfluence > 1) {
+                        // DEAL WITH MULTIPLE CIRCLES !!!
+                        System.out.println("MULTIPLE CIRCLES OF INFLUENCE");
+                        distance = sketch.dist(influenceX, influenceY, startX, startY);
+                        drawRay(startX, startY, angles[1], distance, sketch);
+
+                        boolean reflect = false;
+                        // ONE ABOVE THE OTHER -> REFLECT
+                        // BESIDE EACH OTHER -> BOUNCE
+
+
+                        int y = atomPositions[atomsHit[0]][1];
+                        for (int i = 1; i < numOfCirclesOfInfluence; i++) {
+                            if (y != atomPositions[atomsHit[i]][1]) {
+                                reflect = true;
+                                break;
+                            }
+                        }
+
+                        if (reflect) { // ONE ABOVE THE OTHER
+                            if (sketch.dist(atomPositions[atomsHit[0]][0], atomPositions[atomsHit[0]][1], atomPositions[atomsHit[1]][0], atomPositions[atomsHit[1]][1]) <= 60) {
+                                // BOUNCE RIGHT
+                                return drawRayWithBounces(atomPositions, influenceX, influenceY, 3, false, sketch);
+                            }
+                            else {
+                                // REFLECT
+                                return drawRayWithBounces(atomPositions, influenceX, influenceY, 5, false, sketch);
+                            }
+                        } else { // BESIDE
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 6, false, sketch);
+                        }
                     }
                 }
-
-
-                // DIRECT HIT
-                if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 15) {
-                    distance = sketch.dist(startX, startY, atomPositions[j][0], atomPositions[j][1]);
-                    directHit = true;
-                    break;
-                }
-
-                // CIRCLE OF INFLUENCE AND NOT DIRECT HIT
-                if (circleOfInfluence) {
-                    distance = sketch.dist(influenceX, influenceY, startX, startY);
-
-                    float newAngle = angle;
-
-                    drawRay(startX, startY, angles[1], distance, sketch);
-
-                    if (influenceX > atomPositions[j][0]) { // HITS RIGHT SIDE OF CIRCLE -> BOUNCES DOWN AND RIGHT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 1, false, sketch);
-                    } else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES LEFT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 4, false, sketch);
-                    }
-                }
-            }
             endOfLine = drawRay(startX, startY, angles[1], distance, sketch);
         }
 
@@ -354,47 +428,83 @@ public class Rays {
             float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
+            float[] testCoords = {startX, startY};
+            if (firstRay) {
+                testCoords[0] -= 30;
+            }
 
-            for (int j = 0; j < numOfAtoms; j++) {
-                float[] testCoords = {startX, startY};
-                if (firstRay) {
-                    testCoords[0] -= 30;
-                }
+            int numOfCirclesOfInfluence = 0;
 
-                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && (testCoords[0] + 60) < exit[0]) {
-                    testCoords[0] += 60;
+            while ((testCoords[0] + 60) < exit[0] && numOfCirclesOfInfluence == 0) {
+                testCoords[0] += 60;
 
-
-                    // CIRCLE OF INFLUENCE FOUND
-                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 65 && !circleOfInfluence) {
-                        circleOfInfluence = true;
+                int[] atomsHit = new int[6];
+                for (int i = 0; i < numOfAtoms; i++) {
+                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[i][0], atomPositions[i][1]) <= 65) {
+                        atomsHit[numOfCirclesOfInfluence] = i;
+                        numOfCirclesOfInfluence++;
                         influenceX = testCoords[0];
                         influenceY = testCoords[1];
                     }
                 }
 
+                if (numOfCirclesOfInfluence == 1) {
+                    // CHECK FOR DIRECT HIT
+                    for (int i = 0; i < numOfAtoms; i++) {
+                        if (sketch.dist(testCoords[0] + 60, testCoords[1], atomPositions[i][0], atomPositions[i][1]) < 5) {
+                            directHit = true;
+                            distance = sketch.dist(atomPositions[i][0], atomPositions[i][1], startX, startY);
+                            break;
+                        }
+                    }
 
-                // DIRECT HIT
-                if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 15) {
-                    distance = sketch.dist(startX, startY, atomPositions[j][0], atomPositions[j][1]);
-                    directHit = true;
-                    break;
-                }
+                    // ELSE BOUNCE
+                    if (!directHit) {
+                        distance = sketch.dist(influenceX, influenceY, startX, startY);
+                        drawRay(startX, startY, angles[2], distance, sketch);
 
-                // CIRCLE OF INFLUENCE AND NOT DIRECT HIT
-                if (circleOfInfluence && sketch.dist(influenceX, influenceY, startX, startY) > 5) {
+                        if (influenceY > atomPositions[atomsHit[0]][1]) { // HITS BOTTOM HALF OF CIRCLE -> BOUNCES DOWN AND RIGHT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 1, false, sketch);
+                        } else { // HITS TOP HALF OF CIRCLE -> BOUNCES UP AND RIGHT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 5, false, sketch);
+                        }
+                    }
+                } else if (numOfCirclesOfInfluence > 1) {
+                    // DEAL WITH MULTIPLE CIRCLES !!!
+                    System.out.println("MULTIPLE CIRCLES OF INFLUENCE");
                     distance = sketch.dist(influenceX, influenceY, startX, startY);
-
-                    float newAngle = angle;
-
                     drawRay(startX, startY, angles[2], distance, sketch);
 
-                    if (influenceY > atomPositions[j][1]) { // HITS BOTTOM HALF OF CIRCLE -> BOUNCES DOWN AND RIGHT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 1, false, sketch);
-                    }
-                    else { // HITS TOP HALF OF CIRCLE -> BOUNCES UP AND RIGHT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 5, false, sketch);
 
+                    boolean reflect = false;
+                    // VERTICALLY ALIGNED -> REFLECT
+                    // ONE IN FRONT OF OTHER -> BOUNCE (2 OPTIONS)
+
+
+                    // CHECK IF 2 OF THE ATOMS ARE VERTICALLY ALIGNED
+                    for (int i = 0; i < numOfCirclesOfInfluence; i++) {
+                        for (int j = i + 1; j < numOfCirclesOfInfluence; j++) {
+                            if (atomPositions[atomsHit[i]][0] == atomPositions[atomsHit[j]][0]) {
+                                reflect = true;
+                                System.out.println("REFLECT");
+                                break;
+                            }
+                        }
+                    }
+
+
+                    if (reflect) { // ONE ABOVE THE OTHER
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 4, false, sketch);
+                    }
+                    else { // BESIDE - CAN ONLY BE 2 CIRCLES OF INFLUENCE
+
+                        // Atom positions sorted -> First circle of influence found will be higher up
+                        if (atomPositions[atomsHit[0]][0] > atomPositions[atomsHit[1]][0]) { // Top further right than bottom -> Up and left
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 6, false, sketch);
+                        }
+                        else { // Top further left than bottom -> Down and left
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 2, false, sketch);
+                        }
                     }
                 }
             }
@@ -412,52 +522,89 @@ public class Rays {
             float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
+            float[] testCoords = {startX, startY};
+            if (firstRay) {
+                testCoords[0] += 30;
+            }
 
-            for (int j = numOfAtoms-1; j >= 0; j--) {
-                float[] testCoords = {startX, startY};
-                if (firstRay) {
-                    testCoords[0] += 30;
-                }
+            int numOfCirclesOfInfluence = 0;
 
-                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && (testCoords[0] - 60) > exit[0]) {
-                    testCoords[0] -= 60;
+            while ((testCoords[0] - 60) > exit[0] && numOfCirclesOfInfluence == 0) {
+                testCoords[0] -= 60;
 
-
-                    // CIRCLE OF INFLUENCE FOUND
-                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 65 && !circleOfInfluence) {
-                        circleOfInfluence = true;
+                int[] atomsHit = new int[6];
+                for (int i = 0; i < numOfAtoms; i++) {
+                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[i][0], atomPositions[i][1]) <= 65) {
+                        atomsHit[numOfCirclesOfInfluence] = i;
+                        numOfCirclesOfInfluence++;
                         influenceX = testCoords[0];
                         influenceY = testCoords[1];
                     }
                 }
 
 
-                // DIRECT HIT
-                if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 15) {
-                    distance = sketch.dist(startX, startY, atomPositions[j][0], atomPositions[j][1]);
-                    directHit = true;
-                    break;
+                if (numOfCirclesOfInfluence == 1) {
+                    // CHECK FOR DIRECT HIT
+                    for (int i = 0; i < numOfAtoms; i++) {
+                        if (sketch.dist(testCoords[0] - 60, testCoords[1], atomPositions[i][0], atomPositions[i][1]) < 5) {
+                            directHit = true;
+                            distance = sketch.dist(atomPositions[i][0], atomPositions[i][1], startX, startY);
+                            break;
+                        }
+                    }
+
+                    // ELSE BOUNCE
+                    if (!directHit) {
+                        distance = sketch.dist(influenceX, influenceY, startX, startY);
+                        drawRay(startX, startY, angles[3], distance, sketch);
+
+                        if (influenceY > atomPositions[atomsHit[0]][1]) { // HITS BOTTOM HALF OF CIRCLE -> BOUNCES DOWN AND LEFT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 2, false, sketch);
+                        }
+                        else { // HITS TOP HALF OF CIRCLE -> BOUNCES UP AND LEFT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 6, false, sketch);
+                        }
+                    }
                 }
-
-                // CIRCLE OF INFLUENCE AND NOT DIRECT HIT
-                if (circleOfInfluence && sketch.dist(influenceX, influenceY, startX, startY) > 5) {
+                else if (numOfCirclesOfInfluence > 1) {
+                    // DEAL WITH MULTIPLE CIRCLES !!!
+                    System.out.println("MULTIPLE CIRCLES OF INFLUENCE");
                     distance = sketch.dist(influenceX, influenceY, startX, startY);
-
-                    float newAngle = angle;
-
                     drawRay(startX, startY, angles[3], distance, sketch);
 
-                    if (influenceY > atomPositions[j][1]) { // HITS BOTTOM HALF OF CIRCLE -> BOUNCES DOWN AND LEFT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 2, false, sketch);
+
+                    boolean reflect = false;
+                    // VERTICALLY ALIGNED -> REFLECT
+                    // ONE IN FRONT OF OTHER -> BOUNCE (2 OPTIONS)
+
+
+                    // CHECK IF 2 OF THE ATOMS ARE VERTICALLY ALIGNED
+                    for (int i = 0; i < numOfCirclesOfInfluence; i++) {
+                        for (int j = i + 1; j < numOfCirclesOfInfluence; j++) {
+                            if (atomPositions[atomsHit[i]][0] == atomPositions[atomsHit[j]][0]) {
+                                reflect = true;
+                                System.out.println("REFLECT");
+                                break;
+                            }
+                        }
                     }
-                    else { // HITS TOP HALF OF CIRCLE -> BOUNCES UP AND LEFT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 6, false, sketch);
+
+
+                    if (reflect) { // ONE ABOVE THE OTHER
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 3, false, sketch);
+                    }
+                    else { // BESIDE - CAN ONLY BE 2 CIRCLES OF INFLUENCE
+                        // Atom positions sorted -> First circle of influence found will be higher up
+                        if (atomPositions[atomsHit[0]][0] > atomPositions[atomsHit[1]][0]) { // Top further right than bottom -> Down and right
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 1, false, sketch);
+                        }
+                        else { // Top further left than bottom -> Up and right
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 5, false, sketch);
+                        }
                     }
                 }
             }
-
             endOfLine = drawRay(startX, startY, angles[3], distance, sketch);
-
         }
 
 
@@ -469,54 +616,84 @@ public class Rays {
             float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
+            float[] testCoords = {startX, startY};
+            if (firstRay) {
+                testCoords[0] -= 15;
+                testCoords[1] += 25;
+            }
 
-            for (int j = numOfAtoms - 1; j >= 0; j--) {
-                float[] testCoords = {startX, startY};
-                if (firstRay) {
-                    testCoords[0] -= 15;
-                    testCoords[1] += 25;
-                }
+            int numOfCirclesOfInfluence = 0;
 
-
-                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && (testCoords[0] + 30) < exit[0] && (testCoords[1] - 50) > exit[1]) {
-
-                    testCoords[0] += 30;
-                    testCoords[1] -= 50;
+            while ((testCoords[0] + 30) < exit[0] && (testCoords[1] - 50) > exit[1] && numOfCirclesOfInfluence == 0) {
+                testCoords[0] += 30;
+                testCoords[1] -= 50;
 
 
-                    // CIRCLE OF INFLUENCE FOUND
-                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 65 && !circleOfInfluence) {
-                        circleOfInfluence = true;
+                int[] atomsHit = new int[6];
+                for (int i = 0; i < numOfAtoms; i++) {
+                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[i][0], atomPositions[i][1]) <= 65) {
+                        atomsHit[numOfCirclesOfInfluence] = i;
+                        numOfCirclesOfInfluence++;
                         influenceX = testCoords[0];
                         influenceY = testCoords[1];
                     }
                 }
 
+                if (numOfCirclesOfInfluence == 1) {
+                    // CHECK FOR DIRECT HIT
+                    for (int i = 0; i < numOfAtoms; i++) {
+                        if (sketch.dist(testCoords[0] + 30, testCoords[1] - 50, atomPositions[i][0], atomPositions[i][1]) < 5) {
+                            directHit = true;
+                            distance = sketch.dist(atomPositions[i][0], atomPositions[i][1], startX, startY);
+                            break;
+                        }
+                    }
 
-                // DIRECT HIT
-                if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 15) {
-                    distance = sketch.dist(startX, startY, atomPositions[j][0], atomPositions[j][1]);
-                    directHit = true;
-                    break;
-                }
+                    // ELSE BOUNCE
+                    if (!directHit) {
+                        distance = sketch.dist(influenceX, influenceY, startX, startY);
+                        drawRay(startX, startY, angles[4], distance, sketch);
 
-                // CIRCLE OF INFLUENCE AND NOT DIRECT HIT
-                if (circleOfInfluence) {
+                        if (influenceX > atomPositions[atomsHit[0]][0]) { // HITS RIGHT SIDE OF CIRCLE -> BOUNCES RIGHT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 3, false, sketch);
+                        } else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES UP AND LEFT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 6, false, sketch);
+                        }
+                    }
+                } else if (numOfCirclesOfInfluence > 1) {
+                    // DEAL WITH MULTIPLE CIRCLES !!!
+                    System.out.println("MULTIPLE CIRCLES OF INFLUENCE");
                     distance = sketch.dist(influenceX, influenceY, startX, startY);
-
-                    float newAngle = angle;
-
                     drawRay(startX, startY, angles[4], distance, sketch);
 
-                    if (influenceX > atomPositions[j][0]) { // HITS RIGHT SIDE OF CIRCLE -> BOUNCES RIGHT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 3, false, sketch);
-                    } else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES UP AND LEFT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 6, false, sketch);
+                    boolean reflect = false;
+                    // ONE ABOVE THE OTHER -> REFLECT
+                    // BESIDE EACH OTHER -> BOUNCE
+
+
+                    int y = atomPositions[atomsHit[0]][1];
+                    for (int i = 1; i < numOfCirclesOfInfluence; i++) {
+                        if (y != atomPositions[atomsHit[i]][1]) {
+                            reflect = true;
+                            break;
+                        }
+                    }
+
+                    if (reflect) { // ONE ABOVE THE OTHER
+                        if (sketch.dist(atomPositions[atomsHit[0]][0], atomPositions[atomsHit[0]][1], atomPositions[atomsHit[1]][0], atomPositions[atomsHit[1]][1]) <= 60) {
+                            // BOUNCE LEFT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 4, false, sketch);
+                        }
+                        else {
+                            // REFLECT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 2, false, sketch);
+                        }
+                    } else {
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 1, false, sketch);
                     }
                 }
             }
             endOfLine = drawRay(startX, startY, angles[4], distance, sketch);
-
         }
 
 
@@ -527,65 +704,90 @@ public class Rays {
             float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
-            for (int j = numOfAtoms - 1; j >= 0; j--) {
-                float[] testCoords = {startX, startY};
-                if (firstRay) {
-                    testCoords[0] += 15;
-                    testCoords[1] += 25;
-                }
+            float[] testCoords = {startX, startY};
+            if (firstRay) {
+                testCoords[0] += 15;
+                testCoords[1] += 25;
+            }
 
-                while (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) > 15 && (testCoords[0] - 30) > exit[0] && (testCoords[1] - 50) > exit[1]) {
-                    testCoords[0] -= 30;
-                    testCoords[1] -= 50;
+            int numOfCirclesOfInfluence = 0;
+
+            while ((testCoords[0] - 30) > exit[0] && (testCoords[1] - 50) > exit[1] && numOfCirclesOfInfluence == 0) {
+                testCoords[0] -= 30;
+                testCoords[1] -= 50;
 
 
-                    // CIRCLE OF INFLUENCE FOUND
-                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 65 && !circleOfInfluence) {
-                        circleOfInfluence = true;
+                int[] atomsHit = new int[6];
+                for (int i = 0; i < numOfAtoms; i++) {
+                    if (sketch.dist(testCoords[0], testCoords[1], atomPositions[i][0], atomPositions[i][1]) <= 65) {
+                        atomsHit[numOfCirclesOfInfluence] = i;
+                        numOfCirclesOfInfluence++;
                         influenceX = testCoords[0];
                         influenceY = testCoords[1];
                     }
                 }
 
+                if (numOfCirclesOfInfluence == 1) {
+                    // CHECK FOR DIRECT HIT
+                    for (int i = 0; i < numOfAtoms; i++) {
+                        if (sketch.dist(testCoords[0] - 30, testCoords[1] - 50, atomPositions[i][0], atomPositions[i][1]) < 5) {
+                            directHit = true;
+                            distance = sketch.dist(atomPositions[i][0], atomPositions[i][1], startX, startY);
+                            break;
+                        }
+                    }
 
-                // DIRECT HIT
-                if (sketch.dist(testCoords[0], testCoords[1], atomPositions[j][0], atomPositions[j][1]) <= 15) {
-                    distance = sketch.dist(startX, startY, atomPositions[j][0], atomPositions[j][1]);
-                    directHit = true;
-                    break;
+                    // ELSE BOUNCE
+                    if (!directHit) {
+                        distance = sketch.dist(influenceX, influenceY, startX, startY);
+                        drawRay(startX, startY, angles[5], distance, sketch);
+
+                        if (influenceX > atomPositions[atomsHit[0]][0]) { // HITS RIGHT SIDE OF CIRCLE -> BOUNCES LEFT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 5, false, sketch);
+                        } else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES UP AND RIGHT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 4, false, sketch);
+                        }
+                    }
                 }
-
-                // CIRCLE OF INFLUENCE AND NOT DIRECT HIT
-                if (circleOfInfluence) {
+                else if (numOfCirclesOfInfluence > 1) {
+                    // DEAL WITH MULTIPLE CIRCLES !!!
+                    System.out.println("MULTIPLE CIRCLES OF INFLUENCE");
                     distance = sketch.dist(influenceX, influenceY, startX, startY);
-
-                    float newAngle = angle;
-
                     drawRay(startX, startY, angles[5], distance, sketch);
 
-                    if (influenceX > atomPositions[j][0]) { // HITS RIGHT SIDE OF CIRCLE -> BOUNCES LEFT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 5, false, sketch);
-                    } else { // HITS LEFT SIDE OF CIRCLE -> BOUNCES UP AND RIGHT
-                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 4, false, sketch);
+
+                    boolean reflect = false;
+                    // ONE ABOVE THE OTHER -> REFLECT
+                    // BESIDE EACH OTHER -> BOUNCE
+
+                    int y = atomPositions[atomsHit[0]][1];
+                    for (int i = 1; i < numOfCirclesOfInfluence; i++) {
+                        if (y != atomPositions[atomsHit[i]][1]) {
+                            reflect = true;
+                            break;
+                        }
+                    }
+
+                    if (reflect) { // ONE ABOVE THE OTHER
+                        if (sketch.dist(atomPositions[atomsHit[0]][0], atomPositions[atomsHit[0]][1], atomPositions[atomsHit[1]][0], atomPositions[atomsHit[1]][1]) <= 60) {
+                            // BOUNCE RIGHT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 3, false, sketch);
+                        }
+                        else {
+                            // REFLECT
+                            return drawRayWithBounces(atomPositions, influenceX, influenceY, 1, false, sketch);
+                        }
+                    }
+                    else { // BESIDE
+                        return drawRayWithBounces(atomPositions, influenceX, influenceY, 2, false, sketch);
                     }
                 }
             }
             endOfLine = drawRay(startX, startY, angles[5], distance, sketch);
-
         }
 
-        if (directHit) {
-            endOfLine = new float[] {-1, -1};
-        }
         return endOfLine;
     }
-
-
-
-
-
-
-
 
 
 
