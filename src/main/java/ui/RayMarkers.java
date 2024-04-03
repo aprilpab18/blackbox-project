@@ -80,17 +80,17 @@ public class RayMarkers {
         // User Inputted Marker
         drawMarker(255, 0, 0, index);
 
-        // FIND OPPOSITE MARKER
-        int length = MarkerCoords.straightOppMarkers.length;
-        int coord = index + 1; // actual ray co-ord as on grid
-
-        for (int i = 0; i < length; i++) {
-            if (MarkerCoords.straightOppMarkers[i][0] == coord) { // first column
-                drawMarker(255, 0, 0, MarkerCoords.straightOppMarkers[i][1] - 1);
-            } else if (MarkerCoords.straightOppMarkers[i][1] == coord) {  // second column
-                drawMarker(255, 0, 0, MarkerCoords.straightOppMarkers[i][0] - 1);
-            }
-        }
+//        // FIND OPPOSITE MARKER
+//        int length = MarkerCoords.straightOppMarkers.length;
+//        int coord = index + 1; // actual ray co-ord as on grid
+//
+//        for (int i = 0; i < length; i++) {
+//            if (MarkerCoords.straightOppMarkers[i][0] == coord) { // first column
+//                drawMarker(255, 0, 0, MarkerCoords.straightOppMarkers[i][1] - 1);
+//            } else if (MarkerCoords.straightOppMarkers[i][1] == coord) {  // second column
+//                drawMarker(255, 0, 0, MarkerCoords.straightOppMarkers[i][0] - 1);
+//            }
+//        }
     }
 
     // Absorbed => GREEN, one co-ord, DONE!
@@ -99,8 +99,8 @@ public class RayMarkers {
     }
 
 
-    // Deflected 60 => BLUE
-    public static void drawDeflected60(int index){
+    // Deflected => Different Colours
+    public static void drawDeflected(int index){
         drawMarker(0,0,255, index);
         drawMarker(0,0,255, index);
 
@@ -108,18 +108,8 @@ public class RayMarkers {
          * Implement opposite marker from calculations  */
     }
 
-    // Deflected 120 => PINK
-    public void drawDeflected120(int index){
-        drawMarker(255,0,0, index);
-        drawMarker(255,0,0, index);
-
-        /* TODO
-         * Implement opposite marker from calculations  */
-    }
-
-    // Deflected 180 => PURPLE, DONE
+    // Reflected 180 => PURPLE, DONE
     public void drawDeflected180(int index){
-        drawMarker(138,43,226, index);
         drawMarker(138,43,226, index);
     }
 
@@ -130,7 +120,7 @@ public class RayMarkers {
         parent.fill(0);
 
         // Draw the rectangle
-        parent.rect(x, y, 250, 245, 12, 12, 12, 12);
+        parent.rect(x, y, 250, 230, 12, 12, 12, 12);
 
         // Text
         drawDetails();
@@ -145,12 +135,13 @@ public class RayMarkers {
         drawText(17,"No Atom Found", 800, 115);
         drawKey(0,255,0,775,140); // Green
         drawText(17,"Ray Absorbed", 800, 150);
-        drawKey(0,0,255,775,175); // Blue
-        drawText(17,"Ray Deflected 60 \u00B0", 800, 185);
-        drawKey(255,38,125,775,210); // Pink
-        drawText(17,"Ray Deflected 120 \u00B0", 800, 220);
-        drawKey(138,43,226,775,245); // Purple
-        drawText(17,"Ray Deflected 180 \u00B0", 800, 255);
+        drawKey(138,43,226,775,175); // Purple
+        drawText(17,"Ray Reflected 180 \u00B0", 800, 185);
+        drawKey(0,0,255,775,210); // Blue
+        drawText(17,"Ray Deflected", 800, 220);
+        drawText(15, "(Changes colour for each set", 800, 240);
+        drawText(15, "of deflected ray start and end)", 800, 260);
+
 
     }
 
