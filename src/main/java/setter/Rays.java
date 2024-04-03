@@ -224,7 +224,6 @@ public class Rays {
         for (int i = 0; i < numOfAtoms; i++) {
             if (sketch.dist(startX, startY, atomPositions[i][0], atomPositions[i][1]) < 59 && firstRay) {
                 endOfLine = new float[] {-2, -2};
-                System.out.println("REFLECTED");
                 return endOfLine;
             }
         }
@@ -287,7 +286,6 @@ public class Rays {
                 }
                 else if (numOfCirclesOfInfluence > 1) {
                     // DEAL WITH MULTIPLE CIRCLES !!!
-                    System.out.println("MULTIPLE CIRCLES OF INFLUENCE");
                     distance = sketch.dist(influenceX, influenceY, startX, startY);
                     drawRay(startX, startY, angles[0], distance, sketch);
 
@@ -386,7 +384,6 @@ public class Rays {
                         }
                     } else if (numOfCirclesOfInfluence > 1) {
                         // DEAL WITH MULTIPLE CIRCLES !!!
-                        System.out.println("MULTIPLE CIRCLES OF INFLUENCE");
                         distance = sketch.dist(influenceX, influenceY, startX, startY);
                         drawRay(startX, startY, angles[1], distance, sketch);
 
@@ -471,7 +468,6 @@ public class Rays {
                     }
                 } else if (numOfCirclesOfInfluence > 1) {
                     // DEAL WITH MULTIPLE CIRCLES !!!
-                    System.out.println("MULTIPLE CIRCLES OF INFLUENCE");
                     distance = sketch.dist(influenceX, influenceY, startX, startY);
                     drawRay(startX, startY, angles[2], distance, sketch);
 
@@ -486,7 +482,6 @@ public class Rays {
                         for (int j = i + 1; j < numOfCirclesOfInfluence; j++) {
                             if (atomPositions[atomsHit[i]][0] == atomPositions[atomsHit[j]][0]) {
                                 reflect = true;
-                                System.out.println("REFLECT");
                                 break;
                             }
                         }
@@ -568,7 +563,6 @@ public class Rays {
                 }
                 else if (numOfCirclesOfInfluence > 1) {
                     // DEAL WITH MULTIPLE CIRCLES !!!
-                    System.out.println("MULTIPLE CIRCLES OF INFLUENCE");
                     distance = sketch.dist(influenceX, influenceY, startX, startY);
                     drawRay(startX, startY, angles[3], distance, sketch);
 
@@ -583,7 +577,6 @@ public class Rays {
                         for (int j = i + 1; j < numOfCirclesOfInfluence; j++) {
                             if (atomPositions[atomsHit[i]][0] == atomPositions[atomsHit[j]][0]) {
                                 reflect = true;
-                                System.out.println("REFLECT");
                                 break;
                             }
                         }
@@ -662,7 +655,6 @@ public class Rays {
                     }
                 } else if (numOfCirclesOfInfluence > 1) {
                     // DEAL WITH MULTIPLE CIRCLES !!!
-                    System.out.println("MULTIPLE CIRCLES OF INFLUENCE");
                     distance = sketch.dist(influenceX, influenceY, startX, startY);
                     drawRay(startX, startY, angles[4], distance, sketch);
 
@@ -751,7 +743,6 @@ public class Rays {
                 }
                 else if (numOfCirclesOfInfluence > 1) {
                     // DEAL WITH MULTIPLE CIRCLES !!!
-                    System.out.println("MULTIPLE CIRCLES OF INFLUENCE");
                     distance = sketch.dist(influenceX, influenceY, startX, startY);
                     drawRay(startX, startY, angles[5], distance, sketch);
 
