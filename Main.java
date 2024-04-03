@@ -3,6 +3,8 @@ import main.java.ui.*;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import java.util.Arrays;
+
 
 public class Main extends PApplet {
     Grid grid;
@@ -26,14 +28,16 @@ public class Main extends PApplet {
     public int[][] atomPositions = new int[numOfAtoms][2];
     boolean showingAtoms = false;
     public int selectedNumber = -1;
-    public int[][] rayExitCoordinates = new int[54][2];
+    public float[][] rayExitCoordinates = new float[54][2];
+    // -1, -1 = DIRECT HIT
+    // -2, -2 = REFLECTED
 
     public void settings() {
         size(1100, 700);
     }
 
     public void setup() {
-        PImage myImage = loadImage("resources/extended-board.png");
+        PImage myImage = loadImage("resources/board.png");
 
         computer = new Computer();
         grid = new Grid(this, myImage);
@@ -44,10 +48,12 @@ public class Main extends PApplet {
         while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
             atomBoxNumbers = computer.generateAtoms(numOfAtoms);
         }
+//        atomBoxNumbers = new int[] {1, 2, 3, 38, 46, 54};
+//        Arrays.sort(atomBoxNumbers);
 
-        for (int i = 0; i < numOfAtoms; i++) {
-            System.out.println(atomBoxNumbers[i]);
-        }
+//        for (int i = 0; i < numOfAtoms; i++) {
+//            System.out.println(atomBoxNumbers[i]);
+//        }
 
     }
 
@@ -86,14 +92,16 @@ public class Main extends PApplet {
             grid.drawImage(selectedNumber); // ADD BACK AFTER TESTING
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
 
-
             // Draw rays
             for (int i = 0; i < numOfRays; i++) {
                 int rayNumInList = shots[i] - 1;
 
                 int direction = rays.rayPositions[rayNumInList][4];
-                rays.drawRayWithBounces(atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, this);
+                rayExitCoordinates[i] = rays.drawRayWithBounces(atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
                 RayMarkers.drawAbsorbed(rayNumInList);
+                fill(155, 0, 255);
+                ellipse(rayExitCoordinates[i][0], rayExitCoordinates[i][1], 10, 10);
+
             }
 
 
@@ -110,7 +118,7 @@ public class Main extends PApplet {
                 text("Number not in range, please try again.", 350, 625);
             }
 
-            if(duplicateInput){
+            else if(duplicateInput){
                 fill(255, 0, 0);
                 textSize(20);
                 text("Duplicate input number, please try again.", 350, 625);
@@ -132,6 +140,7 @@ public class Main extends PApplet {
 
             // RAY MARKERS
             RayMarkers.drawRayMarkerKey(750,50);
+//            System.out.println("1 = " + grid.hexagonCentreCoordinates[0][0] + "\n6 = " + grid.hexagonCentreCoordinates[5][0]);
 
         }
 

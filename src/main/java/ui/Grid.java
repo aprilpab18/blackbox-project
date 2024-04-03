@@ -9,6 +9,9 @@ public class Grid {
     PApplet parent;
     PImage myImage;
 
+    public int[][] hexagonCentreCoordinates = new int[61][2];
+
+
 
     public Grid(PApplet parent, PImage myImage){
         this.parent = parent;
@@ -32,7 +35,7 @@ public class Grid {
 
 //        // FOR TESTING - SHOW MIDDLES OF HEXAGONS
 //        parent.stroke(255, 255, 0);
-//        parent.ellipse(xPos, yPos, 5, 5);
+//        parent.ellipse(xPos, yPos, 1, 1);
 
     }
 
@@ -52,6 +55,7 @@ public class Grid {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5+i; j++) {
                 drawHexagon(xPos + ((sideLength*2)*j) - (sideLength*i), yPos + ((sideLength + (sideLength/2))*i) + (5*i), sideLength);
+                hexagonCentreCoordinates[boxNumber] = new int[] {xPos + ((sideLength*2)*j) - (sideLength*i), yPos + ((sideLength + (sideLength/2))*i) + (5*i)};
 
                 for (int k = 0; k < 6; k++) {
                     if (boxNumber == atomBoxNumbers[k]) {
@@ -69,7 +73,7 @@ public class Grid {
                 // PRINT BOX NUMBERS
 //                parent.textSize(15);
 //                parent.fill(255);
-//                parent.text(boxNumber, xPos + ((sideLength*2)*j) - (sideLength*i), yPos + ((sideLength + (sideLength/2))*i));
+//                parent.text(boxNumber, hexagonCentreCoordinates[boxNumber][0], hexagonCentreCoordinates[boxNumber][1]);
                 boxNumber++;
             }
         }
@@ -77,6 +81,8 @@ public class Grid {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 8-i; j++) {
                 drawHexagon(xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2) + 25) + ((sideLength + (sideLength/2))*i) + (5*i), sideLength);
+                hexagonCentreCoordinates[boxNumber] = new int[] {xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2) + 25) + ((sideLength + (sideLength/2))*i) + (5*i)};
+
 
                 for (int k = 0; k < 6; k++) {
                     if (boxNumber == atomBoxNumbers[k]) {
@@ -93,13 +99,13 @@ public class Grid {
 
                 // PRINT BOX NUMBERS
 //                parent.fill(255);
-//                parent.text(boxNumber, xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2)) + ((sideLength + (sideLength/2))*i));
+//                parent.text(boxNumber, hexagonCentreCoordinates[boxNumber][0], hexagonCentreCoordinates[boxNumber][1]);
                 boxNumber++;
             }
         }
 
-        return atomPositions;
 
+        return atomPositions;
 
     }
 
@@ -115,7 +121,7 @@ public class Grid {
         for (int i = 0; i < 6; i++) {
             parent.noFill();
             parent.stroke(255, 255, 255, 120);
-            parent.ellipse(atomPositions[i][0], atomPositions[i][1], 120, 120);
+            parent.ellipse(atomPositions[i][0], atomPositions[i][1], 118, 118);
         }
 
 //        if (PApplet.dist(parent.mouseX, parent.mouseY, atomPositions[0][0], atomPositions[0][1]) <= 60) {
