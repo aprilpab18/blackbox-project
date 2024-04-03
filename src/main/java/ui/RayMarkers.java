@@ -95,7 +95,7 @@ public class RayMarkers {
 
     // Absorbed => GREEN, one co-ord, DONE!
     public static void drawAbsorbed(int index){
-        drawMarker(0,255,0, index);
+        drawMarker(255,0,0, index);
     }
 
 
