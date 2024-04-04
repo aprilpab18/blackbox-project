@@ -92,17 +92,6 @@ public class Main extends PApplet {
             grid.drawImage(selectedNumber);
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
 
-            // Draw rays
-            for (int i = 0; i < numOfRays; i++) {
-                int rayNumInList = shots[i] - 1;
-
-                int direction = rays.rayPositions[rayNumInList][4];
-                rayExitCoordinates[i] = rays.drawRayWithBounces(rayNumInList, atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
-//                RayMarkers.drawAbsorbed(rayNumInList);
-                fill(155, 0, 255);
-                ellipse(rayExitCoordinates[i][0], rayExitCoordinates[i][1], 10, 10);
-
-            }
 
 
             // Text for user input (where to shoot a ray)
@@ -132,6 +121,19 @@ public class Main extends PApplet {
 
             if (showingAtoms) {
                 text("Press 'X' to hide the atoms", 10, 20);
+
+                // Draw rays
+                for (int i = 0; i < numOfRays; i++) {
+                    int rayNumInList = shots[i] - 1;
+
+                    int direction = rays.rayPositions[rayNumInList][4];
+                    rayExitCoordinates[i] = rays.drawRayWithBounces(rayNumInList, atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
+//                RayMarkers.drawAbsorbed(rayNumInList);
+//                fill(155, 0, 255);
+//                ellipse(rayExitCoordinates[i][0], rayExitCoordinates[i][1], 10, 10);
+
+                }
+
                 grid.drawAtoms(atomPositions);
             }
             else {

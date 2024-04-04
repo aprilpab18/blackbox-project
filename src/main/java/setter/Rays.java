@@ -152,6 +152,7 @@ public class Rays {
 
 
 
+    // FIND EXIT ON LINE OF RAY
     public static int[] setExit(float startX, float startY, int xChange, int yChange, int[][] exits, PApplet sketch) {
         int[] exit = new int[] {0, 0};
         float[] testCoords = {startX, startY};
@@ -159,24 +160,26 @@ public class Rays {
         while (true) {
             boolean exitSet = false;
 
-            // Finding exit coordinate
+            // CHECK IF TEST COORDS HAVE REACHED ANY EXIT IN ARRAY
             for (int i = 0; i < exits.length; i++) {
-                if (sketch.dist(testCoords[0], testCoords[1], exits[i][0], exits[i][1]) < 15) {
-                    exit = new int[]{exits[i][0], exits[i][1]};
+                if (sketch.dist(testCoords[0], testCoords[1], exits[i][0], exits[i][1]) < 15) { // IF COORDS REACH EXIT
+                    exit = new int[]{exits[i][0], exits[i][1]}; // Set exit coordinates
 
                     exitSet = true;
                     break;
                 }
             }
 
-            if (exitSet) {
+            if (exitSet) { // If exit found, exit infinite loop
                 break;
             }
 
+            // MOVE TEST COORDINATES TO NEXT POINT ALONG LINE
             testCoords[0] += (xChange / 2);
             testCoords[1] += (yChange / 2);
 
-            if (testCoords[0] > sketch.width || testCoords[1] < 0) {
+            // IF TEST COORDS GO OFF-SCREEN, ERROR (NO EXIT FOUND)
+            if (testCoords[0] < 0 || testCoords[0] > sketch.width || testCoords[1] > sketch.height || testCoords[1] < 0) {
                 sketch.print("NO EXIT FOUND");
                 break;
             }
@@ -188,10 +191,14 @@ public class Rays {
     // CHECK FOR REFLECT FUNCTION --------------------------
 
 
+
+
+    // DISPLAYS RAY AND RETURNS COORDINATES OF END OF RAY
     public static float[] drawRay(float startX, float startY, float angle, float lineLength, PApplet sketch) {
         sketch.stroke(0, 255, 0); // Colour of rays
         sketch.strokeWeight(3);
 
+        // CALCULATE END COORDINATES
         float endX = startX + sketch.cos(angle) * lineLength;
         float endY = startY + sketch.sin(angle) * lineLength;
 
@@ -201,10 +208,13 @@ public class Rays {
 
 
 
+    // DRAW RAYS RECURSIVELY, CHECKING FOR BOUNCES
     public static float[] drawRayWithBounces(int index, int[][] atomPositions, float startX, float startY, int direction, boolean firstRay, PApplet sketch) {
         float[] endOfLine = new float[] {0, 0};
 
-        float[] angles = { // radians()
+
+        // ANGLES OF RAYS
+        float[] angles = {
                 sketch.radians((float) 58.8), // Down and right
                 sketch.radians((float) 120.8), // Down and left
                 sketch.radians((float) 0), // Right
@@ -213,10 +223,18 @@ public class Rays {
                 sketch.radians((float) 238.8), // Up and left
         };
 
-        float angle = angles[direction - 1];
-
         int numOfAtoms = atomPositions.length;
 
+
+        // INCREMENTS TO MOVE FROM ONE HEXAGON TO THE NEXT ALONG LINES
+        int[][] incrementsAlongLine = {
+                {30, 50},
+                {-30, 50},
+                {60, 0},
+                {-60, 0},
+                {30, -50},
+                {-30, -50}
+        };
 
 
         boolean circleOfInfluence = false;
@@ -225,13 +243,25 @@ public class Rays {
         float influenceY = 0;
 
 
-        // CHECK FOR REFLECTED
+        // CHECK FOR REFLECTED - STARTING INSIDE AN ATOM'S CIRCLE OF INFLUENCE
         for (int i = 0; i < numOfAtoms; i++) {
-            if (sketch.dist(startX, startY, atomPositions[i][0], atomPositions[i][1]) < 59 && firstRay) {
+            if (sketch.dist(startX, startY, atomPositions[i][0], atomPositions[i][1]) < 59 && firstRay) { // STARTS INSIDE AN ATOM
+
+                // CHECK IF DIRECT HIT
+                if (sketch.dist((startX+(incrementsAlongLine[direction-1][0]/2)), (startY+(incrementsAlongLine[direction-1][1]/2)), atomPositions[i][0], atomPositions[i][1]) < 5) {
+                    float distance = sketch.dist(atomPositions[i][0], atomPositions[i][1], startX, startY);
+                    drawRay(startX, startY, angles[direction-1], distance, sketch);
+                    endOfLine = new float[] {-1, -1};
+                    return endOfLine;
+                }
+
+                // OTHERWISE REFLECT
                 endOfLine = new float[] {-2, -2};
                 return endOfLine;
             }
         }
+
+
 
 
         // vvv CHECKS FOR EACH DIRECTION vvv
@@ -242,6 +272,7 @@ public class Rays {
             int[] exit = setExit(startX, startY, 30, 50, downAndRightExits, sketch);
             float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
+            // Starting position is half distance to next centre point -> Move back half
             float[] testCoords = {startX, startY};
             if (firstRay) {
                 testCoords[0] -= 15;
@@ -250,11 +281,14 @@ public class Rays {
 
             int numOfCirclesOfInfluence = 0;
 
+            // While next position before exit and no circles of influence found
             while ((testCoords[0] + 30) < exit[0] && (testCoords[1] + 50) < exit[1] && numOfCirclesOfInfluence == 0) {
+                // Move to next centre point
                 testCoords[0] += 30;
                 testCoords[1] += 50;
 
 
+                // CHECK IF ANY CIRCLES OF INFLUENCE HIT - IF SO STORE THEM AND THE COORDINATES OF THE TEST COORDINATES
                 int[] atomsHit = new int[6];
                 for (int i = 0; i < numOfAtoms; i++) {
                     if (sketch.dist(testCoords[0], testCoords[1], atomPositions[i][0], atomPositions[i][1]) <= 65) {
@@ -265,7 +299,9 @@ public class Rays {
                     }
                 }
 
+                // ONLY ONE CIRCLE OF INFLUENCE FOUND
                 if (numOfCirclesOfInfluence == 1) {
+
                     // CHECK FOR DIRECT HIT
                     for (int i = 0; i < numOfAtoms; i++) {
                         if (sketch.dist(testCoords[0]+30, testCoords[1]+50, atomPositions[i][0], atomPositions[i][1]) < 5) {
@@ -294,8 +330,10 @@ public class Rays {
                         RayMarkers.drawAbsorbed(index);
                     }
                 }
+
+                // DEAL WITH MULTIPLE CIRCLES
                 else if (numOfCirclesOfInfluence > 1) {
-                    // DEAL WITH MULTIPLE CIRCLES !!!
+
                     distance = sketch.dist(influenceX, influenceY, startX, startY);
                     drawRay(startX, startY, angles[0], distance, sketch);
 
