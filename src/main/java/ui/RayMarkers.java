@@ -100,7 +100,6 @@ public class RayMarkers {
         // Start Marker
         drawMarker(blue, index);
 
-        // TODO
         // End Marker
         drawMarker(blue, endIndex - 1);
 

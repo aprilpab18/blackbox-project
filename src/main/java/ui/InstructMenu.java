@@ -29,5 +29,6 @@ public class InstructMenu {
 
     private void drawInstructions() {
         // TODO -> Just add in text ! :)
+        RayMarkers.drawText(20, "Hi", 300, 100);
     }
 }
