@@ -28,6 +28,6 @@ public class InstructMenu {
     }
 
     private void drawInstructions() {
-        // TODO
+        // TODO -> Just add in text ! :)
     }
 }

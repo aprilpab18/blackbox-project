@@ -324,11 +324,6 @@ public class Rays {
                         }
 
                     }
-
-                    // Atom is absorbed!
-                    if (directHit) {
-                        RayMarkers.drawAbsorbed(index);
-                    }
                 }
 
                 // DEAL WITH MULTIPLE CIRCLES
@@ -372,7 +367,10 @@ public class Rays {
 
             endOfLine = drawRay(startX, startY, angles[0], distance, sketch); // doesn't hit anything
 
-            if (!directHit) {
+            // Ray Markers Calculated
+            if (directHit) {
+                RayMarkers.drawAbsorbed(index);
+            } else {
                 RayMarkers.drawDeflected(index);
             }
         }
@@ -435,11 +433,6 @@ public class Rays {
                             }
                         }
 
-                        // Atom is absorbed!
-                        if (directHit) {
-                            RayMarkers.drawAbsorbed(index);
-                        }
-
                     } else if (numOfCirclesOfInfluence > 1) {
                         // DEAL WITH MULTIPLE CIRCLES !!!
                         distance = sketch.dist(influenceX, influenceY, startX, startY);
@@ -474,7 +467,10 @@ public class Rays {
                 }
             endOfLine = drawRay(startX, startY, angles[1], distance, sketch);
 
-            if (!directHit) {
+            // Ray Markers Calculated
+            if (directHit) {
+                RayMarkers.drawAbsorbed(index);
+            } else {
                 RayMarkers.drawDeflected(index);
             }
         }
@@ -529,10 +525,6 @@ public class Rays {
                         }
                     }
 
-                    // Atom is absorbed!
-                    if (directHit) {
-                        RayMarkers.drawAbsorbed(index);
-                    }
 
                 } else if (numOfCirclesOfInfluence > 1) {
                     // DEAL WITH MULTIPLE CIRCLES !!!
@@ -574,7 +566,10 @@ public class Rays {
 
             endOfLine = drawRay(startX, startY, angles[2], distance, sketch);
 
-            if (!directHit) {
+            // Ray Markers Calculated
+            if (directHit) {
+                RayMarkers.drawAbsorbed(index);
+            } else {
                 RayMarkers.drawDeflected(index);
             }
 
@@ -633,11 +628,6 @@ public class Rays {
                         }
                     }
 
-                    // Atom is absorbed!
-                    if (directHit) {
-                        RayMarkers.drawAbsorbed(index);
-                    }
-
                 }
                 else if (numOfCirclesOfInfluence > 1) {
                     // DEAL WITH MULTIPLE CIRCLES !!!
@@ -677,7 +667,10 @@ public class Rays {
             }
             endOfLine = drawRay(startX, startY, angles[3], distance, sketch);
 
-            if (!directHit) {
+            // Ray Markers Calculated
+            if (directHit) {
+                RayMarkers.drawAbsorbed(index);
+            } else {
                 RayMarkers.drawDeflected(index);
             }
         }
@@ -736,11 +729,6 @@ public class Rays {
                         }
                     }
 
-                    // Atom is absorbed!
-                    if (directHit) {
-                        RayMarkers.drawAbsorbed(index);
-                    }
-
                 } else if (numOfCirclesOfInfluence > 1) {
                     // DEAL WITH MULTIPLE CIRCLES !!!
                     distance = sketch.dist(influenceX, influenceY, startX, startY);
@@ -775,7 +763,10 @@ public class Rays {
             }
             endOfLine = drawRay(startX, startY, angles[4], distance, sketch);
 
-            if (!directHit) {
+            // Ray Markers Calculated
+            if (directHit) {
+                RayMarkers.drawAbsorbed(index);
+            } else {
                 RayMarkers.drawDeflected(index);
             }
         }
@@ -833,11 +824,6 @@ public class Rays {
                         }
                     }
 
-                    // Atom is absorbed!
-                    if (directHit) {
-                        RayMarkers.drawAbsorbed(index);
-                    }
-
                 }
                 else if (numOfCirclesOfInfluence > 1) {
                     // DEAL WITH MULTIPLE CIRCLES !!!
@@ -874,7 +860,10 @@ public class Rays {
             }
             endOfLine = drawRay(startX, startY, angles[5], distance, sketch);
 
-            if (!directHit) {
+            // Ray Markers Calculated
+            if (directHit) {
+                RayMarkers.drawAbsorbed(index);
+            } else {
                 RayMarkers.drawDeflected(index);
             }
         }
