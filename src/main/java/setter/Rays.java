@@ -369,6 +369,8 @@ public class Rays {
             // Ray Markers Calculated
             if (directHit) {
                 RayMarkers.drawAbsorbed(index);
+            } else if (endOfLine[0] == -2 && endOfLine[1] == -2) {
+                RayMarkers.drawReflected180(index);
             } else {
                 RayMarkers.drawDeflected(index, exit[2]);
             }
