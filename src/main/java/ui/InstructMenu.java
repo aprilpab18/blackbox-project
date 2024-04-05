@@ -51,7 +51,7 @@ public class InstructMenu {
         RayMarkers.drawText(25, "the game. "
                 , 103, 310);
         parent.rect(80, 330, 5, 5);
-        RayMarkers.drawText(25, "Your score will be announced and the true atom locations will be revealed"
+        RayMarkers.drawText(25, "Your score will be announced and the true atom locations will be revealed."
                 , 100, 340);
 
         parent.rect(80, 360, 5, 5);
