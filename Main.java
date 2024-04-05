@@ -48,13 +48,6 @@ public class Main extends PApplet {
         while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
             atomBoxNumbers = computer.generateAtoms(numOfAtoms);
         }
-//        atomBoxNumbers = new int[] {1, 2, 3, 38, 46, 54};
-//        Arrays.sort(atomBoxNumbers);
-
-//        for (int i = 0; i < numOfAtoms; i++) {
-//            System.out.println(atomBoxNumbers[i]);
-//        }
-
     }
 
     public void draw() {
@@ -89,20 +82,9 @@ public class Main extends PApplet {
 
 
             // Draw grid
-            grid.drawImage(selectedNumber); // ADD BACK AFTER TESTING
+            grid.drawImage(selectedNumber);
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
 
-            // Draw rays
-            for (int i = 0; i < numOfRays; i++) {
-                int rayNumInList = shots[i] - 1;
-
-                int direction = rays.rayPositions[rayNumInList][4];
-                rayExitCoordinates[i] = rays.drawRayWithBounces(atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
-                RayMarkers.drawAbsorbed(rayNumInList);
-                fill(155, 0, 255);
-                ellipse(rayExitCoordinates[i][0], rayExitCoordinates[i][1], 10, 10);
-
-            }
 
 
             // Text for user input (where to shoot a ray)
@@ -130,12 +112,22 @@ public class Main extends PApplet {
             textSize(20);
             textAlign(0, 0);
 
+
             if (showingAtoms) {
-                text("Press 'X' to hide the atoms", 10, 20);
+                text("Press 'X' to hide the atoms & rays", 10, 20);
+
                 grid.drawAtoms(atomPositions);
             }
             else {
-                text("Press 'X' to show the atoms", 10, 20);
+                text("Press 'X' to show the atoms & rays", 10, 20);
+            }
+
+            // Draw rays (Move into showingAtoms in next sprint)
+            for (int i = 0; i < numOfRays; i++) {
+                int rayNumInList = shots[i] - 1;
+
+                int direction = rays.rayPositions[rayNumInList][4];
+                rayExitCoordinates[i] = rays.drawRayWithBounces(rayNumInList, atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
             }
 
             // RAY MARKERS
