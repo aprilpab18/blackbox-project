@@ -13,6 +13,7 @@ public class Main extends PApplet {
     Rays rays;
     RayMarkers rayMarkers;
 
+
     public int numOfAtoms = 6;
     public boolean startScreen = true;
 
@@ -44,6 +45,7 @@ public class Main extends PApplet {
         startMenu = new StartMenu(this);
         rays = new Rays(this);
         rayMarkers = new RayMarkers(this);
+
 
         while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
             atomBoxNumbers = computer.generateAtoms(numOfAtoms);
