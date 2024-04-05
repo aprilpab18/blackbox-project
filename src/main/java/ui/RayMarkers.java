@@ -1,6 +1,8 @@
 package main.java.ui;
 import processing.core.PApplet;
 
+import java.util.Random;
+
 
 public class RayMarkers {
     // ACCESS TO PApplet TO USE PROCESSING FEATURES
@@ -11,8 +13,18 @@ public class RayMarkers {
         this.parent = parent;
     }
 
+    // Variables for colours
+    public static int[] red = {255, 0, 0};
+    public static int[] purple = {138, 43, 226};
+    public static int[] blue = {0, 0, 255};
+
     // Method for logic to draw marker
-    private static void drawMarker(int r, int g, int b, int position){
+    private static void drawMarker(int[] rgb, int position){
+        // Getting colours from array
+        int r = rgb[0];
+        int g = rgb[1];
+        int b = rgb[2];
+
         parent.noStroke();
         parent.fill(r, g, b);
 
@@ -75,41 +87,41 @@ public class RayMarkers {
 
     // METHODS TO DRAW DIFFERENT MARKERS
 
-    // No Atom => RED, DONE!
-//    public static void drawNoAtom(int index) {
-//        // User Inputted Marker
-//        drawMarker(255, 0, 0, index);
-
-//        // FIND OPPOSITE MARKER
-//        int length = MarkerCoords.straightOppMarkers.length;
-//        int coord = index + 1; // actual ray co-ord as on grid
-//
-//        for (int i = 0; i < length; i++) {
-//            if (MarkerCoords.straightOppMarkers[i][0] == coord) { // first column
-//                drawMarker(255, 0, 0, MarkerCoords.straightOppMarkers[i][1] - 1);
-//            } else if (MarkerCoords.straightOppMarkers[i][1] == coord) {  // second column
-//                drawMarker(255, 0, 0, MarkerCoords.straightOppMarkers[i][0] - 1);
-//            }
-//        }
-//    }
-
     // Absorbed => GREEN, one co-ord, DONE!
     public static void drawAbsorbed(int index){
-        drawMarker(255,0,0, index);
+        drawMarker(red, index);
     }
 
 
     // Deflected => Different Colours
-    public static void drawDeflected(int index){
-        drawMarker(0,0,255, index);
+
+    public static void drawDeflected(int index, int endIndex){
+
+        // Start Marker
+        drawMarker(blue, index);
 
         // TODO
-        // Find exit coordinate
+        // End Marker
+        drawMarker(blue, endIndex - 1);
+
     }
 
-    // Reflected 180 => PURPLE, DONE
+    // Reflected 180 => PURPLE, NOT DONE
     public static void drawReflected180(int index){
-        drawMarker(138,43,226, index);
+        drawMarker(purple, index);
+    }
+
+    // Random Colour Generator (Under Construction)
+    public static int[] generateRandomRGB() {
+        Random rand = new Random();
+        int[] rgb = new int[3];
+
+        // Generate random values for R, G, and B components
+        rgb[0] = rand.nextInt(256); // R component (0-255)
+        rgb[1] = rand.nextInt(256); // G component (0-255)
+        rgb[2] = rand.nextInt(256); // B component (0-255)
+
+        return rgb;
     }
 
     // METHODS FOR RAY MARKER KEY
@@ -137,8 +149,8 @@ public class RayMarkers {
         drawKey(0,0,255,775,175); // Blue
         drawText(17,"Ray Deflected or", 800, 185);
         drawText(17,"No Atom Found", 800, 205);
-        drawText(15, "(Changes colour for each set", 800, 230);
-        drawText(15, "of deflected ray start and end)", 800, 250);
+//        drawText(15, "(Changes colour for each set", 800, 230);
+//        drawText(15, "of deflected ray start and end)", 800, 250);
 //        drawText(17,"Ray is within a", 800, 285);
 //        drawText(17,"circle of influence", 800, 305);
 

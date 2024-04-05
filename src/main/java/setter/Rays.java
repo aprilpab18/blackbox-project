@@ -1,9 +1,6 @@
 package main.java.setter;
 import main.java.ui.RayMarkers;
-import main.java.ui.StartMenu;
 import processing.core.*;
-
-import static main.java.ui.RayMarkers.drawDeflected;
 
 public class Rays {
 
@@ -71,75 +68,75 @@ public class Rays {
 
 
     public static int[][] downAndRightExits = {
-            {485, 525}, // 28
-            {425, 525}, // 26
-            {365, 525}, // 24
-            {305, 525}, // 22
-            {245, 525}, // 20
-            {605, 325}, // 36
-            {575, 375}, // 34
-            {545, 425}, // 32
-            {515, 475}, // 30
+            {485, 525, 28}, // 28
+            {425, 525, 26}, // 26
+            {365, 525, 24}, // 24
+            {305, 525, 22}, // 22
+            {245, 525, 20}, // 20
+            {605, 325, 36}, // 36
+            {575, 375, 34}, // 34
+            {545, 425, 32}, // 32
+            {515, 475, 30}, // 30
     };
 
     public static int[][] downAndLeftExits = {
-            {455, 525}, // 27
-            {395, 525}, // 25
-            {335, 525}, // 23
-            {275, 525}, // 21
-            {215, 525}, // 19
-            {185, 475}, // 17
-            {155, 425}, // 15
-            {125, 375}, // 13
-            {95, 325}, // 11
+            {455, 525, 27}, // 27
+            {395, 525, 25}, // 25
+            {335, 525, 23}, // 23
+            {275, 525, 21}, // 21
+            {215, 525, 19}, // 19
+            {185, 475, 17}, // 17
+            {155, 425, 15}, // 15
+            {125, 375, 13}, // 13
+            {95, 325, 11}, // 11
     };
 
     public static int[][] rightExits = {
-            {500, 100}, // 45
-            {530, 150}, // 43
-            {560, 200}, // 41
-            {590, 250}, // 39
-            {620, 300}, // 37
-            {590, 350}, // 35
-            {560, 400}, // 33
-            {530, 450}, // 31
-            {500, 500}, // 29
+            {500, 100, 45}, // 45
+            {530, 150, 43}, // 43
+            {560, 200, 41}, // 41
+            {590, 250, 39}, // 39
+            {620, 300, 37}, // 37
+            {590, 350, 35}, // 35
+            {560, 400, 33}, // 33
+            {530, 450, 31}, // 31
+            {500, 500, 29}, // 29
     };
 
     public static int[][] leftExits = {
-            {200, 500}, // 18
-            {170, 450}, // 16
-            {140, 400}, // 14
-            {110, 350}, // 12
-            {80, 300}, // 10
-            {110, 250}, // 8
-            {140, 200}, // 6
-            {170, 150}, // 4
-            {200, 100}, // 2
+            {200, 500, 18}, // 18
+            {170, 450, 16}, // 16
+            {140, 400, 14}, // 14
+            {110, 350, 12}, // 12
+            {80, 300, 10}, // 10
+            {110, 250, 8}, // 8
+            {140, 200, 6}, // 6
+            {170, 150, 4}, // 4
+            {200, 100, 2}, // 2
     };
 
     public static int[][] upAndRightExits = {
-            {245, 75}, // 54
-            {305, 75}, // 52
-            {365, 75}, // 50
-            {425, 75}, // 48
-            {485, 75}, // 46
-            {515, 125}, // 44
-            {545, 175}, // 42
-            {575, 225}, // 40
-            {605, 275}, // 38
+            {245, 75, 54}, // 54
+            {305, 75, 52}, // 52
+            {365, 75, 50}, // 50
+            {425, 75, 48}, // 48
+            {485, 75, 46}, // 46
+            {515, 125, 44}, // 44
+            {545, 175, 42}, // 42
+            {575, 225, 40}, // 40
+            {605, 275, 38}, // 38
     };
 
     public static int[][] upAndLeftExits = {
-            {95, 275}, // 9
-            {125, 225}, // 7
-            {155, 175}, // 5
-            {185, 125}, // 3
-            {215, 75}, // 1
-            {275, 75}, // 53
-            {335, 75}, // 51
-            {395, 75}, // 49
-            {455, 75}, // 47
+            {95, 275, 9}, // 9
+            {125, 225, 7}, // 7
+            {155, 175, 5}, // 5
+            {185, 125, 3}, // 3
+            {215, 75, 1}, // 1
+            {275, 75, 53}, // 53
+            {335, 75, 51}, // 51
+            {395, 75, 49}, // 49
+            {455, 75, 47}, // 47
     };
 
 
@@ -154,7 +151,7 @@ public class Rays {
 
     // FIND EXIT ON LINE OF RAY
     public static int[] setExit(float startX, float startY, int xChange, int yChange, int[][] exits, PApplet sketch) {
-        int[] exit = new int[] {0, 0};
+        int[] exit = new int[] {0, 0, 0};
         float[] testCoords = {startX, startY};
 
         while (true) {
@@ -163,7 +160,7 @@ public class Rays {
             // CHECK IF TEST COORDS HAVE REACHED ANY EXIT IN ARRAY
             for (int i = 0; i < exits.length; i++) {
                 if (sketch.dist(testCoords[0], testCoords[1], exits[i][0], exits[i][1]) < 15) { // IF COORDS REACH EXIT
-                    exit = new int[]{exits[i][0], exits[i][1]}; // Set exit coordinates
+                    exit = new int[]{exits[i][0], exits[i][1], exits[i][2]}; // Set exit coordinates
 
                     exitSet = true;
                     break;
@@ -184,6 +181,8 @@ public class Rays {
                 break;
             }
         }
+        // TESTING PURPOSES FOR FINDING OUT NEXT SPRINT
+//        System.out.println("Exit coordinates: (" + exit[0] + ", " + exit[1] + ")"); // Print exit coordinates
         return exit;
     }
 
@@ -371,7 +370,7 @@ public class Rays {
             if (directHit) {
                 RayMarkers.drawAbsorbed(index);
             } else {
-                RayMarkers.drawDeflected(index);
+                RayMarkers.drawDeflected(index, exit[2]);
             }
         }
 
@@ -471,7 +470,7 @@ public class Rays {
             if (directHit) {
                 RayMarkers.drawAbsorbed(index);
             } else {
-                RayMarkers.drawDeflected(index);
+                RayMarkers.drawDeflected(index, exit[2]);
             }
         }
 
@@ -570,7 +569,7 @@ public class Rays {
             if (directHit) {
                 RayMarkers.drawAbsorbed(index);
             } else {
-                RayMarkers.drawDeflected(index);
+                RayMarkers.drawDeflected(index, exit[2]);
             }
 
         }
@@ -671,7 +670,7 @@ public class Rays {
             if (directHit) {
                 RayMarkers.drawAbsorbed(index);
             } else {
-                RayMarkers.drawDeflected(index);
+                RayMarkers.drawDeflected(index, exit[2]);
             }
         }
 
@@ -767,7 +766,7 @@ public class Rays {
             if (directHit) {
                 RayMarkers.drawAbsorbed(index);
             } else {
-                RayMarkers.drawDeflected(index);
+                RayMarkers.drawDeflected(index, exit[2]);
             }
         }
 
@@ -864,7 +863,7 @@ public class Rays {
             if (directHit) {
                 RayMarkers.drawAbsorbed(index);
             } else {
-                RayMarkers.drawDeflected(index);
+                RayMarkers.drawDeflected(index, exit[2]);
             }
         }
 
