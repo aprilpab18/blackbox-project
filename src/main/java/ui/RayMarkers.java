@@ -1,7 +1,7 @@
 package main.java.ui;
 import processing.core.PApplet;
-
 import java.util.Random;
+import static main.java.utilities.Text.drawText;
 
 
 public class RayMarkers {
@@ -154,12 +154,6 @@ public class RayMarkers {
 //        drawText(17,"circle of influence", 800, 305);
 
 
-    }
-
-    public static void drawText(int size, String text, int x, int y){
-        parent.fill(255);
-        parent.textSize(size);
-        parent.text(text, x, y);
     }
 
     public static void drawKey(int r, int g, int b, int x, int y) {
