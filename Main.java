@@ -3,7 +3,8 @@ import main.java.ui.*;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import java.util.Arrays;
+// Importing packaged util static methods
+import static main.java.utilities.Text.*;
 
 
 public class Main extends PApplet {
@@ -92,20 +93,15 @@ public class Main extends PApplet {
             // Text for user input (where to shoot a ray)
             drawInputBox();
             fill(255);
-            textSize(30);
-            text("Enter Ray Co-ord: " + userInput, 350, 595);
+            drawText(30, "Enter Ray Co-ord: " + userInput, 350, 595);
 
             // ERROR HANDLING - If number is not in range
             if(!inputInRange){
-                fill(255, 0, 0);
-                textSize(20);
-                text("Number not in range, please try again.", 350, 625);
+                drawError(20, "Number not in range, please try again.", 350, 625);
             }
 
             else if(duplicateInput){
-                fill(255, 0, 0);
-                textSize(20);
-                text("Duplicate input number, please try again.", 350, 625);
+                drawError(20, "Duplicate input number, please try again.", 350, 625);
             }
 
 
@@ -211,14 +207,6 @@ public class Main extends PApplet {
                 showingAtoms = true;
             }
         }
-    }
-
-    // Method to draw input box UI
-    public void drawInputBox() {
-        stroke(255, 255, 255);
-        fill(0);
-        // Draw the rectangle
-        rect(145, 570, 410, 80, 12, 12, 12, 12);
     }
 
     public static void main(String[] args) {
