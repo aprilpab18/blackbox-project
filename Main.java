@@ -4,6 +4,8 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 // Importing packaged util static methods
+import java.util.Arrays;
+
 import static main.java.utilities.Text.*;
 
 
@@ -88,7 +90,13 @@ public class Main extends PApplet {
             grid.drawImage(selectedNumber);
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
 
+            // Draw rays (Move into showingAtoms in next sprint)
+            for (int i = 0; i < numOfRays; i++) {
+                int rayNumInList = shots[i] - 1;
 
+                int direction = rays.rayPositions[rayNumInList][4];
+                rayExitCoordinates[i] = rays.drawRayWithBounces(rayNumInList, atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
+            }
 
             // Text for user input (where to shoot a ray)
             drawInputBox();
@@ -120,17 +128,12 @@ public class Main extends PApplet {
                 text("Press 'X' to show the atoms & rays", 10, 20);
             }
 
-            // Draw rays (Move into showingAtoms in next sprint)
-            for (int i = 0; i < numOfRays; i++) {
-                int rayNumInList = shots[i] - 1;
 
-                int direction = rays.rayPositions[rayNumInList][4];
-                rayExitCoordinates[i] = rays.drawRayWithBounces(rayNumInList, atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
-            }
 
             // RAY MARKERS
             RayMarkers.drawRayMarkerKey(750,50);
 //            System.out.println("1 = " + grid.hexagonCentreCoordinates[0][0] + "\n6 = " + grid.hexagonCentreCoordinates[5][0]);
+
 
         }
 

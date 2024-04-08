@@ -202,6 +202,7 @@ public class Rays {
         float endY = startY + sketch.sin(angle) * lineLength;
 
         sketch.line(startX, startY, endX, endY);
+
         return new float[] {endX, endY};
     }
 
