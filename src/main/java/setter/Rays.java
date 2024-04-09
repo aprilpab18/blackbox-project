@@ -875,6 +875,10 @@ public class Rays {
             }
         }
 
+
+        if (directHit) {
+            endOfLine = new float[] {-1, -1};
+        }
         return endOfLine;
     }
 
