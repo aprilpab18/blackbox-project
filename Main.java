@@ -96,7 +96,7 @@ public class Main extends PApplet {
                 int rayNumInList = shots[i] - 1;
 
                 int direction = rays.rayPositions[rayNumInList][2];
-                rayExitCoordinates[i] = rays.drawRayWithBounces(rayNumInList, atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
+                rayExitCoordinates[i] = rays.drawRayWithBounces(atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
 
 
                 // CHECK FOR REFLECTED RAYS

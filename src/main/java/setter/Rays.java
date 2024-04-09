@@ -14,60 +14,60 @@ public class Rays {
 
     // START AND END COORDINATES OF RAYS AND DIRECTION THEY MOVE IN
     public static int[][] rayPositions = {
-            {215, 75, 1}, // 1
-            {200, 100, 3}, // 2
-            {185, 125, 1}, // 3
-            {170, 150, 3}, // 4
-            {155, 175, 1}, // 5
-            {140, 200, 3}, // 6
-            {125, 225, 1}, // 7
-            {110, 250, 3}, // 8
-            {95, 275, 1}, // 9
-            {80, 300, 3}, // 10
-            {95, 325, 5}, // 11
-            {110, 350, 3}, // 12
-            {125, 375, 5}, // 13
-            {140, 400, 3}, // 14
-            {155, 425, 5}, // 15
-            {170, 450, 3}, // 16
-            {185, 475, 5}, // 17
-            {200, 500, 3}, // 18
-            {215, 525, 5}, // 19
-            {245, 525, 6}, // 20
-            {275, 525, 5}, // 21
-            {305, 525, 6}, // 22
-            {335, 525, 5}, // 23
-            {365, 525, 6}, // 24
-            {395, 525, 5}, // 25
-            {425, 525, 6}, // 26
-            {455, 525, 5}, // 27
-            {485, 525, 6}, // 28
-            {500, 500, 4}, // 29
-            {515, 475, 6}, // 30
-            {530, 450, 4}, // 31
-            {545, 425, 6}, // 32
-            {560, 400, 4}, // 33
-            {575, 375, 6}, // 34
-            {590, 350, 4}, // 35
-            {605, 325, 6}, // 36
-            {620, 300, 4}, // 37
-            {605, 275, 2}, // 38
-            {590, 250, 4}, // 39
-            {575, 225, 2}, // 40
-            {560, 200, 4}, // 41
-            {545, 175, 2}, // 42
-            {530, 150, 4}, // 43
-            {515, 125, 2}, // 44
-            {500, 100, 4}, // 45
-            {485, 75, 2}, // 46
-            {455, 75, 1}, // 47
-            {425, 75, 2}, // 48
-            {395, 75, 1}, // 49
-            {365, 75, 2}, // 50
-            {335, 75, 1}, // 51
-            {305, 75, 2}, // 52
-            {275, 75, 1}, // 53
-            {245, 75, 2}, // 54
+            {215, 75, 215, 75, 1}, // 1
+            {200, 100, 200, 100, 3}, // 2
+            {185, 125, 185, 125, 1}, // 3
+            {170, 150, 170, 150, 3}, // 4
+            {155, 175, 155, 175, 1}, // 5
+            {140, 200, 140, 200, 3}, // 6
+            {125, 225, 125, 225, 1}, // 7
+            {110, 250, 110, 250, 3}, // 8
+            {95, 275, 95, 275, 1}, // 9
+            {80, 300, 80, 300, 3}, // 10
+            {95, 325, 95, 325, 5}, // 11
+            {110, 350, 110, 350, 3}, // 12
+            {125, 375, 125, 375, 5}, // 13
+            {140, 400, 140, 400, 3}, // 14
+            {155, 425, 155, 425, 5}, // 15
+            {170, 450, 170, 450, 3}, // 16
+            {185, 475, 185, 475, 5}, // 17
+            {200, 500, 200, 500, 3}, // 18
+            {215, 525, 215, 525, 5}, // 19
+            {245, 525, 245, 525, 6}, // 20
+            {275, 525, 275, 525, 5}, // 21
+            {305, 525, 305, 525, 6}, // 22
+            {335, 525, 335, 525, 5}, // 23
+            {365, 525, 365, 525, 6}, // 24
+            {395, 525, 395, 525, 5}, // 25
+            {425, 525, 425, 525, 6}, // 26
+            {455, 525, 455, 525, 5}, // 27
+            {485, 525, 485, 525, 6}, // 28
+            {500, 500, 500, 500, 4}, // 29
+            {515, 475, 515, 475, 6}, // 30
+            {530, 450, 530, 450, 4}, // 31
+            {545, 425, 545, 425, 6}, // 32
+            {560, 400, 560, 400, 4}, // 33
+            {575, 375, 575, 375, 6}, // 34
+            {590, 350, 590, 350, 4}, // 35
+            {605, 325, 605, 325, 6}, // 36
+            {620, 300, 620, 300, 4}, // 37
+            {605, 275, 605, 275, 2}, // 38
+            {590, 250, 590, 250, 4}, // 39
+            {575, 225, 575, 225, 2}, // 40
+            {560, 200, 560, 200, 4}, // 41
+            {545, 175, 545, 175, 2}, // 42
+            {530, 150, 530, 150, 4}, // 43
+            {515, 125, 515, 125, 2}, // 44
+            {500, 100, 500, 100, 4}, // 45
+            {485, 75, 485, 75, 2}, // 46
+            {455, 75, 455, 75, 1}, // 47
+            {425, 75, 425, 75, 2}, // 48
+            {395, 75, 395, 75, 1}, // 49
+            {365, 75, 365, 75, 2}, // 50
+            {335, 75, 335, 75, 1}, // 51
+            {305, 75, 305, 75, 2}, // 52
+            {275, 75, 275, 75, 1}, // 53
+            {245, 75, 245, 75, 2}, // 54
     };
 
 
@@ -229,7 +229,7 @@ public class Rays {
 
 
     // DRAW RAYS RECURSIVELY, CHECKING FOR BOUNCES
-    public static float[] drawRayWithBounces(int index, int[][] atomPositions, float startX, float startY, int direction, boolean firstRay, PApplet sketch) {
+    public static float[] drawRayWithBounces(int[][] atomPositions, float startX, float startY, int direction, boolean firstRay, PApplet sketch) {
         float[] endOfLine = new float[] {0, 0};
 
 
@@ -375,15 +375,6 @@ public class Rays {
             }
 
             endOfLine = drawRay(startX, startY, angles[0], distance, sketch); // doesn't hit anything
-
-//            // Ray Markers Calculated
-//            if (directHit) {
-//                RayMarkers.drawAbsorbed(index);
-//            } else if (endOfLine[0] == -2 && endOfLine[1] == -2) {
-//                RayMarkers.drawReflected180(index);
-//            } else {
-//                RayMarkers.drawDeflected(index, exit[2]);
-//            }
         }
 
 
@@ -477,13 +468,6 @@ public class Rays {
                     }
                 }
             endOfLine = drawRay(startX, startY, angles[1], distance, sketch);
-
-//            // Ray Markers Calculated
-//            if (directHit) {
-//                RayMarkers.drawAbsorbed(index);
-//            } else {
-//                RayMarkers.drawDeflected(index, exit[2]);
-//            }
         }
 
 
@@ -576,14 +560,6 @@ public class Rays {
             }
 
             endOfLine = drawRay(startX, startY, angles[2], distance, sketch);
-
-//            // Ray Markers Calculated
-//            if (directHit) {
-//                RayMarkers.drawAbsorbed(index);
-//            } else {
-//                RayMarkers.drawDeflected(index, exit[2]);
-//            }
-
         }
 
 
@@ -678,12 +654,6 @@ public class Rays {
             }
             endOfLine = drawRay(startX, startY, angles[3], distance, sketch);
 
-//            // Ray Markers Calculated
-//            if (directHit) {
-//                RayMarkers.drawAbsorbed(index);
-//            } else {
-//                RayMarkers.drawDeflected(index, exit[2]);
-//            }
         }
 
 
@@ -773,13 +743,6 @@ public class Rays {
                 }
             }
             endOfLine = drawRay(startX, startY, angles[4], distance, sketch);
-
-//            // Ray Markers Calculated
-//            if (directHit) {
-//                RayMarkers.drawAbsorbed(index);
-//            } else {
-//                RayMarkers.drawDeflected(index, exit[2]);
-//            }
         }
 
 
@@ -870,13 +833,6 @@ public class Rays {
                 }
             }
             endOfLine = drawRay(startX, startY, angles[5], distance, sketch);
-
-//            // Ray Markers Calculated
-//            if (directHit) {
-//                RayMarkers.drawAbsorbed(index);
-//            } else {
-//                RayMarkers.drawDeflected(index, exit[2]);
-//            }
         }
 
 
