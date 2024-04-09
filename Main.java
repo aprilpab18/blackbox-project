@@ -96,6 +96,12 @@ public class Main extends PApplet {
 
                 int direction = rays.rayPositions[rayNumInList][4];
                 rayExitCoordinates[i] = rays.drawRayWithBounces(rayNumInList, atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
+
+                if (dist(rayExitCoordinates[i][0], rayExitCoordinates[i][1], rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1]) < 5) {
+                    rayExitCoordinates[i] = new float[] {-2, -2};
+                }
+
+                System.out.println("Exit " + i + ": " + rayExitCoordinates[i][0] + ", " + rayExitCoordinates[i][1]);
             }
 
             // Text for user input (where to shoot a ray)

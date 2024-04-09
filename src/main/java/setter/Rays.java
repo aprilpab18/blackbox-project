@@ -148,6 +148,17 @@ public class Rays {
     // 6 = Up and left
 
 
+    // INCREMENTS TO MOVE FROM ONE HEXAGON TO THE NEXT ALONG LINES
+    public static int[][] incrementsAlongLine = {
+            {30, 50},
+            {-30, 50},
+            {60, 0},
+            {-60, 0},
+            {30, -50},
+            {-30, -50}
+    };
+
+
 
     // FIND EXIT ON LINE OF RAY
     public static int[] setExit(float startX, float startY, int xChange, int yChange, int[][] exits, PApplet sketch) {
@@ -191,6 +202,11 @@ public class Rays {
 
 
 
+    public static float[] checkForStartingInAtom(float startX, float startY, int direction) {
+
+        return new float[] {};
+    }
+
 
     // DISPLAYS RAY AND RETURNS COORDINATES OF END OF RAY
     public static float[] drawRay(float startX, float startY, float angle, float lineLength, PApplet sketch) {
@@ -224,17 +240,6 @@ public class Rays {
         };
 
         int numOfAtoms = atomPositions.length;
-
-
-        // INCREMENTS TO MOVE FROM ONE HEXAGON TO THE NEXT ALONG LINES
-        int[][] incrementsAlongLine = {
-                {30, 50},
-                {-30, 50},
-                {60, 0},
-                {-60, 0},
-                {30, -50},
-                {-30, -50}
-        };
 
 
         boolean circleOfInfluence = false;
