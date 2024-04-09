@@ -69,11 +69,6 @@ public class Grid {
                         atom = false;
                     }
                 }
-
-                // PRINT BOX NUMBERS
-//                parent.textSize(15);
-//                parent.fill(255);
-//                parent.text(boxNumber, hexagonCentreCoordinates[boxNumber][0], hexagonCentreCoordinates[boxNumber][1]);
                 boxNumber++;
             }
         }
@@ -96,10 +91,6 @@ public class Grid {
                         atom = false;
                     }
                 }
-
-                // PRINT BOX NUMBERS
-//                parent.fill(255);
-//                parent.text(boxNumber, hexagonCentreCoordinates[boxNumber][0], hexagonCentreCoordinates[boxNumber][1]);
                 boxNumber++;
             }
         }
@@ -123,10 +114,6 @@ public class Grid {
             parent.stroke(255, 255, 255, 120);
             parent.ellipse(atomPositions[i][0], atomPositions[i][1], 118, 118);
         }
-
-//        if (PApplet.dist(parent.mouseX, parent.mouseY, atomPositions[0][0], atomPositions[0][1]) <= 60) {
-//            parent.background(255);
-//        }
 
     }
 

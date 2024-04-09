@@ -138,6 +138,18 @@ public class Main extends PApplet {
 
             // RAY MARKERS
             RayMarkers.drawRayMarkerKey(750,50);
+
+            // LOGIC STARTS HERE
+            for (int i = 0; i < numOfRays; i++) {
+                int startIndex = shots[i] - 1;
+
+                // Ray Condition
+                float[] reflected = {-2, -2};
+
+                if (rayExitCoordinates[i] == reflected) {
+                    RayMarkers.drawReflected180(startIndex);
+                }
+            }
 //            System.out.println("1 = " + grid.hexagonCentreCoordinates[0][0] + "\n6 = " + grid.hexagonCentreCoordinates[5][0]);
 
 

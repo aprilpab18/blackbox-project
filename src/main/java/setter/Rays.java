@@ -372,14 +372,14 @@ public class Rays {
 
             endOfLine = drawRay(startX, startY, angles[0], distance, sketch); // doesn't hit anything
 
-            // Ray Markers Calculated
-            if (directHit) {
-                RayMarkers.drawAbsorbed(index);
-            } else if (endOfLine[0] == -2 && endOfLine[1] == -2) {
-                RayMarkers.drawReflected180(index);
-            } else {
-                RayMarkers.drawDeflected(index, exit[2]);
-            }
+//            // Ray Markers Calculated
+//            if (directHit) {
+//                RayMarkers.drawAbsorbed(index);
+//            } else if (endOfLine[0] == -2 && endOfLine[1] == -2) {
+//                RayMarkers.drawReflected180(index);
+//            } else {
+//                RayMarkers.drawDeflected(index, exit[2]);
+//            }
         }
 
 
@@ -474,12 +474,12 @@ public class Rays {
                 }
             endOfLine = drawRay(startX, startY, angles[1], distance, sketch);
 
-            // Ray Markers Calculated
-            if (directHit) {
-                RayMarkers.drawAbsorbed(index);
-            } else {
-                RayMarkers.drawDeflected(index, exit[2]);
-            }
+//            // Ray Markers Calculated
+//            if (directHit) {
+//                RayMarkers.drawAbsorbed(index);
+//            } else {
+//                RayMarkers.drawDeflected(index, exit[2]);
+//            }
         }
 
 
@@ -573,12 +573,12 @@ public class Rays {
 
             endOfLine = drawRay(startX, startY, angles[2], distance, sketch);
 
-            // Ray Markers Calculated
-            if (directHit) {
-                RayMarkers.drawAbsorbed(index);
-            } else {
-                RayMarkers.drawDeflected(index, exit[2]);
-            }
+//            // Ray Markers Calculated
+//            if (directHit) {
+//                RayMarkers.drawAbsorbed(index);
+//            } else {
+//                RayMarkers.drawDeflected(index, exit[2]);
+//            }
 
         }
 
@@ -674,12 +674,12 @@ public class Rays {
             }
             endOfLine = drawRay(startX, startY, angles[3], distance, sketch);
 
-            // Ray Markers Calculated
-            if (directHit) {
-                RayMarkers.drawAbsorbed(index);
-            } else {
-                RayMarkers.drawDeflected(index, exit[2]);
-            }
+//            // Ray Markers Calculated
+//            if (directHit) {
+//                RayMarkers.drawAbsorbed(index);
+//            } else {
+//                RayMarkers.drawDeflected(index, exit[2]);
+//            }
         }
 
 
@@ -770,12 +770,12 @@ public class Rays {
             }
             endOfLine = drawRay(startX, startY, angles[4], distance, sketch);
 
-            // Ray Markers Calculated
-            if (directHit) {
-                RayMarkers.drawAbsorbed(index);
-            } else {
-                RayMarkers.drawDeflected(index, exit[2]);
-            }
+//            // Ray Markers Calculated
+//            if (directHit) {
+//                RayMarkers.drawAbsorbed(index);
+//            } else {
+//                RayMarkers.drawDeflected(index, exit[2]);
+//            }
         }
 
 
@@ -868,11 +868,11 @@ public class Rays {
             endOfLine = drawRay(startX, startY, angles[5], distance, sketch);
 
             // Ray Markers Calculated
-            if (directHit) {
-                RayMarkers.drawAbsorbed(index);
-            } else {
-                RayMarkers.drawDeflected(index, exit[2]);
-            }
+//            if (directHit) {
+//                RayMarkers.drawAbsorbed(index);
+//            } else {
+//                RayMarkers.drawDeflected(index, exit[2]);
+//            }
         }
 
 

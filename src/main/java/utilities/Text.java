@@ -42,6 +42,15 @@ public class Text {
         }
     }
 
+    // Ray Markers used in RayMarkers
+    public static void drawSquare(int x, int y) {
+        if (parent != null) { // Check if parent is not null
+            parent.rect(x, y, 10, 10);
+        } else {
+            System.out.println("Parent is null!"); // Print error message for debugging
+        }
+    }
+
     // Outline for Input Box in Main
     public static void drawInputBox() {
         parent.stroke(255, 255, 255);

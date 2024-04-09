@@ -2,6 +2,7 @@ package main.java.ui;
 import processing.core.PApplet;
 import java.util.Random;
 import static main.java.utilities.Text.drawText;
+import static main.java.utilities.Text.drawSquare;
 
 
 public class RayMarkers {
@@ -49,38 +50,38 @@ public class RayMarkers {
         int rightY = secondIndex - 4;
         int topY =   secondIndex - 20;
 
-        // CALCULATING LOCATIONS (for now)
+        // CALCULATING LOCATIONS
         if (position >= 0 && position <= 8){ // top left
             x = topLeftX;
             y = leftY;
             // Draw marker
-            parent.rect(x, y, 10, 10);
+            drawSquare(x,y);
 
         } else if (position >= 9 && position <= 18) { // bottom left
             x = bottomLeftX;
             y = leftY;
             // Draw marker
-            parent.rect(x, y, 10, 10);
+            drawSquare(x,y);
         } else if (position >= 19 && position <= 27) { // bottom
             x = topBottomX;
             y = bottomY;
             // Draw marker
-            parent.rect(x, y, 10, 10);
+            drawSquare(x,y);
         } else if (position >= 28 && position <= 35) { // bottom right
             x = bottomRightX;
             y = rightY;
             // Draw marker
-            parent.rect(x, y, 10, 10);
+            drawSquare(x,y);
         } else if (position >= 36 && position <= 45) { // top right
             x = topRightX;
             y = rightY;
             // Draw marker
-            parent.rect(x, y, 10, 10);
+            drawSquare(x,y);
         }  else if (position >= 46 && position <= 53) { // top
             x = topBottomX;
             y = topY;
             // Draw marker
-            parent.rect(x, y, 10, 10);
+            drawSquare(x,y);
         }
     }
 
