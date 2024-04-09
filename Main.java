@@ -144,10 +144,11 @@ public class Main extends PApplet {
                 int startIndex = shots[i] - 1;
 
                 // Ray Condition
+                float[] directHit = {-1, -1};
                 float[] reflected = {-2, -2};
 
-                if (rayExitCoordinates[i] == reflected) {
-                    RayMarkers.drawReflected180(startIndex);
+                if (rayExitCoordinates[i] == directHit) {
+                    RayMarkers.drawAbsorbed(startIndex);
                 }
             }
 //            System.out.println("1 = " + grid.hexagonCentreCoordinates[0][0] + "\n6 = " + grid.hexagonCentreCoordinates[5][0]);
