@@ -2,6 +2,8 @@ package main.java.setter;
 import main.java.ui.RayMarkers;
 import processing.core.*;
 
+import java.util.Arrays;
+
 public class Rays {
 
     PApplet parent;
@@ -374,14 +376,14 @@ public class Rays {
 
             endOfLine = drawRay(startX, startY, angles[0], distance, sketch); // doesn't hit anything
 
-            // Ray Markers Calculated
-            if (directHit) {
-                RayMarkers.drawAbsorbed(index);
-            } else if (endOfLine[0] == -2 && endOfLine[1] == -2) {
-                RayMarkers.drawReflected180(index);
-            } else {
-                RayMarkers.drawDeflected(index, exit[2]);
-            }
+//            // Ray Markers Calculated
+//            if (directHit) {
+//                RayMarkers.drawAbsorbed(index);
+//            } else if (endOfLine[0] == -2 && endOfLine[1] == -2) {
+//                RayMarkers.drawReflected180(index);
+//            } else {
+//                RayMarkers.drawDeflected(index, exit[2]);
+//            }
         }
 
 
@@ -476,12 +478,12 @@ public class Rays {
                 }
             endOfLine = drawRay(startX, startY, angles[1], distance, sketch);
 
-            // Ray Markers Calculated
-            if (directHit) {
-                RayMarkers.drawAbsorbed(index);
-            } else {
-                RayMarkers.drawDeflected(index, exit[2]);
-            }
+//            // Ray Markers Calculated
+//            if (directHit) {
+//                RayMarkers.drawAbsorbed(index);
+//            } else {
+//                RayMarkers.drawDeflected(index, exit[2]);
+//            }
         }
 
 
@@ -575,12 +577,12 @@ public class Rays {
 
             endOfLine = drawRay(startX, startY, angles[2], distance, sketch);
 
-            // Ray Markers Calculated
-            if (directHit) {
-                RayMarkers.drawAbsorbed(index);
-            } else {
-                RayMarkers.drawDeflected(index, exit[2]);
-            }
+//            // Ray Markers Calculated
+//            if (directHit) {
+//                RayMarkers.drawAbsorbed(index);
+//            } else {
+//                RayMarkers.drawDeflected(index, exit[2]);
+//            }
 
         }
 
@@ -886,7 +888,22 @@ public class Rays {
 
 
 
+    public static void drawRayMarkers(int numOfRays, int[] shots, float[][] rayExitCoordinates) {
+        // LOGIC STARTS HERE
+        for (int i = 0; i < numOfRays; i++) {
+            int startIndex = shots[i] - 1;
 
+            // Ray Condition
+            float[] directHit = {-1, -1};
+            float[] reflected = {-2, -2};
+
+//                System.out.println(Arrays.equals(rayExitCoordinates[i], new float[]{-1, -1}));
+            if (Arrays.equals(rayExitCoordinates[i], new float[]{-1, -1})) {
+                System.out.println("DIRECT HIT");
+                RayMarkers.drawAbsorbed(startIndex);
+            }
+        }
+    }
 
 
 }

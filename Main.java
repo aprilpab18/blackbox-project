@@ -142,20 +142,7 @@ public class Main extends PApplet {
             // RAY MARKERS
             RayMarkers.drawRayMarkerKey(750,50);
 
-            // LOGIC STARTS HERE
-            for (int i = 0; i < numOfRays; i++) {
-                int startIndex = shots[i] - 1;
-
-                // Ray Condition
-                float[] directHit = {-1, -1};
-                float[] reflected = {-2, -2};
-
-                System.out.println(Arrays.equals(rayExitCoordinates[i], new float[]{-1, -1}));
-                if (rayExitCoordinates[i] == directHit) {
-                    System.out.println("DIRECT HIT");
-                    RayMarkers.drawAbsorbed(startIndex);
-                }
-            }
+            Rays.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
 //            System.out.println("1 = " + grid.hexagonCentreCoordinates[0][0] + "\n6 = " + grid.hexagonCentreCoordinates[5][0]);
 
 
