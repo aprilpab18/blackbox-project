@@ -165,6 +165,7 @@ public class Rays {
 
 
     // FIND EXIT ON LINE OF RAY
+
     public static int[] setExit(float startX, float startY, int xChange, int yChange, int[][] exits, PApplet sketch) {
         int[] exit = new int[] {0, 0, 0};
         float[] testCoords = {startX, startY};
@@ -196,8 +197,6 @@ public class Rays {
                 break;
             }
         }
-        // TESTING PURPOSES FOR FINDING OUT NEXT SPRINT
-//        System.out.println("Exit coordinates: (" + exit[0] + ", " + exit[1] + ")"); // Print exit coordinates
         return exit;
     }
 
@@ -849,14 +848,35 @@ public class Rays {
         for (int i = 0; i < numOfRays; i++) {
             int startIndex = shots[i] - 1;
 
-            // Ray Condition
-            float[] directHit = {-1, -1};
-            float[] reflected = {-2, -2};
+            /* Ray Conditions
+             * - DIRECT HIT: -1, -1
+             * - REFLECTED: -2, -2
+             * - DEFLECTED: Coordinates */
 
-//                System.out.println(Arrays.equals(rayExitCoordinates[i], new float[]{-1, -1}));
-            if (Arrays.equals(rayExitCoordinates[i], new float[]{-1, -1})) {
-                System.out.println("DIRECT HIT");
-                RayMarkers.drawAbsorbed(startIndex);
+            // Extracting first two elements for Math.round to compare float with int
+            float[] exitCoords = {rayExitCoordinates[i][0], rayExitCoordinates[i][1]};
+
+            if (Arrays.equals(exitCoords, new float[]{-1, -1})) {
+                RayMarkers.drawAbsorbed(startIndex); // DIRECT HIT
+            } else if (Arrays.equals(exitCoords, new float[]{-2, -2})) {
+                RayMarkers.drawReflected180(startIndex); // REFLECTED
+            } else {
+                // Find End Index
+                int endIndex = 0;
+
+                // Loop through to compare
+                for (int j = 0; j < rayPositions.length; j++) {
+                    // Extracting first two elements of rayPositions[j]
+                    int[] positionCoords = {rayPositions[j][0], rayPositions[j][1]};
+
+                    // Compare the first two elements of rayPositions[j] with exitCoords
+                    if (Arrays.equals(positionCoords, new int[]{Math.round(exitCoords[0]), Math.round(exitCoords[1])})) {
+                        endIndex = j;
+                        break; // Exit loop once endIndex is found
+                    }
+                }
+
+                RayMarkers.drawDeflected(startIndex, endIndex + 1);
             }
         }
     }

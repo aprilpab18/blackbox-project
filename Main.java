@@ -75,9 +75,6 @@ public class Main extends PApplet {
                 startMenu.instructMenu.displayInstructMenu();
             }
 
-            // Draws grid and makes array of atom coordinates
-//            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
-
             // Highlight selected number
             if (userInput != "" && Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) <= 54) {
                 selectedNumber = Integer.parseInt(userInput);
@@ -95,7 +92,7 @@ public class Main extends PApplet {
             for (int i = 0; i < numOfRays; i++) {
                 int rayNumInList = shots[i] - 1;
 
-                int direction = rays.rayPositions[rayNumInList][2];
+                int direction = rays.rayPositions[rayNumInList][4];
                 rayExitCoordinates[i] = rays.drawRayWithBounces(atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
 
 
@@ -103,8 +100,6 @@ public class Main extends PApplet {
                 if (dist(rayExitCoordinates[i][0], rayExitCoordinates[i][1], rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1]) < 5) {
                     rayExitCoordinates[i] = new float[] {-2, -2};
                 }
-
-                System.out.println("Exit " + i + ": " + rayExitCoordinates[i][0] + ", " + rayExitCoordinates[i][1]);
             }
 
             // Text for user input (where to shoot a ray)
@@ -143,9 +138,6 @@ public class Main extends PApplet {
             RayMarkers.drawRayMarkerKey(750,50);
 
             Rays.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
-//            System.out.println("1 = " + grid.hexagonCentreCoordinates[0][0] + "\n6 = " + grid.hexagonCentreCoordinates[5][0]);
-
-
         }
 
     }

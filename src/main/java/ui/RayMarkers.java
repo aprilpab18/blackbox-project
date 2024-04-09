@@ -149,10 +149,8 @@ public class RayMarkers {
         drawKey(0,0,255,775,175); // Blue
         drawText(17,"Ray Deflected or", 800, 185);
         drawText(17,"No Atom Found", 800, 205);
-//        drawText(15, "(Changes colour for each set", 800, 230);
-//        drawText(15, "of deflected ray start and end)", 800, 250);
-//        drawText(17,"Ray is within a", 800, 285);
-//        drawText(17,"circle of influence", 800, 305);
+        drawText(15, "(Changes colour for each set", 800, 230);
+        drawText(15, "of deflected ray start and end)", 800, 250);
 
 
     }
