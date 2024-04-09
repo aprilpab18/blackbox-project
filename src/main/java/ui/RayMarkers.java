@@ -102,7 +102,7 @@ public class RayMarkers {
         drawMarker(blue, index);
 
         // End Marker
-        drawMarker(blue, endIndex - 1);
+        drawMarker(blue, endIndex);
 
     }
 

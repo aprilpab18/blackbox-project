@@ -876,7 +876,7 @@ public class Rays {
                     }
                 }
 
-                RayMarkers.drawDeflected(startIndex, endIndex + 1);
+                RayMarkers.drawDeflected(startIndex, endIndex);
             }
         }
     }
