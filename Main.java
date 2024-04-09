@@ -5,6 +5,7 @@ import processing.core.PImage;
 
 // Importing packaged util static methods
 import java.util.Arrays;
+import java.util.Objects;
 
 import static main.java.utilities.Text.*;
 
@@ -94,9 +95,11 @@ public class Main extends PApplet {
             for (int i = 0; i < numOfRays; i++) {
                 int rayNumInList = shots[i] - 1;
 
-                int direction = rays.rayPositions[rayNumInList][4];
+                int direction = rays.rayPositions[rayNumInList][2];
                 rayExitCoordinates[i] = rays.drawRayWithBounces(rayNumInList, atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
 
+
+                // CHECK FOR REFLECTED RAYS
                 if (dist(rayExitCoordinates[i][0], rayExitCoordinates[i][1], rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1]) < 5) {
                     rayExitCoordinates[i] = new float[] {-2, -2};
                 }
@@ -147,7 +150,9 @@ public class Main extends PApplet {
                 float[] directHit = {-1, -1};
                 float[] reflected = {-2, -2};
 
+                System.out.println(Arrays.equals(rayExitCoordinates[i], new float[]{-1, -1}));
                 if (rayExitCoordinates[i] == directHit) {
+                    System.out.println("DIRECT HIT");
                     RayMarkers.drawAbsorbed(startIndex);
                 }
             }
