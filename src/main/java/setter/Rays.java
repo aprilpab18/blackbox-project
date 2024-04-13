@@ -143,6 +143,15 @@ public class Rays {
             {455, 75, 47}, // 47
     };
 
+    int[][][] exits = {
+            downAndRightExits,
+            downAndLeftExits,
+            rightExits,
+            leftExits,
+            upAndRightExits,
+            upAndLeftExits
+    };
+
 
     // 1 = Down and right
     // 2 = Down and left
@@ -176,7 +185,7 @@ public class Rays {
 
     // FIND EXIT ON LINE OF RAY
 
-    public static int[] setExit(float startX, float startY, int xChange, int yChange, int[][] exits, PApplet sketch) {
+    public static int[] setExit(float startX, float startY, int direction, int[][] exits, PApplet sketch) {
         int[] exit = new int[] {0, 0, 0};
         float[] testCoords = {startX, startY};
 
@@ -198,8 +207,8 @@ public class Rays {
             }
 
             // MOVE TEST COORDINATES TO NEXT POINT ALONG LINE
-            testCoords[0] += (xChange / 2);
-            testCoords[1] += (yChange / 2);
+            testCoords[0] += ((float) incrementsAlongLine[direction - 1][0] / 2);
+            testCoords[1] += ((float) incrementsAlongLine[direction - 1][1] / 2);
 
             // IF TEST COORDS GO OFF-SCREEN, ERROR (NO EXIT FOUND)
             if (testCoords[0] < 0 || testCoords[0] > sketch.width || testCoords[1] > sketch.height || testCoords[1] < 0) {
@@ -273,7 +282,7 @@ public class Rays {
         if (direction == 1) { // Down and right ---------------------------------------------------------------------------------------------------
 
             // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-            int[] exit = setExit(startX, startY, 30, 50, downAndRightExits, sketch);
+            int[] exit = setExit(startX, startY, direction, downAndRightExits, sketch);
             float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
             // Starting position is half distance to next centre point -> Move back half
@@ -379,7 +388,7 @@ public class Rays {
         else if (direction == 2) { // Down and left ---------------------------------------------------------------------------------------------------
 
             // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-            int[] exit = setExit(startX, startY, -30, 50, downAndLeftExits, sketch);
+            int[] exit = setExit(startX, startY, direction, downAndLeftExits, sketch);
             float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
@@ -469,7 +478,7 @@ public class Rays {
         else if (direction == 3) { // Right ---------------------------------------------------------------------------------------------------
 
             // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-            int[] exit = setExit(startX, startY, 60, 0, rightExits, sketch);
+            int[] exit = setExit(startX, startY, direction, rightExits, sketch);
             float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
@@ -562,7 +571,7 @@ public class Rays {
 
 
             // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-            int[] exit = setExit(startX, startY, -60, 0, leftExits, sketch);
+            int[] exit = setExit(startX, startY, direction, leftExits, sketch);
             float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
@@ -656,7 +665,7 @@ public class Rays {
 
 
             // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-            int[] exit = setExit(startX, startY, 30, -50, upAndRightExits, sketch);
+            int[] exit = setExit(startX, startY, direction, upAndRightExits, sketch);
             float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
@@ -744,7 +753,7 @@ public class Rays {
         else if (direction == 6) { // Up and left ---------------------------------------------------------------------------------------------------
 
             // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-            int[] exit = setExit(startX, startY, -30, -50, upAndLeftExits, sketch);
+            int[] exit = setExit(startX, startY, direction, upAndLeftExits, sketch);
             float distance = sketch.dist(startX, startY, exit[0], exit[1]);
 
 
