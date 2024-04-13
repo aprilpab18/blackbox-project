@@ -11,7 +11,6 @@ import static main.java.utilities.Text.*;
 
 
 public class Main extends PApplet {
-    // TEST COMMIT
     Grid grid;
     Computer computer;
     StartMenu startMenu;
