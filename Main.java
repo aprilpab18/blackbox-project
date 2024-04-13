@@ -92,12 +92,12 @@ public class Main extends PApplet {
             for (int i = 0; i < numOfRays; i++) {
                 int rayNumInList = shots[i] - 1;
 
-                int direction = rays.rayPositions[rayNumInList][4];
-                rayExitCoordinates[i] = rays.drawRayWithBounces(atomPositions, rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1], direction, true, this);
+                int direction = Rays.rayPositions[rayNumInList][4];
+                rayExitCoordinates[i] = Rays.drawRayWithBounces(atomPositions, Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1], direction, true, false,this);
 
 
                 // CHECK FOR REFLECTED RAYS
-                if (dist(rayExitCoordinates[i][0], rayExitCoordinates[i][1], rays.rayPositions[rayNumInList][0], rays.rayPositions[rayNumInList][1]) < 5) {
+                if (dist(rayExitCoordinates[i][0], rayExitCoordinates[i][1], Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1]) < 5) {
                     rayExitCoordinates[i] = new float[] {-2, -2};
                 }
             }
@@ -125,7 +125,7 @@ public class Main extends PApplet {
 
             if (showingAtoms) {
                 text("Press 'X' to hide the atoms & rays", 10, 20);
-
+                rays.displayRays(numOfRays, shots, atomPositions, this);
                 grid.drawAtoms(atomPositions);
             }
             else {
