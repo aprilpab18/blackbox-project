@@ -11,7 +11,7 @@ public class RayMarkers {
 
     // CONSTRUCTOR
     public RayMarkers(PApplet parent) {
-        this.parent = parent;
+        RayMarkers.parent = parent;
     }
 
     // Variables for colours
@@ -100,28 +100,89 @@ public class RayMarkers {
 
         // Start Marker
         drawMarker(blue, index);
+        drawDeflectedNum(index);
 
         // End Marker
         drawMarker(blue, endIndex);
+        drawDeflectedNum(endIndex);
 
     }
+
+    // Method for matching numbers (UNDER CONSTRUCTION)
+    private static void drawDeflectedNum(int position){
+
+        // VARIABLES for position
+        int x;
+        int y;
+
+        // VARIABLES for indexes of marker co-ordinates
+        int firstIndex = MarkerCoords.numberPositions[position][0];
+        int secondIndex = MarkerCoords.numberPositions[position][1];
+
+        // CONSTANTS for x CO-ORDS
+        int topLeftX = firstIndex - 19;
+        int bottomLeftX = firstIndex - 22;
+        int topBottomX =  firstIndex - 5;
+        int bottomRightX = firstIndex + 12;
+        int topRightX = firstIndex + 13;
+
+        // CONSTANTS for y CO-ORDS
+        int leftY = secondIndex + 4;
+        int bottomY =  secondIndex + 21;
+        int rightY = secondIndex + 5;
+        int topY =   secondIndex - 11;
+
+        // CALCULATING LOCATIONS
+        if (position >= 0 && position <= 8){ // top left
+            x = topLeftX;
+            y = leftY;
+            // Draw number
+            drawNumber(x,y);
+
+
+        } else if (position >= 9 && position <= 18) { // bottom left
+            x = bottomLeftX;
+            y = leftY;
+            // Draw number
+            drawNumber(x,y);
+
+        } else if (position >= 19 && position <= 27) { // bottom
+            x = topBottomX;
+            y = bottomY;
+            // Draw number
+            drawNumber(x,y);
+
+        } else if (position >= 28 && position <= 35) { // bottom right
+            x = bottomRightX;
+            y = rightY;
+            // Draw number
+            drawNumber(x,y);
+
+        } else if (position >= 36 && position <= 45) { // top right
+            x = topRightX;
+            y = rightY;
+            // Draw number
+            drawNumber(x,y);
+
+        }  else if (position >= 46 && position <= 53) { // top
+            x = topBottomX;
+            y = topY;
+            // Draw number
+            drawNumber(x,y);
+
+        }
+    }
+
+    public static int[] deflectedNum = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27};
+
+    public static void drawNumber(int x, int y) {
+        drawText(16, Integer.toString(deflectedNum[0]), x, y);
+    }
+
 
     // Reflected 180 => PURPLE, NOT DONE
     public static void drawReflected180(int index){
         drawMarker(purple, index);
-    }
-
-    // Random Colour Generator (Under Construction)
-    public static int[] generateRandomRGB() {
-        Random rand = new Random();
-        int[] rgb = new int[3];
-
-        // Generate random values for R, G, and B components
-        rgb[0] = rand.nextInt(256); // R component (0-255)
-        rgb[1] = rand.nextInt(256); // G component (0-255)
-        rgb[2] = rand.nextInt(256); // B component (0-255)
-
-        return rgb;
     }
 
     // METHODS FOR RAY MARKER KEY
@@ -149,7 +210,7 @@ public class RayMarkers {
         drawKey(0,0,255,775,175); // Blue
         drawText(17,"Ray Deflected or", 800, 185);
         drawText(17,"No Atom Found", 800, 205);
-        drawText(15, "(Changes colour for each set", 800, 230);
+        drawText(15, "(Changes number for each set", 800, 230);
         drawText(15, "of deflected ray start and end)", 800, 250);
 
 

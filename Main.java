@@ -138,7 +138,6 @@ public class Main extends PApplet {
 
             // RAY MARKERS
             RayMarkers.drawRayMarkerKey(750,50);
-
             Rays.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
         }
 
