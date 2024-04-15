@@ -59,7 +59,7 @@ public class Rays {
             {530, 150, 530, 150, 4}, // 43
             {513, 124, 513, 124, 2}, // 44
             {500, 100, 500, 100, 4}, // 45
-            {483, 74, 483, 74, 2}, // 46
+            {484, 74, 484, 74, 2}, // 46
             {453, 76, 453, 76, 1}, // 47
             {423, 74, 423, 74, 2}, // 48
             {393, 76, 393, 76, 1}, // 49
@@ -591,24 +591,27 @@ public class Rays {
             } else if (Arrays.equals(exitCoords, new float[]{-2, -2})) {
                 RayMarkers.drawReflected180(startIndex); // REFLECTED
             } else {
-                // Find End Index
-                int endIndex = 0;
 
-                // Loop through to compare
-                for (int j = 0; j < rayPositions.length; j++) {
-                    // Extracting first two elements of rayPositions[j]
-                    int[] positionCoords = {rayPositions[j][0], rayPositions[j][1]};
-
-                    // Compare the first two elements of rayPositions[j] with exitCoords
-                    if (Arrays.equals(positionCoords, new int[]{(int) Math.floor(exitCoords[0]), (int) Math.floor(exitCoords[1])})) {
-                        endIndex = j;
-                        break; // Exit loop once endIndex is found
-                    }
-                }
+                int endIndex = findEndIndex(exitCoords, rayPositions, 3);
 
                 RayMarkers.drawDeflected(startIndex, endIndex);
+                int coord = endIndex + 1;
+                System.out.println(coord + ": " + Arrays.toString(exitCoords));
             }
         }
+    }
+
+    // Used to find exits
+    private static int findEndIndex(float[] exitCoords, int[][] rayPositions, int range) {
+        for (int j = 0; j < rayPositions.length; j++) {
+            int[] positionCoords = {rayPositions[j][0], rayPositions[j][1]};
+            // Check if the difference between coordinates is within the specified range
+            if (Math.abs(exitCoords[0] - positionCoords[0]) <= range &&
+                    Math.abs(exitCoords[1] - positionCoords[1]) <= range) {
+                return j;
+            }
+        }
+        return 0; // Default to 0 if no matching index is found
     }
 
 
