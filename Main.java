@@ -88,7 +88,7 @@ public class Main extends PApplet {
 
             // Draw grid
             grid.drawImage(selectedNumber);
-            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
+//            atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
 
             // Draw rays (Move into showingAtoms in next sprint)
             for (int i = 0; i < numOfRays; i++) {
