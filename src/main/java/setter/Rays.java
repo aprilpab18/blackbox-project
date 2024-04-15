@@ -607,8 +607,8 @@ public class Rays {
                 }
 
                 RayMarkers.drawDeflected(startIndex, endIndex);
-                int coord = endIndex + 1;
-                System.out.println(coord + ": " + Arrays.toString(exitCoords));
+//                int coord = endIndex + 1;
+//                System.out.println(coord + ": " + Arrays.toString(exitCoords));
             }
         }
     }
