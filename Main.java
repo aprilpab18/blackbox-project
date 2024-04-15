@@ -54,8 +54,6 @@ public class Main extends PApplet {
         while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
             atomBoxNumbers = computer.generateAtoms(numOfAtoms);
         }
-
-        atomBoxNumbers = new int[] {5, 14, 21, 23, 31, 55};
     }
 
     public void draw() {
