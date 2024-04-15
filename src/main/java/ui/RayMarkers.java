@@ -93,6 +93,8 @@ public class RayMarkers {
         drawMarker(red, index);
     }
 
+    public static int deflectedCount = 0;
+
 
     // Deflected => Different Colours
 
@@ -106,6 +108,8 @@ public class RayMarkers {
         drawMarker(blue, endIndex);
         drawDeflectedNum(endIndex);
 
+//        deflectedCount++;
+//        System.out.println(deflectedCount);
     }
 
     // Method for matching numbers (UNDER CONSTRUCTION)

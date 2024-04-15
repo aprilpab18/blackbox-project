@@ -33,9 +33,9 @@ public class Rays {
             {185, 475, 185, 475, 5}, // 17
             {200, 500, 200, 500, 3}, // 18
             {215, 525, 215, 525, 5}, // 19
-            {245, 525, 245, 525, 6}, // 20
+            {246, 524, 246, 524, 6}, // 20
             {275, 525, 275, 525, 5}, // 21
-            {305, 525, 305, 525, 6}, // 22
+            {306, 524, 305, 525, 6}, // 22
             {335, 525, 335, 525, 5}, // 23
             {365, 525, 365, 525, 6}, // 24
             {395, 525, 395, 525, 5}, // 25
@@ -600,13 +600,14 @@ public class Rays {
                     int[] positionCoords = {rayPositions[j][0], rayPositions[j][1]};
 
                     // Compare the first two elements of rayPositions[j] with exitCoords
-                    if (Arrays.equals(positionCoords, new int[]{Math.round(exitCoords[0]), Math.round(exitCoords[1])})) {
+                    if (Arrays.equals(positionCoords, new int[]{(int) Math.floor(exitCoords[0]), (int) Math.floor(exitCoords[1])})) {
                         endIndex = j;
                         break; // Exit loop once endIndex is found
                     }
                 }
 
                 RayMarkers.drawDeflected(startIndex, endIndex);
+//                System.out.println(Arrays.toString(exitCoords));
             }
         }
     }
