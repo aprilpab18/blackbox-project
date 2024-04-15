@@ -603,8 +603,10 @@ public class Rays {
         }
     }
 
-    // Used to find exits
+    // Used to compare exit coordinates within a range
     private static int findEndIndex(float[] exitCoords, int[][] rayPositions, int range) {
+
+        // Loop through ray coordinates
         for (int j = 0; j < rayPositions.length; j++) {
             int[] positionCoords = {rayPositions[j][0], rayPositions[j][1]};
             // Check if the difference between coordinates is within the specified range
