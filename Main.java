@@ -4,7 +4,9 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 // Importing packaged util static methods
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static main.java.utilities.Text.*;
@@ -16,10 +18,13 @@ public class Main extends PApplet {
     StartMenu startMenu;
     Rays rays;
     RayMarkers rayMarkers;
+    Guessing guessing;
 
 
     public int numOfAtoms = 6;
     public boolean startScreen = true;
+    public boolean gameScreen = true;
+    public boolean endScreen = false;
 
     // Variable for storing if ray input is out of range
     public boolean inputInRange = true;
@@ -37,6 +42,9 @@ public class Main extends PApplet {
     // -1, -1 = DIRECT HIT
     // -2, -2 = REFLECTED
 
+    boolean mouseReleased = false;
+    List<AtomLocation> guessedAtoms = new ArrayList<>();
+
     public void settings() {
         size(1100, 700);
     }
@@ -49,6 +57,7 @@ public class Main extends PApplet {
         startMenu = new StartMenu(this);
         rays = new Rays(this);
         rayMarkers = new RayMarkers(this);
+        guessing = new Guessing(this, grid);
 
 
         while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
@@ -64,10 +73,11 @@ public class Main extends PApplet {
             // Check start button is pressed to continue
             if (startMenu.isStartPressed()) {
                 startScreen = false;
+                gameScreen = true;
             }
         }
 
-        else { // AFTER START SCREEN -> GAMEPLAY
+        else if (gameScreen) { // AFTER START SCREEN -> GAMEPLAY
             background(0);
 
             // Instructions Menu
@@ -137,9 +147,39 @@ public class Main extends PApplet {
             // RAY MARKERS
             RayMarkers.drawRayMarkerKey(750,50);
             Rays.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
+
+
+            if (mouseReleased) {
+                guessedAtoms = guessing.updateAtomsGuessed(mouseX, mouseY);
+                mouseReleased = false;
+            }
+
+            if (!guessedAtoms.isEmpty()) {
+                guessing.displayGuessedAtoms(guessedAtoms);
+            }
+
+
+            // End game button
+            if(guessedAtoms.size() == 6){
+                guessing.drawEndButton(800, 600);
+            }
+
+            if (guessing.isEndGamePressed()) {
+                gameScreen = false;
+                endScreen = true;
+            }
+        } else if (endScreen) {
+
+            background(0);
+
         }
 
     }
+
+    public void mouseReleased() {
+        mouseReleased = true;
+    }
+
 
 
     private void displayEndScreen() {
