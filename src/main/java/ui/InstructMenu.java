@@ -37,7 +37,7 @@ public class InstructMenu {
         drawText(25, "To shoot a ray, type the edge number you would like to shoot from and press enter.", 100, 100);
 
         drawBullet(80, 120);
-        drawText(25, "The computer will place a ray marker after each shot that will allow you to keep track"
+        drawText(25, "The computer will place ray markers after each shot that will allow you to keep track"
                             , 100, 130);
         drawText(25, " of where your rays enter and exit the board.", 103, 160);
 
