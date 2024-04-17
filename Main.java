@@ -4,7 +4,9 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 // Importing packaged util static methods
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static main.java.utilities.Text.*;
@@ -16,10 +18,14 @@ public class Main extends PApplet {
     StartMenu startMenu;
     Rays rays;
     RayMarkers rayMarkers;
+    Guessing guessing;
+    EndScreen endScreen;
 
 
     public int numOfAtoms = 6;
     public boolean startScreen = true;
+    public boolean gameScreen = true;
+    public boolean showEndScreen = false;
 
     // Variable for storing if ray input is out of range
     public boolean inputInRange = true;
@@ -36,6 +42,9 @@ public class Main extends PApplet {
     public float[][] rayExitCoordinates = new float[54][2];
     // -1, -1 = DIRECT HIT
     // -2, -2 = REFLECTED
+    public boolean showRays = false;
+    boolean mouseReleased = false;
+    List<AtomLocation> guessedAtoms = new ArrayList<>();
 
     public void settings() {
         size(1100, 700);
@@ -49,6 +58,8 @@ public class Main extends PApplet {
         startMenu = new StartMenu(this);
         rays = new Rays(this);
         rayMarkers = new RayMarkers(this);
+        guessing = new Guessing(this, grid);
+        endScreen = new EndScreen(myImage, this);
 
 
         while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
@@ -64,10 +75,11 @@ public class Main extends PApplet {
             // Check start button is pressed to continue
             if (startMenu.isStartPressed()) {
                 startScreen = false;
+                gameScreen = true;
             }
         }
 
-        else { // AFTER START SCREEN -> GAMEPLAY
+        else if (gameScreen) { // AFTER START SCREEN -> GAMEPLAY
             background(0);
 
             // Instructions Menu
@@ -137,79 +149,103 @@ public class Main extends PApplet {
             // RAY MARKERS
             RayMarkers.drawRayMarkerKey(750,50);
             Rays.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
+
+
+            if (mouseReleased) {
+                guessedAtoms = guessing.updateAtomsGuessed(mouseX, mouseY);
+                mouseReleased = false;
+            }
+
+            if (!guessedAtoms.isEmpty()) {
+                guessing.displayGuessedAtoms(guessedAtoms);
+            }
+
+
+            // End game button
+            if(guessedAtoms.size() == 6){
+                guessing.drawEndButton(800, 600);
+            }
+
+            if (guessing.isEndGamePressed()) {
+                gameScreen = false;
+                showEndScreen = true;
+            }
+        } else if (showEndScreen) {
+
+            endScreen.drawEndScreen(atomPositions, showRays, numOfRays, shots, rayExitCoordinates);
         }
+    }
 
+    public void mouseReleased() {
+        mouseReleased = true;
     }
 
 
-    private void displayEndScreen() {
-
-        // ADD CODE FOR END SCREEN HERE !!!!!!
-        background(0, 0, 255);
-    }
 
 
     // Method called when a key is released
     public void keyReleased() {
+        if (!showEndScreen) {
+            // Check if the ENTER key is released
+            if (key == ENTER) {
+                // Try parsing the userInput to an integer
+                if (userInput != "") {
 
-        // Check if the ENTER key is released
-        if (key == ENTER) {
-            // Try parsing the userInput to an integer
-            if (userInput != "") {
+                    int num = Integer.parseInt(userInput);
+                    // Check if the parsed number is within the range 1 to 54
+                    if (num >= 1 && num <= 54) {
+                        // If it's within the range, store it in the shots array and increment the number of rays
+                        inputInRange = true;
 
-                int num = Integer.parseInt(userInput);
-                // Check if the parsed number is within the range 1 to 54
-                if (num >= 1 && num <= 54) {
-                    // If it's within the range, store it in the shots array and increment the number of rays
-                    inputInRange = true;
-
-                    // !!!!!!!!!! CHECK IF RAY ALREADY IN SHOTS ARRAY !!!!!!!!!! -> DISPLAY MESSAGE IF SO
-                    duplicateInput = false;
-                    for(int i = 0; i < shots.length; i++){
-                        if (num == shots[i]) {
-                            duplicateInput = true;
-                            break;
+                        // !!!!!!!!!! CHECK IF RAY ALREADY IN SHOTS ARRAY !!!!!!!!!! -> DISPLAY MESSAGE IF SO
+                        duplicateInput = false;
+                        for (int i = 0; i < shots.length; i++) {
+                            if (num == shots[i]) {
+                                duplicateInput = true;
+                                break;
+                            }
                         }
+
+                        if (!duplicateInput) { // NOT A DUPLICATE
+                            shots[numOfRays] = num;
+                            numOfRays++;
+                        }
+
+                    } else {
+                        // If it's not within the range, print a message
+                        // Print to screen instead
+                        inputInRange = false;
+
                     }
-
-                    if (!duplicateInput) { // NOT A DUPLICATE
-                        shots[numOfRays] = num;
-                        numOfRays++;
-                    }
-
-                } else {
-                    // If it's not within the range, print a message
-                    // Print to screen instead
-                    inputInRange = false;
-
+                    // Reset userInput to an empty string
+                    userInput = "";
                 }
-                // Reset userInput to an empty string
-                userInput = "";
-            }
-            /*
-             * Num will be the point that the ray is sent from (i.e. rayPostions - 1)
-             */
+                /*
+                 * Num will be the point that the ray is sent from (i.e. rayPostions - 1)
+                 */
 
-        }
-        // Check if the BACKSPACE key is released
-        else if (key == BACKSPACE) {
-            // If userInput is not empty, remove the last character
-            if (!userInput.isEmpty()) {
-                userInput = userInput.substring(0, userInput.length()-1);
             }
-        }
-        // Check if the released key is a digit
-        else if (Character.isDigit(key)){
-            // If it's a digit, add it to userInput
-            userInput += key;
+            // Check if the BACKSPACE key is released
+            else if (key == BACKSPACE) {
+                // If userInput is not empty, remove the last character
+                if (!userInput.isEmpty()) {
+                    userInput = userInput.substring(0, userInput.length() - 1);
+                }
+            }
+            // Check if the released key is a digit
+            else if (Character.isDigit(key)) {
+                // If it's a digit, add it to userInput
+                userInput += key;
+            }
         }
         // Check if the released key is 'x' or 'X'
-        else if (key == 'x' || key == 'X') {
-            // Toggle the showingAtoms variable
-            if (showingAtoms) {
-                showingAtoms = false;
-            } else {
-                showingAtoms = true;
+        if (key == 'x' || key == 'X') {
+            if (!showEndScreen) {
+                // Toggle the showingAtoms variable
+                showingAtoms = !showingAtoms;
+            }
+            else {
+                showRays = !showRays;
             }
         }
     }

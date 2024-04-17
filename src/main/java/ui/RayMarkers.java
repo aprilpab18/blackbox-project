@@ -108,8 +108,8 @@ public class RayMarkers {
         drawMarker(blue, endIndex);
         drawDeflectedNum(endIndex);
 
-//        deflectedCount++;
-//        System.out.println(deflectedCount);
+//        deflectedCount = numDeflectedRays+1;
+        System.out.println(deflectedCount);
     }
 
     // Method for matching numbers (UNDER CONSTRUCTION)
