@@ -575,6 +575,8 @@ public class Rays {
 
     public static void drawRayMarkers(int numOfRays, int[] shots, float[][] rayExitCoordinates) {
         // LOGIC STARTS HERE
+        int numDeflectedRays = 0;
+
         for (int i = 0; i < numOfRays; i++) {
             int startIndex = shots[i] - 1;
 
@@ -592,9 +594,10 @@ public class Rays {
                 RayMarkers.drawReflected180(startIndex); // REFLECTED
             } else {
 
+                numDeflectedRays++;
                 int endIndex = findEndIndex(exitCoords, rayPositions, 3);
 
-                RayMarkers.drawDeflected(startIndex, endIndex);
+                RayMarkers.drawDeflected(startIndex, endIndex, numDeflectedRays);
 
                 // Testing
 //                int coord = endIndex + 1;

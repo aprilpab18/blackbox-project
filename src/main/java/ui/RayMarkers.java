@@ -93,27 +93,27 @@ public class RayMarkers {
         drawMarker(red, index);
     }
 
-    public static int deflectedCount = 0;
+//    public static int deflectedCount = 0;
 
 
     // Deflected => Different Colours
 
-    public static void drawDeflected(int index, int endIndex){
+    public static void drawDeflected(int index, int endIndex, int numDeflectedRays){
 
         // Start Marker
         drawMarker(blue, index);
-        drawDeflectedNum(index);
+        drawDeflectedNum(index, numDeflectedRays);
 
         // End Marker
         drawMarker(blue, endIndex);
-        drawDeflectedNum(endIndex);
+        drawDeflectedNum(endIndex, numDeflectedRays);
 
 //        deflectedCount = numDeflectedRays+1;
-        System.out.println(deflectedCount);
+//        System.out.println(deflectedCount);
     }
 
     // Method for matching numbers (UNDER CONSTRUCTION)
-    private static void drawDeflectedNum(int position){
+    private static void drawDeflectedNum(int position, int num){
 
         // VARIABLES for position
         int x;
@@ -141,46 +141,46 @@ public class RayMarkers {
             x = topLeftX;
             y = leftY;
             // Draw number
-            drawNumber(x,y);
+            drawNumber(x,y, num);
 
 
         } else if (position >= 9 && position <= 18) { // bottom left
             x = bottomLeftX;
             y = leftY;
             // Draw number
-            drawNumber(x,y);
+            drawNumber(x,y, num);
 
         } else if (position >= 19 && position <= 27) { // bottom
             x = topBottomX;
             y = bottomY;
             // Draw number
-            drawNumber(x,y);
+            drawNumber(x,y, num);
 
         } else if (position >= 28 && position <= 35) { // bottom right
             x = bottomRightX;
             y = rightY;
             // Draw number
-            drawNumber(x,y);
+            drawNumber(x,y, num);
 
         } else if (position >= 36 && position <= 45) { // top right
             x = topRightX;
             y = rightY;
             // Draw number
-            drawNumber(x,y);
+            drawNumber(x,y, num);
 
         }  else if (position >= 46 && position <= 53) { // top
             x = topBottomX;
             y = topY;
             // Draw number
-            drawNumber(x,y);
+            drawNumber(x,y, num);
 
         }
     }
 
     public static int[] deflectedNum = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27};
 
-    public static void drawNumber(int x, int y) {
-        drawText(16, Integer.toString(deflectedNum[0]), x, y);
+    public static void drawNumber(int x, int y, int num) {
+        drawText(16, Integer.toString(num), x, y);
     }
 
 
