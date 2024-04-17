@@ -15,9 +15,9 @@ public class RayMarkers {
     }
 
     // Variables for colours
-    private static int[] red = {255, 0, 0};
-    private static int[] purple = {138, 43, 226};
-    private static int[] blue = {0, 0, 255};
+    private static final int[] red = {255, 0, 0};
+    private static final int[] purple = {138, 43, 226};
+    private static final int[] blue = {0, 0, 255};
 
     // Method for logic to draw marker
     private static void drawMarker(int[] rgb, int position){
