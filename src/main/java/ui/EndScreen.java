@@ -6,6 +6,8 @@ import processing.core.PImage;
 
 import java.util.List;
 
+import static main.java.ui.RayMarkers.markerScore;
+
 public class EndScreen {
     private final PApplet parent;
     public Grid grid;
@@ -49,15 +51,21 @@ public class EndScreen {
         else {
             parent.text("Press 'X' to show the rays you shot", 10, 20);
 
+            // Assuming all atoms are incorrect initially
+            int atomScore = 30;
+
             for (AtomLocation atomLocation : guessedAtoms) {
 
+                // Yellow Atoms => Incorrect Guess
                 parent.fill(255, 255, 0);
                 parent.stroke(255, 255, 0);
 
+                // Red Atoms => Correct Guess
                 for (int[] atom : atomPositions) {
                     if (atomLocation.getX() == atom[0] && atomLocation.getY() == atom[1]) {
                         parent.fill(255, 0, 0);
                         parent.stroke(255, 0, 0);
+                        atomScore -= 5; // Correct atoms: -5
                         break;
                     }
                 }
@@ -66,6 +74,8 @@ public class EndScreen {
 
             }
 
+            // Adding up total score
+            score = atomScore + markerScore;
         }
 
         drawScoreBoard(800, 160);

@@ -163,7 +163,11 @@ public class RayMarkers {
     }
 
     // METHODS FOR FIGURING OUT WHICH RAY MARKER TO DRAW + SCORING
+    public static int markerScore = 0;
+
     public static void drawRayMarkers(int numOfRays, int[] shots, float[][] rayExitCoordinates) {
+
+        // Initial counts reset to 0
         int numDeflectedRays = 0;
         int score = 0;
 
@@ -190,8 +194,8 @@ public class RayMarkers {
                 int endIndex = findEndIndex(exitCoords, rayPositions, 3);
                 RayMarkers.drawDeflected(startIndex, endIndex, numDeflectedRays); // DEFLECTED
             }
-            EndScreen.score = score + Guessing.atomScores();
         }
+        markerScore = score;
     }
 
     // Helper method to compare exit coordinates within a range

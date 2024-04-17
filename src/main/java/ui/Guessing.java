@@ -126,16 +126,5 @@ public class Guessing {
 
     }
 
-    // Scoring for misplaced atoms
-    // Scoring for misplaced atoms
-    public static int atomScores() {
-        int atomScore = 0;
-
-        //
-        //
-
-        return atomScore;
-    }
-
 
 }
