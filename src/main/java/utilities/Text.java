@@ -58,4 +58,16 @@ public class Text {
         // Draw the rectangle
         parent.rect(145, 570, 410, 80, 12, 12, 12, 12);
     }
+
+    // Atoms for EndScreen
+    public static void drawAtom(int[] rgb, int x, int y, int size) {
+        // Getting colours from array
+        int r = rgb[0];
+        int g = rgb[1];
+        int b = rgb[2];
+
+        parent.fill(r, g, b);
+        parent.stroke(r,g,b);
+        parent.ellipse(x,y,size,size);
+    }
 }

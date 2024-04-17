@@ -8,6 +8,7 @@ import java.util.List;
 
 import static main.java.ui.RayMarkers.markerScore;
 import static main.java.utilities.Text.drawText;
+import static main.java.utilities.Text.drawAtom;
 
 public class EndScreen {
     private final PApplet parent;
@@ -19,6 +20,11 @@ public class EndScreen {
     public static int correctAtomsNum = 0;
     public static int incorrectAtomsNum = 0;
 
+    // Variables for colours
+    private static final int[] red = {255, 0, 0};
+    private static final int[] green = {0, 255, 0};
+    private static final int[] yellow = {255, 255, 0};
+
     public EndScreen(PImage myImage, PApplet parent) {
         this.parent = parent;
         this.grid = new Grid(parent, myImage);
@@ -29,10 +35,9 @@ public class EndScreen {
 
         grid.drawImage(-1);
 
-        parent.fill(0, 255, 0);
-        parent.stroke(0, 255, 0);
+        // Green Atoms => Computer/Setter Atoms
         for (int[] atom : atomPositions) {
-            parent.ellipse(atom[0], atom[1], 30, 30);
+            drawAtom(green, atom[0], atom[1], 30);
         }
 
         parent.fill(255);
@@ -64,23 +69,20 @@ public class EndScreen {
             for (AtomLocation atomLocation : guessedAtoms) {
 
                 // Yellow Atoms => Incorrect Guess
-                parent.fill(255, 255, 0);
-                parent.stroke(255, 255, 0);
+                drawAtom(yellow, atomLocation.getX(), atomLocation.getY(), 30);
 
                 // Red Atoms => Correct Guess
                 for (int[] atom : atomPositions) {
                     if (atomLocation.getX() == atom[0] && atomLocation.getY() == atom[1]) {
-                        parent.fill(255, 0, 0);
-                        parent.stroke(255, 0, 0);
+                        drawAtom(red, atomLocation.getX(), atomLocation.getY(), 30);
+
+                        // Adjust scoring
                         atomScore -= 5; // Correct atoms: -5
                         atoms++;
                         incorrectAtoms--;
                         break;
                     }
                 }
-
-                parent.ellipse(atomLocation.getX(), atomLocation.getY(), 30, 30);
-
             }
 
             // Adding up total score
@@ -90,7 +92,7 @@ public class EndScreen {
         }
 
         drawScoreBoard();
-//        drawAtomKey();
+        drawAtomsKey();
         drawExitButton(915, 490);
 
         // Graphics
@@ -98,6 +100,8 @@ public class EndScreen {
         drawText(40, "THANK YOU FOR PLAYING!", 325, 635);
         drawRay(675);
     }
+
+    // SCOREBOARDS + ATOMS KEY
 
     private void drawScoreBoard() {
         parent.stroke(255, 255, 255);
@@ -107,23 +111,26 @@ public class EndScreen {
         parent.rect(750, 50, 250, 215, 12, 12, 12, 12);
 
         drawText(40, "Score: " + score, 800, 90);
-        drawText(20, "Correct Atoms: " + correctAtomsNum, 770, 135);
-        drawText(20, "Incorrect Atoms: " + incorrectAtomsNum, 770, 185);
+        drawText(20, "Correct Guesses: " + correctAtomsNum, 770, 135);
+        drawText(20, "Incorrect Guesses: " + incorrectAtomsNum, 770, 185);
         drawText(20, "Ray Markers: " + markerScore, 770, 235);
     }
 
-//    private void drawAtomKey() {
-//        parent.stroke(255, 255, 255);
-//        parent.fill(0);
-//
-//        // Draw the rectangle
-//        parent.rect(750, 275, 250, 200, 12, 12, 12, 12);
-//
-//        drawText(30, "Atom Key", 815, 310);
-//        drawText(17, "Correct Guessed Atoms: " + correctAtomsNum, 785, 135);
-//        drawText(17, "Incorrect Guessed Atoms: " + incorrectAtomsNum, 785, 185);
-//        drawText(17, "Actual Atoms: " + markerScore, 785, 235);
-//    }
+    private void drawAtomsKey() {
+        parent.stroke(255, 255, 255);
+        parent.fill(0);
+
+        // Draw the rectangle
+        parent.rect(750, 275, 250, 200, 12, 12, 12, 12);
+
+        drawText(30, "Atoms Key", 815, 310);
+        drawText(20, "Correct Atoms: ", 770, 355);
+        drawAtom(red,910,348, 20);
+        drawText(20, "Incorrect Atoms: ", 770, 405);
+        drawAtom(yellow,925,398, 20);
+        drawText(20, "Actual Atoms: ", 770, 455);
+        drawAtom(green,900,448, 20);
+    }
 
     private void drawExitButton(int x, int y) {
         // Check if the mouse is over the button
@@ -151,8 +158,6 @@ public class EndScreen {
             parent.exit();
         }
     }
-
-
     public boolean drawPlayAgainButton(int x, int y) {
         // Check if the mouse is over the button
         boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 150 && parent.mouseY >= y && parent.mouseY <= y + 50);
@@ -185,9 +190,9 @@ public class EndScreen {
     // GRAPHICS METHODS
 
     // Variables for Ray
-    float x = 0;      // Initial x-coordinate of the ray
-    float speed = 1.2F;  // Speed of the ray
-    public void drawRay(float y) {
+    private float x = 0;      // Initial x-coordinate of the ray
+    private float speed = 1.2F;  // Speed of the ray
+    private void drawRay(float y) {
 
         // Draw ray dynamically
         parent.stroke(255,255,255);
@@ -202,5 +207,6 @@ public class EndScreen {
         }
 
     }
+
 
 }
