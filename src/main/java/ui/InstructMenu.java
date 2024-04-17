@@ -37,8 +37,8 @@ public class InstructMenu {
         drawText(25, "To shoot a ray, type the edge number you would like to shoot from and press enter.", 100, 100);
 
         drawBullet(80, 120);
-        drawText(25, "The computer will place ray markers after each shot that will allow you to keep track"
-                            , 100, 130);
+        drawText(25, "The computer will place a ray marker after each shot that will allow you to keep track"
+                , 100, 130);
         drawText(25, " of where your rays enter and exit the board.", 103, 160);
 
         drawBullet(80, 180);
@@ -55,22 +55,23 @@ public class InstructMenu {
         drawText(25, "the game. "
                 , 103, 310);
         drawBullet(80, 330);
-        drawText(25, "Your score will be announced and the true atom locations will be revealed."
+        drawText(25, "Your score will then be announced and the true atom locations will be revealed."
                 , 100, 340);
-
         drawBullet(80, 360);
-        drawText(25, "Your score will be calculated based on your accuracy in guessing the atom location"
+        drawText(25, "Your score will be calculated based on your accuracy in guessing the atom locations"
                 , 100, 370);
-        drawText(25, "and the number of rays shot."
+        drawText(25, "and the number of ray markers placed."
                 , 103, 400);
+        drawBullet(80, 430);
+        drawText(25, "You will receive 1 point for every ray marker, and 5 points for every misplaced atom."
+                , 100, 440);
+        drawText(25, "You are aiming to keep your score as low as possible!"
+                , 101, 470);
 
 
 
         drawText(50, "Good luck and have fun!"
-                , 280, 490);
-
-
-
+                , 280, 540);
 
 
     }
