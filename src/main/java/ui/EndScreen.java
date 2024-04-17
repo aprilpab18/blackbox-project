@@ -11,6 +11,8 @@ import static main.java.utilities.Text.drawText;
 import static main.java.utilities.Text.drawAtom;
 
 public class EndScreen {
+
+    // ACCESS TO PApplet TO USE PROCESSING FEATURES
     private final PApplet parent;
     public Grid grid;
     public Rays rays;
@@ -25,6 +27,7 @@ public class EndScreen {
     private static final int[] green = {0, 255, 0};
     private static final int[] yellow = {255, 255, 0};
 
+    // CONSTRUCTOR
     public EndScreen(PImage myImage, PApplet parent) {
         this.parent = parent;
         this.grid = new Grid(parent, myImage);
@@ -40,10 +43,10 @@ public class EndScreen {
             drawAtom(green, atom[0], atom[1], 30);
         }
 
+        // Aligning
         parent.fill(255);
         parent.textSize(20);
         parent.textAlign(0, 0);
-
 
         if (showRays) {
             parent.text("Press 'X' to hide the rays you shot", 10, 20);
@@ -67,15 +70,12 @@ public class EndScreen {
             int atoms = 0;
 
             for (AtomLocation atomLocation : guessedAtoms) {
-
                 // Yellow Atoms => Incorrect Guess
                 drawAtom(yellow, atomLocation.getX(), atomLocation.getY(), 30);
-
                 // Red Atoms => Correct Guess
                 for (int[] atom : atomPositions) {
                     if (atomLocation.getX() == atom[0] && atomLocation.getY() == atom[1]) {
                         drawAtom(red, atomLocation.getX(), atomLocation.getY(), 30);
-
                         // Adjust scoring
                         atomScore -= 5; // Correct atoms: -5
                         atoms++;
@@ -90,7 +90,6 @@ public class EndScreen {
             correctAtomsNum = atoms;
             incorrectAtomsNum = incorrectAtoms;
         }
-
         drawScoreBoard();
         drawAtomsKey();
         drawExitButton(915, 490);
@@ -104,12 +103,11 @@ public class EndScreen {
     // SCOREBOARDS + ATOMS KEY
 
     private void drawScoreBoard() {
+        // Outline
         parent.stroke(255, 255, 255);
         parent.fill(0);
-
-        // Draw the rectangle
         parent.rect(750, 50, 250, 215, 12, 12, 12, 12);
-
+        // Details
         drawText(40, "Score: " + score, 800, 90);
         drawText(20, "Correct Guesses: " + correctAtomsNum, 770, 135);
         drawText(20, "Incorrect Guesses: " + incorrectAtomsNum, 770, 185);
@@ -117,12 +115,11 @@ public class EndScreen {
     }
 
     private void drawAtomsKey() {
+        // Outline
         parent.stroke(255, 255, 255);
         parent.fill(0);
-
-        // Draw the rectangle
         parent.rect(750, 275, 250, 200, 12, 12, 12, 12);
-
+        // Details
         drawText(30, "Atoms Key", 815, 310);
         drawText(20, "Correct Atoms: ", 770, 355);
         drawAtom(red,910,348, 20);
@@ -190,7 +187,7 @@ public class EndScreen {
     // GRAPHICS METHODS
 
     // Variables for Ray
-    private float x = 0;      // Initial x-coordinate of the ray
+    private float x = 0;    // Initial x-coordinate of the ray
     private float speed = 1.2F;  // Speed of the ray
     private void drawRay(float y) {
 
