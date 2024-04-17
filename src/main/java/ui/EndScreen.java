@@ -55,13 +55,13 @@ public class EndScreen {
 
             for (AtomLocation atomLocation : guessedAtoms) {
 
-                parent.fill(255, 0, 0);
-                parent.stroke(255, 0, 0);
+                parent.fill(255, 255, 0);
+                parent.stroke(255, 255, 0);
 
                 for (int[] atom : atomPositions) {
                     if (atomLocation.getX() == atom[0] && atomLocation.getY() == atom[1]) {
-                        parent.fill(255, 255, 0);
-                        parent.stroke(255, 255, 0);
+                        parent.fill(255, 0, 0);
+                        parent.stroke(255, 0, 0);
                         break;
                     }
                 }
