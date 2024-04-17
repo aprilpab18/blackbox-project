@@ -68,12 +68,16 @@ public class EndScreen {
 
         }
 
-        parent.textSize(40);
-        parent.fill(255);
-        parent.text("Score: " + score, 800, 160);
-
+        drawScoreBoard(800, 160);
         drawExitButton(900, 490);
 
+    }
+
+    private void drawScoreBoard(int x, int y) {
+        parent.textSize(40);
+        parent.fill(255);
+        parent.text("Score: " + score, x, y);
+        drawRay(600);
     }
 
     private void drawExitButton(int x, int y) {
@@ -131,6 +135,27 @@ public class EndScreen {
         }
 
         return false;
+    }
+
+    // GRAPHICS METHODS
+
+    // Variables for Ray
+    float x = 0;      // Initial x-coordinate of the ray
+    float speed = 1.5F;  // Speed of the ray
+    public void drawRay(float y) {
+
+        // Draw ray dynamically
+        parent.stroke(255,255,255);
+        parent.line(0, y, x, y);
+
+        // Move the ray
+        x += speed;
+
+        // Change direction when the ray reaches the end
+        if (x >= 1100 || x < 0) {
+            speed *= -1; // bounce back
+        }
+
     }
 
 }
