@@ -45,8 +45,6 @@ public class EndScreen {
             }
 
             RayMarkers.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
-
-
         }
         else {
             parent.text("Press 'X' to show the rays you shot", 10, 20);
