@@ -185,8 +185,6 @@ public class Main extends PApplet {
                 numOfRays = 0;
             }
         }
-
-        System.out.println(showEndScreen);
     }
 
     public void mouseReleased() {
