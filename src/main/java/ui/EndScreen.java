@@ -10,7 +10,7 @@ public class EndScreen {
     private final PApplet parent;
     public Grid grid;
     public Rays rays;
-    private int score = 0;
+    public static int score = 0;
 
     public EndScreen(PImage myImage, PApplet parent) {
         this.parent = parent;

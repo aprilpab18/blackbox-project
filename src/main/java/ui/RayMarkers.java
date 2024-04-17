@@ -165,6 +165,7 @@ public class RayMarkers {
     // METHODS FOR FIGURING OUT WHICH RAY MARKER TO DRAW
     public static void drawRayMarkers(int numOfRays, int[] shots, float[][] rayExitCoordinates) {
         int numDeflectedRays = 0;
+        int score = 0;
 
         for (int i = 0; i < numOfRays; i++) {
             int startIndex = shots[i] - 1;
@@ -178,15 +179,20 @@ public class RayMarkers {
             float[] exitCoords = {rayExitCoordinates[i][0], rayExitCoordinates[i][1]};
 
             if (Arrays.equals(exitCoords, new float[]{-1, -1})) {
+                score++;
                 RayMarkers.drawAbsorbed(startIndex); // DIRECT HIT
             } else if (Arrays.equals(exitCoords, new float[]{-2, -2})) {
+                score++;
                 RayMarkers.drawReflected180(startIndex); // REFLECTED
             } else {
+                score += 2;
                 numDeflectedRays++;
                 int endIndex = findEndIndex(exitCoords, rayPositions, 3);
                 RayMarkers.drawDeflected(startIndex, endIndex, numDeflectedRays); // DEFLECTED
             }
         }
+
+        EndScreen.score += score;
     }
 
     // Helper method to compare exit coordinates within a range
