@@ -175,7 +175,7 @@ public class Main extends PApplet {
         } else if (showEndScreen) {
 
             endScreen.drawEndScreen(atomPositions, showRays, numOfRays, shots, rayExitCoordinates, guessedAtoms);
-            playAgain = endScreen.drawPlayAgainButton(720, 490);
+            playAgain = endScreen.drawPlayAgainButton(735, 490);
 
 
             if (playAgain) {
