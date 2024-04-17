@@ -279,7 +279,7 @@ public class Rays {
 
         // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
         int[] exit = setExit(new float[] {startX, startY}, direction, sketch);
-        float distance = sketch.dist(startX, startY, exit[0], exit[1]);
+        float distance = PApplet.dist(startX, startY, exit[0], exit[1]);
 
         // Starting position is half distance to next centre point -> Move back half
         float[] testCoords = {startX, startY};
