@@ -12,8 +12,6 @@ public class EndScreen {
     public Rays rays;
     private int score = 0;
 
-
-
     public EndScreen(PImage myImage, PApplet parent) {
         this.parent = parent;
         this.grid = new Grid(parent, myImage);
@@ -46,7 +44,7 @@ public class EndScreen {
                 parent.ellipse(atom[0], atom[1], 118, 118);
             }
 
-            Rays.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
+            RayMarkers.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
 
 
         }

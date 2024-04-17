@@ -150,7 +150,7 @@ public class Main extends PApplet {
 
             // RAY MARKERS
             RayMarkers.drawRayMarkerKey(750,50);
-            Rays.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
+            RayMarkers.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
 
 
             if (mouseReleased) {

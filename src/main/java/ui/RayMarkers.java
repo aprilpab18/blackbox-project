@@ -1,6 +1,10 @@
 package main.java.ui;
 import processing.core.PApplet;
+
+import java.util.Arrays;
 import java.util.Random;
+
+import static main.java.setter.Rays.rayPositions;
 import static main.java.utilities.Text.drawText;
 import static main.java.utilities.Text.drawSquare;
 
@@ -56,7 +60,6 @@ public class RayMarkers {
             y = leftY;
             // Draw marker
             drawSquare(x,y);
-
         } else if (position >= 9 && position <= 18) { // bottom left
             x = bottomLeftX;
             y = leftY;
@@ -88,33 +91,28 @@ public class RayMarkers {
 
     // METHODS TO DRAW DIFFERENT MARKERS
 
-    // Absorbed => GREEN, one co-ord, DONE!
+    // Absorbed => RED
     public static void drawAbsorbed(int index){
         drawMarker(red, index);
     }
 
-//    public static int deflectedCount = 0;
+    // Reflected 180 => PURPLE
+    public static void drawReflected180(int index){
+        drawMarker(purple, index);
+    }
 
-
-    // Deflected => Different Colours
-
+    // Deflected => BLUE, Different Numbering
     public static void drawDeflected(int index, int endIndex, int numDeflectedRays){
-
         // Start Marker
         drawMarker(blue, index);
         drawDeflectedNum(index, numDeflectedRays);
-
         // End Marker
         drawMarker(blue, endIndex);
         drawDeflectedNum(endIndex, numDeflectedRays);
-
-//        deflectedCount = numDeflectedRays+1;
-//        System.out.println(deflectedCount);
     }
 
-    // Method for matching numbers (UNDER CONSTRUCTION)
+    // Method for positioning of deflected ray numbering
     private static void drawDeflectedNum(int position, int num){
-
         // VARIABLES for position
         int x;
         int y;
@@ -142,51 +140,80 @@ public class RayMarkers {
             y = leftY;
             // Draw number
             drawNumber(x,y, num);
-
-
         } else if (position >= 9 && position <= 18) { // bottom left
             x = bottomLeftX;
             y = leftY;
             // Draw number
             drawNumber(x,y, num);
-
         } else if (position >= 19 && position <= 27) { // bottom
             x = topBottomX;
             y = bottomY;
             // Draw number
             drawNumber(x,y, num);
-
         } else if (position >= 28 && position <= 35) { // bottom right
             x = bottomRightX;
             y = rightY;
             // Draw number
             drawNumber(x,y, num);
-
         } else if (position >= 36 && position <= 45) { // top right
             x = topRightX;
             y = rightY;
             // Draw number
             drawNumber(x,y, num);
-
         }  else if (position >= 46 && position <= 53) { // top
             x = topBottomX;
             y = topY;
             // Draw number
             drawNumber(x,y, num);
-
         }
     }
 
-    public static int[] deflectedNum = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27};
-
+    // Method for drawing number
     public static void drawNumber(int x, int y, int num) {
         drawText(16, Integer.toString(num), x, y);
     }
 
+    // METHODS FOR FIGURING OUT WHICH RAY MARKER TO DRAW
+    public static void drawRayMarkers(int numOfRays, int[] shots, float[][] rayExitCoordinates) {
+        // LOGIC STARTS HERE
+        int numDeflectedRays = 0;
 
-    // Reflected 180 => PURPLE, NOT DONE
-    public static void drawReflected180(int index){
-        drawMarker(purple, index);
+        for (int i = 0; i < numOfRays; i++) {
+            int startIndex = shots[i] - 1;
+
+            /* Ray Conditions
+             * - DIRECT HIT: -1, -1
+             * - REFLECTED: -2, -2
+             * - DEFLECTED: Coordinates */
+
+            // Extracting first two elements for Math.round to compare float with int
+            float[] exitCoords = {rayExitCoordinates[i][0], rayExitCoordinates[i][1]};
+
+            if (Arrays.equals(exitCoords, new float[]{-1, -1})) {
+                RayMarkers.drawAbsorbed(startIndex); // DIRECT HIT
+            } else if (Arrays.equals(exitCoords, new float[]{-2, -2})) {
+                RayMarkers.drawReflected180(startIndex); // REFLECTED
+            } else {
+                numDeflectedRays++;
+                int endIndex = findEndIndex(exitCoords, rayPositions, 3);
+                RayMarkers.drawDeflected(startIndex, endIndex, numDeflectedRays); // DEFLECTED
+            }
+        }
+    }
+
+    // Helper method to compare exit coordinates within a range
+    private static int findEndIndex(float[] exitCoords, int[][] rayPositions, int range) {
+
+        // Loop through ray coordinates
+        for (int j = 0; j < rayPositions.length; j++) {
+            int[] positionCoords = {rayPositions[j][0], rayPositions[j][1]};
+            // Check if the difference between coordinates is within the specified range
+            if (Math.abs(exitCoords[0] - positionCoords[0]) <= range &&
+                    Math.abs(exitCoords[1] - positionCoords[1]) <= range) {
+                return j;
+            }
+        }
+        return 0; // Default to 0 if no matching index is found
     }
 
     // METHODS FOR RAY MARKER KEY
@@ -216,8 +243,6 @@ public class RayMarkers {
         drawText(17,"No Atom Found", 800, 205);
         drawText(15, "(Changes number for each set", 800, 230);
         drawText(15, "of deflected ray start and end)", 800, 250);
-
-
     }
 
     public static void drawKey(int r, int g, int b, int x, int y) {
