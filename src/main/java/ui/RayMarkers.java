@@ -225,7 +225,7 @@ public class RayMarkers {
         drawKey(255,0,0,775,105); // Red
         drawText(17,"Ray Absorbed", 800, 115);
         drawKey(138,43,226,775,140); // Green
-        drawText(17, "Ray Reflected 180 \u00B0", 800, 150);
+        drawText(17, "Ray Reflected 180 °", 800, 150);
         drawKey(0,0,255,775,175); // Blue
         drawText(17,"Ray Deflected or", 800, 185);
         drawText(17,"No Atom Found", 800, 205);
