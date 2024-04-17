@@ -45,7 +45,7 @@ public class Main extends PApplet {
     public boolean showRays = false;
     boolean mouseReleased = false;
     List<AtomLocation> guessedAtoms = new ArrayList<>();
-    public int numDeflectedRays = 0;
+    public boolean playAgain = false;
 
 
     public void settings() {
@@ -174,8 +174,19 @@ public class Main extends PApplet {
             }
         } else if (showEndScreen) {
 
-            endScreen.drawEndScreen(atomPositions, showRays, numOfRays, shots, rayExitCoordinates);
+            endScreen.drawEndScreen(atomPositions, showRays, numOfRays, shots, rayExitCoordinates, guessedAtoms);
+            playAgain = endScreen.drawPlayAgainButton(720, 490);
+
+
+            if (playAgain) {
+                showEndScreen = false;
+                startScreen = true;
+                gameScreen = true;
+                numOfRays = 0;
+            }
         }
+
+        System.out.println(showEndScreen);
     }
 
     public void mouseReleased() {

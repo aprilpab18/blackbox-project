@@ -4,6 +4,8 @@ import main.java.setter.Rays;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import java.util.List;
+
 public class EndScreen {
     private final PApplet parent;
     public Grid grid;
@@ -18,9 +20,8 @@ public class EndScreen {
         this.rays = new Rays(parent);
     }
 
-    public void drawEndScreen(int[][] atomPositions, boolean showRays, int numOfRays, int[] shots, float[][] rayExitCoordinates) {
+    public void drawEndScreen(int[][] atomPositions, boolean showRays, int numOfRays, int[] shots, float[][] rayExitCoordinates, List<AtomLocation> guessedAtoms) {
 
-        // ADD CODE FOR END SCREEN HERE !!!!!!
         grid.drawImage(-1);
 
         parent.fill(0, 255, 0);
@@ -51,13 +52,30 @@ public class EndScreen {
         }
         else {
             parent.text("Press 'X' to show the rays you shot", 10, 20);
+
+            for (AtomLocation atomLocation : guessedAtoms) {
+
+                parent.fill(255, 0, 0);
+                parent.stroke(255, 0, 0);
+
+                for (int[] atom : atomPositions) {
+                    if (atomLocation.getX() == atom[0] && atomLocation.getY() == atom[1]) {
+                        parent.fill(255, 255, 0);
+                        parent.stroke(255, 255, 0);
+                        break;
+                    }
+                }
+
+                parent.ellipse(atomLocation.getX(), atomLocation.getY(), 30, 30);
+
+            }
+
         }
 
         parent.textSize(40);
         parent.fill(255);
         parent.text("Score: " + score, 800, 160);
 
-        drawPlayAgainButton(720, 490);
         drawExitButton(900, 490);
 
     }
@@ -90,7 +108,7 @@ public class EndScreen {
     }
 
 
-    private void drawPlayAgainButton(int x, int y) {
+    public boolean drawPlayAgainButton(int x, int y) {
         // Check if the mouse is over the button
         boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 150 && parent.mouseY >= y && parent.mouseY <= y + 50);
 
@@ -113,8 +131,10 @@ public class EndScreen {
         parent.text("PLAY AGAIN", x + 15,y + 33);
 
         if (mouseOver && mousePressed) {
-            parent.exit();
+            return true;
         }
+
+        return false;
     }
 
 }

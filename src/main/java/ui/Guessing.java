@@ -120,6 +120,7 @@ public class Guessing {
 
     public void displayGuessedAtoms(List<AtomLocation> atomGuessLocationsList) {
 
+        parent.fill(255);
         for (AtomLocation atomLocation : atomGuessLocationsList) {
 
             parent.ellipse(atomLocation.getX(), atomLocation.getY(), 30, 30);
