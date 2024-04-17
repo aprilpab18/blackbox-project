@@ -1,13 +1,9 @@
 package main.java.ui;
 import processing.core.PApplet;
-
 import java.util.Arrays;
-import java.util.Random;
-
 import static main.java.setter.Rays.rayPositions;
 import static main.java.utilities.Text.drawText;
 import static main.java.utilities.Text.drawSquare;
-
 
 public class RayMarkers {
     // ACCESS TO PApplet TO USE PROCESSING FEATURES
@@ -19,9 +15,9 @@ public class RayMarkers {
     }
 
     // Variables for colours
-    public static int[] red = {255, 0, 0};
-    public static int[] purple = {138, 43, 226};
-    public static int[] blue = {0, 0, 255};
+    private static int[] red = {255, 0, 0};
+    private static int[] purple = {138, 43, 226};
+    private static int[] blue = {0, 0, 255};
 
     // Method for logic to draw marker
     private static void drawMarker(int[] rgb, int position){
@@ -63,46 +59,39 @@ public class RayMarkers {
         } else if (position >= 9 && position <= 18) { // bottom left
             x = bottomLeftX;
             y = leftY;
-            // Draw marker
             drawSquare(x,y);
         } else if (position >= 19 && position <= 27) { // bottom
             x = topBottomX;
             y = bottomY;
-            // Draw marker
             drawSquare(x,y);
         } else if (position >= 28 && position <= 35) { // bottom right
             x = bottomRightX;
             y = rightY;
-            // Draw marker
             drawSquare(x,y);
         } else if (position >= 36 && position <= 45) { // top right
             x = topRightX;
             y = rightY;
-            // Draw marker
             drawSquare(x,y);
         }  else if (position >= 46 && position <= 53) { // top
             x = topBottomX;
             y = topY;
-            // Draw marker
             drawSquare(x,y);
         }
     }
 
-
     // METHODS TO DRAW DIFFERENT MARKERS
-
     // Absorbed => RED
-    public static void drawAbsorbed(int index){
+    private static void drawAbsorbed(int index){
         drawMarker(red, index);
     }
 
     // Reflected 180 => PURPLE
-    public static void drawReflected180(int index){
+    private static void drawReflected180(int index){
         drawMarker(purple, index);
     }
 
     // Deflected => BLUE, Different Numbering
-    public static void drawDeflected(int index, int endIndex, int numDeflectedRays){
+    private static void drawDeflected(int index, int endIndex, int numDeflectedRays){
         // Start Marker
         drawMarker(blue, index);
         drawDeflectedNum(index, numDeflectedRays);
@@ -169,13 +158,12 @@ public class RayMarkers {
     }
 
     // Method for drawing number
-    public static void drawNumber(int x, int y, int num) {
+    private static void drawNumber(int x, int y, int num) {
         drawText(16, Integer.toString(num), x, y);
     }
 
     // METHODS FOR FIGURING OUT WHICH RAY MARKER TO DRAW
     public static void drawRayMarkers(int numOfRays, int[] shots, float[][] rayExitCoordinates) {
-        // LOGIC STARTS HERE
         int numDeflectedRays = 0;
 
         for (int i = 0; i < numOfRays; i++) {
@@ -229,7 +217,7 @@ public class RayMarkers {
         drawDetails();
     }
 
-    public static void drawDetails(){
+    private static void drawDetails(){
         // Title
         drawText(20, "Ray Markers Key", 807, 80);
 
