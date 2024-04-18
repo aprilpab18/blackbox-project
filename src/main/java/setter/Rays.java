@@ -153,22 +153,14 @@ public class Rays {
     };
 
 
-    // 1 = Down and right
-    // 2 = Down and left
-    // 3 = Right
-    // 4 = Left
-    // 5 = Up and right
-    // 6 = Up and left
-
-
     // INCREMENTS TO MOVE FROM ONE HEXAGON TO THE NEXT ALONG LINES
     public static int[][] incrementsAlongLine = {
-            {30, 50},
-            {-30, 50},
-            {60, 0},
-            {-60, 0},
-            {30, -50},
-            {-30, -50}
+            {30, 50}, // Down and right
+            {-30, 50}, // Down and left
+            {60, 0}, // Right
+            {-60, 0}, // Left
+            {30, -50}, // Up and right
+            {-30, -50} // Up and left
     };
 
     // ANGLES OF RAYS
@@ -184,7 +176,6 @@ public class Rays {
 
 
     // FIND EXIT ON LINE OF RAY
-
     public static int[] setExit(float[] startCoords, int direction, PApplet sketch) {
         int[] exit = new int[] {0, 0, 0};
         int[][] exitsInDirection = exits[direction-1];
@@ -213,16 +204,12 @@ public class Rays {
 
             // IF TEST COORDS GO OFF-SCREEN, ERROR (NO EXIT FOUND)
             if (testCoords[0] < 0 || testCoords[0] > sketch.width || testCoords[1] > sketch.height || testCoords[1] < 0) {
-                sketch.print("NO EXIT FOUND");
+                PApplet.print("NO EXIT FOUND");
                 break;
             }
         }
         return exit;
     }
-
-    // SET ATOMS HIT FUNCTION ------------------------------
-    // CHECK FOR REFLECT FUNCTION --------------------------
-
 
 
 
@@ -233,8 +220,8 @@ public class Rays {
         sketch.strokeWeight(3);
 
         // CALCULATE END COORDINATES
-        float endX = startX + sketch.cos(angle) * lineLength;
-        float endY = startY + sketch.sin(angle) * lineLength;
+        float endX = startX + PApplet.cos(angle) * lineLength;
+        float endY = startY + PApplet.sin(angle) * lineLength;
 
         if (displayRay) {
             sketch.line(startX, startY, endX, endY);
@@ -259,19 +246,19 @@ public class Rays {
         int numOfCirclesOfInfluence = 0;
 
         // CHECK FOR REFLECTED - STARTING INSIDE AN ATOM'S CIRCLE OF INFLUENCE
-        for (int i = 0; i < numOfAtoms; i++) {
-            if (sketch.dist(startX, startY, atomPositions[i][0], atomPositions[i][1]) < 59 && firstRay) { // STARTS INSIDE AN ATOM
+        for (int[] atomPosition : atomPositions) {
+            if (PApplet.dist(startX, startY, atomPosition[0], atomPosition[1]) < 59 && firstRay) { // STARTS INSIDE AN ATOM
 
                 // CHECK IF DIRECT HIT
-                if (sketch.dist((startX+(incrementsAlongLine[direction-1][0]/2)), (startY+(incrementsAlongLine[direction-1][1]/2)), atomPositions[i][0], atomPositions[i][1]) < 5) {
-                    float distance = sketch.dist(atomPositions[i][0], atomPositions[i][1], startX, startY);
-                    drawRay(startX, startY, angles[direction-1], distance, displayRays, sketch);
-                    endOfLine = new float[] {-1, -1};
+                if (PApplet.dist((startX + ((float) incrementsAlongLine[direction - 1][0] / 2)), (startY + ((float) incrementsAlongLine[direction - 1][1] / 2)), atomPosition[0], atomPosition[1]) < 5) {
+                    float distance = PApplet.dist(atomPosition[0], atomPosition[1], startX, startY);
+                    drawRay(startX, startY, angles[direction - 1], distance, displayRays, sketch);
+                    endOfLine = new float[]{-1, -1};
                     return endOfLine;
                 }
 
                 // OTHERWISE REFLECT
-                endOfLine = new float[] {-2, -2};
+                endOfLine = new float[]{-2, -2};
                 return endOfLine;
             }
         }

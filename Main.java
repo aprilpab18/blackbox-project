@@ -45,6 +45,7 @@ public class Main extends PApplet {
     public boolean showRays = false;
     boolean mouseReleased = false;
     List<AtomLocation> guessedAtoms = new ArrayList<>();
+    public boolean playAgain = false;
 
 
     public void settings() {
