@@ -96,7 +96,7 @@ public class EndScreen {
         }
         drawScoreBoard();
         drawAtomsKey();
-        drawExitButton(915, 490);
+        drawExitButton(830, 490);
 
         // Graphics
         drawRay(575);
@@ -159,34 +159,8 @@ public class EndScreen {
             parent.exit();
         }
     }
-    public boolean drawPlayAgainButton(int x, int y) {
-        // Check if the mouse is over the button
-        boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 150 && parent.mouseY >= y && parent.mouseY <= y + 50);
 
-        // Check if mouse is pressed
-        boolean mousePressed = parent.mousePressed;
 
-        // Hover Logic
-        if (mouseOver) {
-            parent.stroke(255, 255, 255);
-            parent.fill(150); // Lighter shade
-        } else {
-            parent.stroke(255, 255, 255);
-            parent.fill(0);
-        }
-        parent.rect(x, y, 150, 50, 12);
-
-        // Title
-        parent.textSize(25);
-        parent.fill(255,38,125);
-        parent.text("PLAY AGAIN", x + 15,y + 33);
-
-        if (mouseOver && mousePressed) {
-            return true;
-        }
-
-        return false;
-    }
 
     // GRAPHICS METHODS
 

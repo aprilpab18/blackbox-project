@@ -45,7 +45,6 @@ public class Main extends PApplet {
     public boolean showRays = false;
     boolean mouseReleased = false;
     List<AtomLocation> guessedAtoms = new ArrayList<>();
-    public boolean playAgain = false;
 
 
     public void settings() {
@@ -173,17 +172,8 @@ public class Main extends PApplet {
                 showEndScreen = true;
             }
         } else if (showEndScreen) {
-
             endScreen.drawEndScreen(atomPositions, showRays, numOfRays, shots, rayExitCoordinates, guessedAtoms);
-            playAgain = endScreen.drawPlayAgainButton(735, 490);
 
-
-            if (playAgain) {
-                showEndScreen = false;
-                startScreen = true;
-                gameScreen = true;
-                numOfRays = 0;
-            }
         }
     }
 
@@ -210,8 +200,8 @@ public class Main extends PApplet {
 
                         // !!!!!!!!!! CHECK IF RAY ALREADY IN SHOTS ARRAY !!!!!!!!!! -> DISPLAY MESSAGE IF SO
                         duplicateInput = false;
-                        for (int i = 0; i < shots.length; i++) {
-                            if (num == shots[i]) {
+                        for (int shot : shots) {
+                            if (num == shot) {
                                 duplicateInput = true;
                                 break;
                             }
