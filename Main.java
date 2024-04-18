@@ -173,6 +173,7 @@ public class Main extends PApplet {
                 showEndScreen = true;
             }
         } else if (showEndScreen) {
+
             endScreen.drawEndScreen(atomPositions, showRays, numOfRays, shots, rayExitCoordinates, guessedAtoms);
 
         }
