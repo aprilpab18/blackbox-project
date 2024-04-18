@@ -1,11 +1,8 @@
 package main.java.ui;
 
 import processing.core.PApplet;
-import processing.core.PImage;
 
-import java.util.Arrays;
-
-import static main.java.utilities.Text.drawText;
+import static main.java.utilities.Text.drawError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +57,7 @@ public class Guessing {
         } else if (mouseOver && mousePressed) {
             endGamePressed = false;
 
-            drawText(20, "You have not yet placed 6 atoms!", x - 40, y + 75);
+            drawError(20, "You have not yet placed 6 atoms!", x - 40, y + 75);
 
         }
     }

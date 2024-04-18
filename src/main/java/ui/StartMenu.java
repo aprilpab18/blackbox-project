@@ -114,6 +114,7 @@ public class StartMenu {
     public void drawRay(float y) {
 
         // Draw ray dynamically
+        parent.stroke(255,255,255);
         parent.line(0, y, x, y);
 
         // Move the ray

@@ -150,7 +150,7 @@ public class Main extends PApplet {
 
             // RAY MARKERS
             RayMarkers.drawRayMarkerKey(750,50);
-            Rays.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
+            RayMarkers.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
 
 
             if (mouseReleased) {
@@ -175,7 +175,7 @@ public class Main extends PApplet {
         } else if (showEndScreen) {
 
             endScreen.drawEndScreen(atomPositions, showRays, numOfRays, shots, rayExitCoordinates, guessedAtoms);
-            playAgain = endScreen.drawPlayAgainButton(720, 490);
+            playAgain = endScreen.drawPlayAgainButton(735, 490);
 
 
             if (playAgain) {
