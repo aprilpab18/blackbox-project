@@ -38,9 +38,9 @@ public class EndScreen {
 
         grid.drawImage(-1);
 
-        // Green Atoms => Computer/Setter Atoms
+        // Yellow Atoms => Computer/Setter Atoms
         for (int[] atom : atomPositions) {
-            drawAtom(green, atom[0], atom[1], 30);
+            drawAtom(yellow, atom[0], atom[1], 30);
         }
 
         // Aligning
@@ -51,6 +51,10 @@ public class EndScreen {
         if (showRays) {
             parent.text("Press 'X' to hide the rays you shot", 10, 20);
             rays.displayRays(numOfRays, shots, atomPositions, parent);
+
+            for (int[] atom : atomPositions) {
+                drawAtom(yellow, atom[0], atom[1], 30);
+            }
 
             // CIRCLES OF INFLUENCE
             for (int[] atom : atomPositions) {
@@ -70,12 +74,12 @@ public class EndScreen {
             int atoms = 0;
 
             for (AtomLocation atomLocation : guessedAtoms) {
-                // Yellow Atoms => Incorrect Guess
-                drawAtom(yellow, atomLocation.getX(), atomLocation.getY(), 30);
+                // Red Atoms => Incorrect Guess
+                drawAtom(red, atomLocation.getX(), atomLocation.getY(), 30);
                 // Red Atoms => Correct Guess
                 for (int[] atom : atomPositions) {
                     if (atomLocation.getX() == atom[0] && atomLocation.getY() == atom[1]) {
-                        drawAtom(red, atomLocation.getX(), atomLocation.getY(), 30);
+                        drawAtom(green, atomLocation.getX(), atomLocation.getY(), 30);
                         // Adjust scoring
                         atomScore -= 5; // Correct atoms: -5
                         atoms++;
@@ -122,11 +126,11 @@ public class EndScreen {
         // Details
         drawText(30, "Atoms Key", 815, 310);
         drawText(20, "Correct Atoms: ", 770, 355);
-        drawAtom(red,910,348, 20);
+        drawAtom(green,910,348, 20);
         drawText(20, "Incorrect Atoms: ", 770, 405);
-        drawAtom(yellow,925,398, 20);
+        drawAtom(red,925,398, 20);
         drawText(20, "Actual Atoms: ", 770, 455);
-        drawAtom(green,900,448, 20);
+        drawAtom(yellow,900,448, 20);
     }
 
     private void drawExitButton(int x, int y) {
