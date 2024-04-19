@@ -88,7 +88,7 @@ public class Main extends PApplet {
             }
 
             // Highlight selected number
-            if (userInput != "" && Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) <= 54) {
+            if (!Objects.equals(userInput, "") && Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) <= 54) {
                 selectedNumber = Integer.parseInt(userInput);
             }
             else {
@@ -177,7 +177,7 @@ public class Main extends PApplet {
             // Check if the ENTER key is released
             if (key == ENTER) {
                 // Try parsing the userInput to an integer
-                if (userInput != "") {
+                if (!Objects.equals(userInput, "")) {
 
                     int num = Integer.parseInt(userInput);
                     // Check if the parsed number is within the range 1 to 54

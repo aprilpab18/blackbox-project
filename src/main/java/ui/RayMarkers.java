@@ -190,7 +190,7 @@ public class RayMarkers {
             } else {
                 score += 2;
                 numDeflectedRays++;
-                int endIndex = findEndIndex(exitCoords, rayPositions, 3);
+                int endIndex = findEndIndex(exitCoords, rayPositions);
                 RayMarkers.drawDeflected(startIndex, endIndex, numDeflectedRays); // DEFLECTED
             }
         }
@@ -198,14 +198,14 @@ public class RayMarkers {
     }
 
     // Helper method to compare exit coordinates within a range
-    private static int findEndIndex(float[] exitCoords, int[][] rayPositions, int range) {
+    private static int findEndIndex(float[] exitCoords, int[][] rayPositions) {
 
         // Loop through ray coordinates
         for (int j = 0; j < rayPositions.length; j++) {
             int[] positionCoords = {rayPositions[j][0], rayPositions[j][1]};
             // Check if the difference between coordinates is within the specified range
-            if (Math.abs(exitCoords[0] - positionCoords[0]) <= range &&
-                    Math.abs(exitCoords[1] - positionCoords[1]) <= range) {
+            if (Math.abs(exitCoords[0] - positionCoords[0]) <= 3 &&
+                    Math.abs(exitCoords[1] - positionCoords[1]) <= 3) {
                 return j;
             }
         }

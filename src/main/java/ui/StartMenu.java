@@ -4,15 +4,13 @@ import processing.core.PApplet;
 public class StartMenu {
 
     // ACCESS TO PApplet TO USE PROCESSING FEATURES
-    private PApplet parent;
+    private final PApplet parent;
     public InstructMenu instructMenu;
     private boolean startPressed = false;
     public boolean instructScreen = false;
 
     // VARIABLES FOR ATOMS + ANIMATION
     private float outerRadius = 65;    // Outer circle size
-    private float innerRadius = 18;    // Until where outer stops
-    private float angleStep = 0.01F;   // Speed of outer circle
     private boolean expanding = true;
 
     // VARIABLES FOR RAY
@@ -57,7 +55,7 @@ public class StartMenu {
     }
 
     private void drawCircleInfluence(float x, float y){
-        float angleOffset = parent.radians(45); // Offset to start the outer ring from the top
+        float angleOffset = PApplet.radians(45); // Offset to start the outer ring from the top
 
         parent.noFill();            // Ensures circle of influence is an outline
         parent.stroke(255);     // White stroke color
@@ -65,9 +63,11 @@ public class StartMenu {
 
         // DRAWING OUTER CIRCLE using Geometry
         parent.beginShape();
+        // Speed of outer circle
+        float angleStep = 0.01F;
         for (float a = angleOffset; a < angleOffset + parent.TWO_PI; a += angleStep) {
-            float newX = x + parent.cos(a) * outerRadius;
-            float newY = y + parent.sin(a) * outerRadius;
+            float newX = x + PApplet.cos(a) * outerRadius;
+            float newY = y + PApplet.sin(a) * outerRadius;
             parent.vertex(newX, newY);
         }
         parent.endShape(parent.CLOSE);
@@ -80,6 +80,8 @@ public class StartMenu {
             }
         } else { // Retracting
             outerRadius -= 1;
+            // Until where outer stops
+            float innerRadius = 18;
             if (outerRadius <= innerRadius) {  // Expands when size met
                 expanding = true;
             }
@@ -92,10 +94,10 @@ public class StartMenu {
 
         parent.textSize(70);
         parent.fill(255);
-        parent.text("Black Box", parent.width / 2 - titleWidth, parent.height / 2);
+        parent.text("Black Box", (float) parent.width / 2 - titleWidth, (float) parent.height / 2);
 
         parent.fill(255, 38, 125);
-        parent.text("+", parent.width / 2 - titleWidth + parent.textWidth("Black Box "), parent.height / 2);
+        parent.text("+", (float) parent.width / 2 - titleWidth + parent.textWidth("Black Box "), (float) parent.height / 2);
     }
 
     public void drawRay(float y) {

@@ -8,7 +8,7 @@ import static main.java.utilities.Text.drawText;
 
 public class InstructMenu {
 
-    private PApplet parent;
+    private final PApplet parent;
 
     StartMenu startMenu;
 
