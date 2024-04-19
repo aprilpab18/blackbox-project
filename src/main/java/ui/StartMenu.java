@@ -9,45 +9,33 @@ public class StartMenu {
     private boolean startPressed = false;
     public boolean instructScreen = false;
 
-
-
     // VARIABLES FOR ATOMS + ANIMATION
     private float outerRadius = 65;    // Outer circle size
     private float innerRadius = 18;    // Until where outer stops
     private float angleStep = 0.01F;   // Speed of outer circle
     private boolean expanding = true;
 
-
-
     // VARIABLES FOR RAY
     float x = 0;      // Initial x-coordinate of the ray
     float speed = 1.2F;  // Speed of the ray
 
-
-
-    // CONSTRUCTOR
     public StartMenu(PApplet parent) {
         this.parent = parent;
         this.instructMenu = new InstructMenu(parent, this);
     }
 
-
     // METHODS
     public void displayStartMenu() {
         parent.background(0);
 
-        // Draw Atoms (Inner Circle)
         drawAtom(100, 100);
         drawAtom(1000, 600);
 
-        // Draw Rays
         drawRay(250);
         drawRay(450);
 
-        // TITLE
         drawTitle();
 
-        // Buttons
         drawStartButton(400,375);
         drawInstructButton(530, 375);
 
@@ -64,7 +52,6 @@ public class StartMenu {
         parent.ellipse(x, y, 35, 35); // Drawing circle
         // with coordinates & size
 
-        // CIRCLE OF INFLUENCE
         drawCircleInfluence(x,y);
 
     }
@@ -112,7 +99,6 @@ public class StartMenu {
     }
 
     public void drawRay(float y) {
-
         // Draw ray dynamically
         parent.stroke(255,255,255);
         parent.line(0, y, x, y);

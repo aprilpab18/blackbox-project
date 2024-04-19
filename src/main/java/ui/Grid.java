@@ -5,13 +5,9 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Grid {
-
     PApplet parent;
     PImage myImage;
-
     public int[][] hexagonCentreCoordinates = new int[61][2];
-
-
 
     public Grid(PApplet parent, PImage myImage){
         this.parent = parent;
@@ -19,9 +15,7 @@ public class Grid {
     }
 
     public void drawHexagon(int xPos, int yPos, int sideLength) { // Give coord of top of left vertical line
-
         parent.stroke(255, 38, 125); // Colour of grid
-
 
         parent.line(xPos-sideLength, yPos-(sideLength/2), xPos-sideLength, yPos+(sideLength/2)); // Left line
         parent.line(xPos+sideLength, yPos-(sideLength/2), xPos+sideLength, yPos+(sideLength/2)); // Right line
@@ -29,17 +23,7 @@ public class Grid {
         parent.line(xPos+sideLength, yPos-(sideLength/2), xPos, yPos-sideLength-5); // Top right line
         parent.line(xPos-sideLength, yPos+(sideLength/2), xPos, yPos+sideLength+5); // Bottom left line
         parent.line(xPos+sideLength, yPos+(sideLength/2), xPos, yPos+sideLength+5); // Bottom right line
-
-        // Middle = xPos, yPos
-
-
-//        // FOR TESTING - SHOW MIDDLES OF HEXAGONS
-//        parent.stroke(255, 255, 0);
-//        parent.ellipse(xPos, yPos, 1, 1);
-
     }
-
-
 
     public int[][] drawGrid(int xPos, int yPos, int sideLength, int[] atomBoxNumbers) { // xPos of top left of left line of first row
 
@@ -50,7 +34,6 @@ public class Grid {
         int atomCount = 0; // How many atom positions have been added
         int boxNumber = 0; // Box number
         boolean atom = false;
-
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5+i; j++) {
@@ -94,10 +77,7 @@ public class Grid {
                 boxNumber++;
             }
         }
-
-
         return atomPositions;
-
     }
 
 
@@ -107,7 +87,6 @@ public class Grid {
             parent.fill(0, 0, 255);
             parent.ellipse(atomPositions[i][0], atomPositions[i][1], 30, 30);
         }
-
         // Circles of influence
         for (int i = 0; i < 6; i++) {
             parent.noFill();
@@ -194,7 +173,6 @@ public class Grid {
             else {
                 parent.fill(255, 38, 125);
             }
-
             parent.text(i, numberPositions[i-1][0], numberPositions[i-1][1]);
         }
 

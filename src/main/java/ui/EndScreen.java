@@ -52,6 +52,7 @@ public class EndScreen {
             parent.text("Press 'X' to hide the rays you shot", 10, 20);
             rays.displayRays(numOfRays, shots, atomPositions, parent);
 
+            // Yellow Atoms => Guesses
             for (int[] atom : atomPositions) {
                 drawAtom(yellow, atom[0], atom[1], 30);
             }
@@ -62,7 +63,6 @@ public class EndScreen {
                 parent.stroke(255, 255, 255, 120);
                 parent.ellipse(atom[0], atom[1], 118, 118);
             }
-
             RayMarkers.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
         }
         else {
@@ -76,7 +76,7 @@ public class EndScreen {
             for (AtomLocation atomLocation : guessedAtoms) {
                 // Red Atoms => Incorrect Guess
                 drawAtom(red, atomLocation.getX(), atomLocation.getY(), 30);
-                // Red Atoms => Correct Guess
+                // Green Atoms => Correct Guess
                 for (int[] atom : atomPositions) {
                     if (atomLocation.getX() == atom[0] && atomLocation.getY() == atom[1]) {
                         drawAtom(green, atomLocation.getX(), atomLocation.getY(), 30);
@@ -88,7 +88,6 @@ public class EndScreen {
                     }
                 }
             }
-
             // Adding up total score
             score = atomScore + markerScore;
             correctAtomsNum = atoms;
@@ -159,8 +158,6 @@ public class EndScreen {
             parent.exit();
         }
     }
-
-
 
     // GRAPHICS METHODS
 

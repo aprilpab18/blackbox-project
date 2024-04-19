@@ -13,6 +13,7 @@ import static main.java.utilities.Text.*;
 
 
 public class Main extends PApplet {
+    // Allows other classes to access the Processing functions and features provided by PApplet.
     Grid grid;
     Computer computer;
     StartMenu startMenu;
@@ -20,7 +21,6 @@ public class Main extends PApplet {
     RayMarkers rayMarkers;
     Guessing guessing;
     EndScreen endScreen;
-
 
     public int numOfAtoms = 6;
     public boolean startScreen = true;
@@ -45,8 +45,6 @@ public class Main extends PApplet {
     public boolean showRays = false;
     boolean mouseReleased = false;
     List<AtomLocation> guessedAtoms = new ArrayList<>();
-    public boolean playAgain = false;
-
 
     public void settings() {
         size(1100, 700);
@@ -63,8 +61,8 @@ public class Main extends PApplet {
         guessing = new Guessing(this, grid);
         endScreen = new EndScreen(myImage, this);
 
-
-        while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) { // Generates unique random atom positions -> Not very efficient way -> Try move into function
+        // Generates unique random atom positions -> Not very efficient way -> Try move into function
+        while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) {
             atomBoxNumbers = computer.generateAtoms(numOfAtoms);
         }
     }
@@ -110,7 +108,7 @@ public class Main extends PApplet {
                 rayExitCoordinates[i] = Rays.drawRayWithBounces(atomPositions, Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1], direction, true, false,this);
 
 
-                // CHECK FOR REFLECTED RAYS
+                // Check for reflected rays
                 if (dist(rayExitCoordinates[i][0], rayExitCoordinates[i][1], Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1]) < 5) {
                     rayExitCoordinates[i] = new float[] {-2, -2};
                 }
@@ -135,8 +133,6 @@ public class Main extends PApplet {
             fill(255);
             textSize(20);
             textAlign(0, 0);
-
-
             if (showingAtoms) {
                 text("Press 'X' to hide the atoms & rays", 10, 20);
                 rays.displayRays(numOfRays, shots, atomPositions, this);
@@ -146,22 +142,18 @@ public class Main extends PApplet {
                 text("Press 'X' to show the atoms & rays", 10, 20);
             }
 
-
-
-            // RAY MARKERS
+            // Ray Markers
             RayMarkers.drawRayMarkerKey(750,50);
             RayMarkers.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
 
-
+            // Guessing with Atom Markers
             if (mouseReleased) {
                 guessedAtoms = guessing.updateAtomsGuessed(mouseX, mouseY);
                 mouseReleased = false;
             }
-
             if (!guessedAtoms.isEmpty()) {
                 guessing.displayGuessedAtoms(guessedAtoms);
             }
-
 
             // End game button
             if(guessedAtoms.size() == 6){
@@ -173,20 +165,13 @@ public class Main extends PApplet {
                 showEndScreen = true;
             }
         } else if (showEndScreen) {
-
             endScreen.drawEndScreen(atomPositions, showRays, numOfRays, shots, rayExitCoordinates, guessedAtoms);
-
         }
     }
 
     public void mouseReleased() {
         mouseReleased = true;
     }
-
-
-
-
-    // Method called when a key is released
     public void keyReleased() {
         if (!showEndScreen) {
             // Check if the ENTER key is released
@@ -252,7 +237,6 @@ public class Main extends PApplet {
             }
         }
     }
-
     public static void main(String[] args) {
         PApplet.main("Main");
     }

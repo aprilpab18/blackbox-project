@@ -9,7 +9,6 @@ public class RayMarkers {
     // ACCESS TO PApplet TO USE PROCESSING FEATURES
     static PApplet parent;
 
-    // CONSTRUCTOR
     public RayMarkers(PApplet parent) {
         RayMarkers.parent = parent;
     }
@@ -50,7 +49,7 @@ public class RayMarkers {
         int rightY = secondIndex - 4;
         int topY =   secondIndex - 20;
 
-        // CALCULATING LOCATIONS
+        // Calculating Locations
         if (position >= 0 && position <= 8){ // top left
             x = topLeftX;
             y = leftY;
@@ -214,7 +213,6 @@ public class RayMarkers {
     }
 
     // METHODS FOR RAY MARKER KEY
-    // Ray Marker Key
     public static void drawRayMarkerKey(int x, int y) {
         parent.stroke(255, 255, 255);
         parent.fill(0);
@@ -231,18 +229,22 @@ public class RayMarkers {
         drawText(20, "Ray Markers Key", 807, 80);
 
         // Key
-        drawKey(255,0,0,775,105); // Red
+        drawKey(red,775,105);
         drawText(17,"Ray Absorbed", 800, 115);
-        drawKey(138,43,226,775,140); // Green
+        drawKey(purple,775,140);
         drawText(17, "Ray Reflected 180 °", 800, 150);
-        drawKey(0,0,255,775,175); // Blue
+        drawKey(blue,775,175);
         drawText(17,"Ray Deflected or", 800, 185);
         drawText(17,"No Atom Found", 800, 205);
         drawText(15, "(Changes number for each set", 800, 230);
         drawText(15, "of deflected ray start and end)", 800, 250);
     }
 
-    public static void drawKey(int r, int g, int b, int x, int y) {
+    public static void drawKey(int[] rgb, int x, int y) {
+        int r = rgb[0];
+        int g = rgb[1];
+        int b = rgb[2];
+
         parent.noStroke();
         parent.fill(r, g, b);
         parent.rect(x,y,10,10);

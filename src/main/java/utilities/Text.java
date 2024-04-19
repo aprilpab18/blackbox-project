@@ -1,18 +1,15 @@
 package main.java.utilities;
-
 import processing.core.PApplet;
 
 public class Text {
-
     private static PApplet parent;
-
-    // Constructor
     public Text(PApplet parent) {
         Text.parent = parent;
     }
 
     /* Utility methods to write text
-     * - This is due to conflicting methods in Java Processing */
+     * - This is due to conflicting methods in Java Processing
+     * - How some colours, size, etc. being set can clash with others */
     public static void drawText(int size, String text, int x, int y){
         if (parent != null) { // Check if parent is not null
             parent.fill(255);
