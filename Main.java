@@ -129,18 +129,18 @@ public class Main extends PApplet {
             }
 
 
-            // Show/hide atoms
+            // Show/hide atoms for testing purposes
             fill(255);
             textSize(20);
             textAlign(0, 0);
-            if (showingAtoms) {
-                text("Press 'X' to hide the atoms & rays", 10, 20);
-                rays.displayRays(numOfRays, shots, atomPositions, this);
-                grid.drawAtoms(atomPositions);
-            }
-            else {
-                text("Press 'X' to show the atoms & rays", 10, 20);
-            }
+//            if (showingAtoms) {
+//                text("Press 'X' to hide the atoms & rays", 10, 20);
+//                rays.displayRays(numOfRays, shots, atomPositions, this);
+//                grid.drawAtoms(atomPositions);
+//            }
+//            else {
+//                text("Press 'X' to show the atoms & rays", 10, 20);
+//            }
 
             // Ray Markers
             RayMarkers.drawRayMarkerKey(750,50);

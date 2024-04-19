@@ -1,8 +1,10 @@
 package main.java.ui;
+
 import processing.core.PApplet;
 
 // Importing packaged util static methods
 import main.java.utilities.Text;
+
 import static main.java.utilities.Text.drawBullet;
 import static main.java.utilities.Text.drawText;
 
@@ -29,7 +31,7 @@ public class InstructMenu {
         drawInstructions();
 
         // Buttons
-        startMenu.drawStartButton(493,550);
+        startMenu.drawStartButton(493, 550);
     }
 
     private void drawInstructions() {
@@ -69,9 +71,8 @@ public class InstructMenu {
                 , 101, 470);
 
 
-
         drawText(50, "Good luck and have fun!"
-                , 280, 540);
+                , 280, 530);
 
 
     }

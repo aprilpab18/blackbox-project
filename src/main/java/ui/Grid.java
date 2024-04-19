@@ -1,6 +1,7 @@
 // Deals with everything to do with drawing the grid
 
 package main.java.ui;
+
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -9,7 +10,7 @@ public class Grid {
     PImage myImage;
     public int[][] hexagonCentreCoordinates = new int[61][2];
 
-    public Grid(PApplet parent, PImage myImage){
+    public Grid(PApplet parent, PImage myImage) {
         this.parent = parent;
         this.myImage = myImage;
     }
@@ -17,12 +18,12 @@ public class Grid {
     public void drawHexagon(int xPos, int yPos, int sideLength) { // Give coord of top of left vertical line
         parent.stroke(255, 38, 125); // Colour of grid
 
-        parent.line(xPos-sideLength, yPos-(sideLength/2), xPos-sideLength, yPos+(sideLength/2)); // Left line
-        parent.line(xPos+sideLength, yPos-(sideLength/2), xPos+sideLength, yPos+(sideLength/2)); // Right line
-        parent.line(xPos-sideLength, yPos-(sideLength/2), xPos, yPos-sideLength-5); // Top left line
-        parent.line(xPos+sideLength, yPos-(sideLength/2), xPos, yPos-sideLength-5); // Top right line
-        parent.line(xPos-sideLength, yPos+(sideLength/2), xPos, yPos+sideLength+5); // Bottom left line
-        parent.line(xPos+sideLength, yPos+(sideLength/2), xPos, yPos+sideLength+5); // Bottom right line
+        parent.line(xPos - sideLength, yPos - (sideLength / 2), xPos - sideLength, yPos + (sideLength / 2)); // Left line
+        parent.line(xPos + sideLength, yPos - (sideLength / 2), xPos + sideLength, yPos + (sideLength / 2)); // Right line
+        parent.line(xPos - sideLength, yPos - (sideLength / 2), xPos, yPos - sideLength - 5); // Top left line
+        parent.line(xPos + sideLength, yPos - (sideLength / 2), xPos, yPos - sideLength - 5); // Top right line
+        parent.line(xPos - sideLength, yPos + (sideLength / 2), xPos, yPos + sideLength + 5); // Bottom left line
+        parent.line(xPos + sideLength, yPos + (sideLength / 2), xPos, yPos + sideLength + 5); // Bottom right line
     }
 
     public int[][] drawGrid(int xPos, int yPos, int sideLength, int[] atomBoxNumbers) { // xPos of top left of left line of first row
@@ -36,9 +37,9 @@ public class Grid {
         boolean atom = false;
 
         for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5+i; j++) {
-                drawHexagon(xPos + ((sideLength*2)*j) - (sideLength*i), yPos + ((sideLength + (sideLength/2))*i) + (5*i), sideLength);
-                hexagonCentreCoordinates[boxNumber] = new int[] {xPos + ((sideLength*2)*j) - (sideLength*i), yPos + ((sideLength + (sideLength/2))*i) + (5*i)};
+            for (int j = 0; j < 5 + i; j++) {
+                drawHexagon(xPos + ((sideLength * 2) * j) - (sideLength * i), yPos + ((sideLength + (sideLength / 2)) * i) + (5 * i), sideLength);
+                hexagonCentreCoordinates[boxNumber] = new int[]{xPos + ((sideLength * 2) * j) - (sideLength * i), yPos + ((sideLength + (sideLength / 2)) * i) + (5 * i)};
 
                 for (int k = 0; k < 6; k++) {
                     if (boxNumber == atomBoxNumbers[k]) {
@@ -46,8 +47,8 @@ public class Grid {
                     }
 
                     if (atom) {
-                        atomPositions[atomCount][0] = xPos + ((sideLength*2)*j) - (sideLength*i);
-                        atomPositions[atomCount][1] = yPos + ((sideLength + (sideLength/2))*i) + (5*i);
+                        atomPositions[atomCount][0] = xPos + ((sideLength * 2) * j) - (sideLength * i);
+                        atomPositions[atomCount][1] = yPos + ((sideLength + (sideLength / 2)) * i) + (5 * i);
                         atomCount++;
                         atom = false;
                     }
@@ -57,9 +58,9 @@ public class Grid {
         }
 
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 8-i; j++) {
-                drawHexagon(xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2) + 25) + ((sideLength + (sideLength/2))*i) + (5*i), sideLength);
-                hexagonCentreCoordinates[boxNumber] = new int[] {xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i), yPos+(7*sideLength + (sideLength/2) + 25) + ((sideLength + (sideLength/2))*i) + (5*i)};
+            for (int j = 0; j < 8 - i; j++) {
+                drawHexagon(xPos - (3 * sideLength) + ((sideLength * 2) * j) + (sideLength * i), yPos + (7 * sideLength + (sideLength / 2) + 25) + ((sideLength + (sideLength / 2)) * i) + (5 * i), sideLength);
+                hexagonCentreCoordinates[boxNumber] = new int[]{xPos - (3 * sideLength) + ((sideLength * 2) * j) + (sideLength * i), yPos + (7 * sideLength + (sideLength / 2) + 25) + ((sideLength + (sideLength / 2)) * i) + (5 * i)};
 
 
                 for (int k = 0; k < 6; k++) {
@@ -68,8 +69,8 @@ public class Grid {
                     }
 
                     if (atom) {
-                        atomPositions[atomCount][0] = xPos-(3*sideLength) + ((sideLength*2)*j) + (sideLength*i);
-                        atomPositions[atomCount][1] = yPos+(7*sideLength + (sideLength/2) + 25) + ((sideLength + (sideLength/2))*i) + (5*i);
+                        atomPositions[atomCount][0] = xPos - (3 * sideLength) + ((sideLength * 2) * j) + (sideLength * i);
+                        atomPositions[atomCount][1] = yPos + (7 * sideLength + (sideLength / 2) + 25) + ((sideLength + (sideLength / 2)) * i) + (5 * i);
                         atomCount++;
                         atom = false;
                     }
@@ -97,7 +98,7 @@ public class Grid {
     }
 
 
-    public void drawImage(int selectedNumber){
+    public void drawImage(int selectedNumber) {
         // Draw image over Hexagon Grid
         parent.image(myImage, 0, 0, parent.width, parent.height);
 
@@ -169,11 +170,10 @@ public class Grid {
         for (int i = 1; i < 55; i++) {
             if (i == selectedNumber) {
                 parent.fill(255);
-            }
-            else {
+            } else {
                 parent.fill(255, 38, 125);
             }
-            parent.text(i, numberPositions[i-1][0], numberPositions[i-1][1]);
+            parent.text(i, numberPositions[i - 1][0], numberPositions[i - 1][1]);
         }
 
     }

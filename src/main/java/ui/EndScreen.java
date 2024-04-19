@@ -64,9 +64,8 @@ public class EndScreen {
                 parent.ellipse(atom[0], atom[1], 118, 118);
             }
             RayMarkers.drawRayMarkers(numOfRays, shots, rayExitCoordinates);
-        }
-        else {
-            parent.text("Press 'X' to show the rays you shot", 10, 20);
+        } else {
+            parent.text("Press 'X' to display the rays you shot", 10, 20);
 
             // Assuming all atoms are incorrect initially
             int atomScore = 30;
@@ -125,11 +124,11 @@ public class EndScreen {
         // Details
         drawText(30, "Atoms Key", 815, 310);
         drawText(20, "Correct Atoms: ", 770, 355);
-        drawAtom(green,910,348, 20);
+        drawAtom(green, 910, 348, 20);
         drawText(20, "Incorrect Atoms: ", 770, 405);
-        drawAtom(red,925,398, 20);
+        drawAtom(red, 925, 398, 20);
         drawText(20, "Actual Atoms: ", 770, 455);
-        drawAtom(yellow,900,448, 20);
+        drawAtom(yellow, 900, 448, 20);
     }
 
     private void drawExitButton(int x, int y) {
@@ -151,8 +150,8 @@ public class EndScreen {
 
         // Title
         parent.textSize(25);
-        parent.fill(255,38,125);
-        parent.text("EXIT", x + 27,y + 33);
+        parent.fill(255, 38, 125);
+        parent.text("EXIT", x + 27, y + 33);
 
         if (mouseOver && mousePressed) {
             parent.exit();
@@ -164,10 +163,11 @@ public class EndScreen {
     // Variables for Ray
     private float x = 0;    // Initial x-coordinate of the ray
     private float speed = 1.2F;  // Speed of the ray
+
     private void drawRay(float y) {
 
         // Draw ray dynamically
-        parent.stroke(255,255,255);
+        parent.stroke(255, 255, 255);
         parent.line(0, y, x, y);
 
         // Move the ray

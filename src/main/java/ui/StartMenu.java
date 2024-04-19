@@ -1,4 +1,5 @@
 package main.java.ui;
+
 import processing.core.PApplet;
 
 public class StartMenu {
@@ -34,7 +35,7 @@ public class StartMenu {
 
         drawTitle();
 
-        drawStartButton(400,375);
+        drawStartButton(400, 375);
         drawInstructButton(530, 375);
 
         // Displaying Instructions Screen
@@ -50,11 +51,11 @@ public class StartMenu {
         parent.ellipse(x, y, 35, 35); // Drawing circle
         // with coordinates & size
 
-        drawCircleInfluence(x,y);
+        drawCircleInfluence(x, y);
 
     }
 
-    private void drawCircleInfluence(float x, float y){
+    private void drawCircleInfluence(float x, float y) {
         float angleOffset = PApplet.radians(45); // Offset to start the outer ring from the top
 
         parent.noFill();            // Ensures circle of influence is an outline
@@ -88,7 +89,7 @@ public class StartMenu {
         }
     }
 
-    private void drawTitle(){
+    private void drawTitle() {
         String title = "Black Box +";
         float titleWidth = parent.textWidth(title) + 45; // used for centering
 
@@ -102,7 +103,7 @@ public class StartMenu {
 
     public void drawRay(float y) {
         // Draw ray dynamically
-        parent.stroke(255,255,255);
+        parent.stroke(255, 255, 255);
         parent.line(0, y, x, y);
 
         // Move the ray
@@ -135,8 +136,8 @@ public class StartMenu {
 
         // Title
         parent.textSize(25);
-        parent.fill(255,38,125);
-        parent.text("START", x + 18,y + 33);
+        parent.fill(255, 38, 125);
+        parent.text("START", x + 18, y + 33);
 
         if (mouseOver && mousePressed) {
             startPressed = true;
@@ -166,8 +167,8 @@ public class StartMenu {
 
         // Title
         parent.textSize(25);
-        parent.fill(255,38,125);
-        parent.text("Instructions", x + 18,y + 33);
+        parent.fill(255, 38, 125);
+        parent.text("Instructions", x + 18, y + 33);
 
         if (mouseOver && mousePressed) {
             instructScreen = true;

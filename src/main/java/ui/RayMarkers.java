@@ -1,6 +1,9 @@
 package main.java.ui;
+
 import processing.core.PApplet;
+
 import java.util.Arrays;
+
 import static main.java.setter.Rays.rayPositions;
 import static main.java.utilities.Text.drawText;
 import static main.java.utilities.Text.drawSquare;
@@ -19,7 +22,7 @@ public class RayMarkers {
     private static final int[] blue = {0, 0, 255};
 
     // Method for logic to draw marker
-    private static void drawMarker(int[] rgb, int position){
+    private static void drawMarker(int[] rgb, int position) {
         // Getting colours from array
         int r = rgb[0];
         int g = rgb[1];
@@ -39,58 +42,58 @@ public class RayMarkers {
         // CONSTANTS for x CO-ORDS
         int topLeftX = firstIndex - 19;
         int bottomLeftX = firstIndex - 22;
-        int topBottomX =  firstIndex - 5;
+        int topBottomX = firstIndex - 5;
         int bottomRightX = firstIndex + 12;
         int topRightX = firstIndex + 13;
 
         // CONSTANTS for y CO-ORDS
         int leftY = secondIndex - 5;
-        int bottomY =  secondIndex + 12;
+        int bottomY = secondIndex + 12;
         int rightY = secondIndex - 4;
-        int topY =   secondIndex - 20;
+        int topY = secondIndex - 20;
 
         // Calculating Locations
-        if (position >= 0 && position <= 8){ // top left
+        if (position >= 0 && position <= 8) { // top left
             x = topLeftX;
             y = leftY;
             // Draw marker
-            drawSquare(x,y);
+            drawSquare(x, y);
         } else if (position >= 9 && position <= 18) { // bottom left
             x = bottomLeftX;
             y = leftY;
-            drawSquare(x,y);
+            drawSquare(x, y);
         } else if (position >= 19 && position <= 27) { // bottom
             x = topBottomX;
             y = bottomY;
-            drawSquare(x,y);
+            drawSquare(x, y);
         } else if (position >= 28 && position <= 35) { // bottom right
             x = bottomRightX;
             y = rightY;
-            drawSquare(x,y);
+            drawSquare(x, y);
         } else if (position >= 36 && position <= 45) { // top right
             x = topRightX;
             y = rightY;
-            drawSquare(x,y);
-        }  else if (position >= 46 && position <= 53) { // top
+            drawSquare(x, y);
+        } else if (position >= 46 && position <= 53) { // top
             x = topBottomX;
             y = topY;
-            drawSquare(x,y);
+            drawSquare(x, y);
         }
     }
 
     // METHODS TO DRAW DIFFERENT MARKERS
     // Absorbed => RED
-    private static void drawAbsorbed(int index){
+    private static void drawAbsorbed(int index) {
         drawMarker(red, index);
     }
 
     // Reflected 180 => PURPLE
-    private static void drawReflected180(int index){
+    private static void drawReflected180(int index) {
         drawMarker(purple, index);
     }
 
     // Deflected => BLUE, Different Numbering
-    private static void drawDeflected(int index, int endIndex, int numDeflectedRays){
+    private static void drawDeflected(int index, int endIndex, int numDeflectedRays) {
         // Start Marker
         drawMarker(blue, index);
         drawDeflectedNum(index, numDeflectedRays);
@@ -100,7 +103,7 @@ public class RayMarkers {
     }
 
     // Method for positioning of deflected ray numbering
-    private static void drawDeflectedNum(int position, int num){
+    private static void drawDeflectedNum(int position, int num) {
         // VARIABLES for position
         int x;
         int y;
@@ -112,47 +115,47 @@ public class RayMarkers {
         // CONSTANTS for x CO-ORDS
         int topLeftX = firstIndex - 19;
         int bottomLeftX = firstIndex - 22;
-        int topBottomX =  firstIndex - 5;
+        int topBottomX = firstIndex - 5;
         int bottomRightX = firstIndex + 12;
         int topRightX = firstIndex + 13;
 
         // CONSTANTS for y CO-ORDS
         int leftY = secondIndex + 4;
-        int bottomY =  secondIndex + 21;
+        int bottomY = secondIndex + 21;
         int rightY = secondIndex + 5;
-        int topY =   secondIndex - 11;
+        int topY = secondIndex - 11;
 
         // CALCULATING LOCATIONS
-        if (position >= 0 && position <= 8){ // top left
+        if (position >= 0 && position <= 8) { // top left
             x = topLeftX;
             y = leftY;
             // Draw number
-            drawNumber(x,y, num);
+            drawNumber(x, y, num);
         } else if (position >= 9 && position <= 18) { // bottom left
             x = bottomLeftX;
             y = leftY;
             // Draw number
-            drawNumber(x,y, num);
+            drawNumber(x, y, num);
         } else if (position >= 19 && position <= 27) { // bottom
             x = topBottomX;
             y = bottomY;
             // Draw number
-            drawNumber(x,y, num);
+            drawNumber(x, y, num);
         } else if (position >= 28 && position <= 35) { // bottom right
             x = bottomRightX;
             y = rightY;
             // Draw number
-            drawNumber(x,y, num);
+            drawNumber(x, y, num);
         } else if (position >= 36 && position <= 45) { // top right
             x = topRightX;
             y = rightY;
             // Draw number
-            drawNumber(x,y, num);
-        }  else if (position >= 46 && position <= 53) { // top
+            drawNumber(x, y, num);
+        } else if (position >= 46 && position <= 53) { // top
             x = topBottomX;
             y = topY;
             // Draw number
-            drawNumber(x,y, num);
+            drawNumber(x, y, num);
         }
     }
 
@@ -224,18 +227,18 @@ public class RayMarkers {
         drawDetails();
     }
 
-    private static void drawDetails(){
+    private static void drawDetails() {
         // Title
         drawText(20, "Ray Markers Key", 807, 80);
 
         // Key
-        drawKey(red,775,105);
-        drawText(17,"Ray Absorbed", 800, 115);
-        drawKey(purple,775,140);
+        drawKey(red, 775, 105);
+        drawText(17, "Ray Absorbed", 800, 115);
+        drawKey(purple, 775, 140);
         drawText(17, "Ray Reflected 180 °", 800, 150);
-        drawKey(blue,775,175);
-        drawText(17,"Ray Deflected or", 800, 185);
-        drawText(17,"No Atom Found", 800, 205);
+        drawKey(blue, 775, 175);
+        drawText(17, "Ray Deflected or", 800, 185);
+        drawText(17, "No Atom Found", 800, 205);
         drawText(15, "(Changes number for each set", 800, 230);
         drawText(15, "of deflected ray start and end)", 800, 250);
     }
@@ -247,6 +250,6 @@ public class RayMarkers {
 
         parent.noStroke();
         parent.fill(r, g, b);
-        parent.rect(x,y,10,10);
+        parent.rect(x, y, 10, 10);
     }
 }

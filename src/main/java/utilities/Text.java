@@ -1,8 +1,10 @@
 package main.java.utilities;
+
 import processing.core.PApplet;
 
 public class Text {
     private static PApplet parent;
+
     public Text(PApplet parent) {
         Text.parent = parent;
     }
@@ -10,7 +12,7 @@ public class Text {
     /* Utility methods to write text
      * - This is due to conflicting methods in Java Processing
      * - How some colours, size, etc. being set can clash with others */
-    public static void drawText(int size, String text, int x, int y){
+    public static void drawText(int size, String text, int x, int y) {
         if (parent != null) { // Check if parent is not null
             parent.fill(255);
             parent.textSize(size);
@@ -20,7 +22,7 @@ public class Text {
         }
     }
 
-    public static void drawError(int size, String text, int x, int y){
+    public static void drawError(int size, String text, int x, int y) {
         if (parent != null) { // Check if parent is not null
             parent.fill(255, 0, 0);
             parent.textSize(size);
@@ -64,7 +66,7 @@ public class Text {
         int b = rgb[2];
 
         parent.fill(r, g, b);
-        parent.stroke(r,g,b);
-        parent.ellipse(x,y,size,size);
+        parent.stroke(r, g, b);
+        parent.ellipse(x, y, size, size);
     }
 }
