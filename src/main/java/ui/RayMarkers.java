@@ -2,6 +2,7 @@ package main.java.ui;
 
 import processing.core.PApplet;
 
+import java.awt.*;
 import java.util.Arrays;
 
 import static main.java.setter.Rays.rayPositions;
@@ -167,7 +168,7 @@ public class RayMarkers {
     // METHODS FOR FIGURING OUT WHICH RAY MARKER TO DRAW + SCORING
     public static int markerScore = 0;
 
-    public static void drawRayMarkers(int numOfRays, int[] shots, float[][] rayExitCoordinates) {
+    public static void drawRayMarkers(int numOfRays, int[] shots, Point[] rayExitCoordinates) {
 
         // Initial counts reset to 0
         int numDeflectedRays = 0;
@@ -182,7 +183,7 @@ public class RayMarkers {
              * - DEFLECTED: Coordinates */
 
             // Extracting first two elements for Math.round to compare float with int
-            float[] exitCoords = {rayExitCoordinates[i][0], rayExitCoordinates[i][1]};
+            float[] exitCoords = {rayExitCoordinates[i].x, rayExitCoordinates[i].y};
 
             if (Arrays.equals(exitCoords, new float[]{-1, -1})) {
                 score++;

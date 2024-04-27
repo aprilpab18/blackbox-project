@@ -4,6 +4,7 @@ import main.java.setter.Rays;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import java.awt.*;
 import java.util.List;
 
 import static main.java.ui.RayMarkers.markerScore;
@@ -34,7 +35,7 @@ public class EndScreen {
         this.rays = new Rays(parent);
     }
 
-    public void drawEndScreen(int[][] atomPositions, boolean showRays, int numOfRays, int[] shots, float[][] rayExitCoordinates, List<AtomLocation> guessedAtoms) {
+    public void drawEndScreen(int[][] atomPositions, boolean showRays, int numOfRays, int[] shots, Point[] rayExitCoordinates, List<AtomLocation> guessedAtoms) {
 
         grid.drawImage(-1);
 
@@ -50,7 +51,7 @@ public class EndScreen {
 
         if (showRays) {
             parent.text("Press 'X' to hide the rays you shot", 10, 20);
-            rays.displayRays(numOfRays, shots, atomPositions, parent);
+            rays.displayRays(numOfRays, shots, atomPositions);
 
             // Yellow Atoms => Guesses
             for (int[] atom : atomPositions) {

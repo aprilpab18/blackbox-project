@@ -40,7 +40,7 @@ public class Main extends PApplet {
     public int[][] atomPositions = new int[numOfAtoms][2];
     boolean showingAtoms = false;
     public int selectedNumber = -1;
-    public float[][] rayExitCoordinates = new float[54][2];
+    public Point[] rayExitCoordinates = new Point[54];
     // -1, -1 = DIRECT HIT
     // -2, -2 = REFLECTED
     public boolean showRays = false;
@@ -107,12 +107,12 @@ public class Main extends PApplet {
 
                 int direction = Rays.rayPositions[rayNumInList][4];
                 Point start = new Point (Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1]);
-                rayExitCoordinates[i] = Rays.drawRayWithBounces(atomPositions, start, direction, true, false,this);
+                rayExitCoordinates[i] = Rays.drawRayWithBounces(atomPositions, start, direction, true, false);
 
 
                 // Check for reflected rays
-                if (dist(rayExitCoordinates[i][0], rayExitCoordinates[i][1], Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1]) < 5) {
-                    rayExitCoordinates[i] = new float[] {-2, -2};
+                if (dist(rayExitCoordinates[i].x, rayExitCoordinates[i].y, Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1]) < 5) {
+                    rayExitCoordinates[i] = new Point(-2, -2);
                 }
             }
 
