@@ -3,11 +3,12 @@ package main.java.setter;
 import main.java.ui.RayMarkers;
 import processing.core.*;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class Rays {
 
-    PApplet parent;
+    static PApplet parent;
 
     public Rays(PApplet parent) {
         this.parent = parent;
@@ -176,10 +177,10 @@ public class Rays {
 
 
     // FIND EXIT ON LINE OF RAY
-    public static int[] setExit(float startX, float startY, int direction, PApplet sketch) {
+    public static int[] setExit(Point start, int direction) {
         int[] exit = new int[]{0, 0, 0};
         int[][] exitsInDirection = exits[direction - 1];
-        float[] testCoords = new float[]{startX, startY};
+        float[] testCoords = new float[]{start.x, start.y};
 
         while (true) {
             boolean exitSet = false;
@@ -203,7 +204,7 @@ public class Rays {
             testCoords[1] += ((float) incrementsAlongLine[direction - 1][1] / 2);
 
             // IF TEST COORDS GO OFF-SCREEN, ERROR (NO EXIT FOUND)
-            if (testCoords[0] < 0 || testCoords[0] > sketch.width || testCoords[1] > sketch.height || testCoords[1] < 0) {
+            if (testCoords[0] < 0 || testCoords[0] > parent.width || testCoords[1] > parent.height || testCoords[1] < 0) {
                 PApplet.print("NO EXIT FOUND");
                 break;
             }
@@ -213,40 +214,44 @@ public class Rays {
 
 
     // DISPLAYS RAY AND RETURNS COORDINATES OF END OF RAY
-    public static float[] drawRay(float startX, float startY, float angle, float lineLength, boolean displayRay, PApplet sketch) {
+    public static float[] drawRay(Point start, float angle, float lineLength, boolean displayRay, PApplet sketch) {
         sketch.stroke(0, 255, 0); // Colour of rays
         sketch.strokeWeight(3);
 
         // CALCULATE END COORDINATES
-        float endX = startX + PApplet.cos(angle) * lineLength;
-        float endY = startY + PApplet.sin(angle) * lineLength;
+        float endX = start.x + PApplet.cos(angle) * lineLength;
+        float endY = start.y + PApplet.sin(angle) * lineLength;
 
         if (displayRay) {
-            sketch.line(startX, startY, endX, endY);
+            sketch.line((float) start.getX(), (float) start.getY(), endX, endY);
         }
 
         return new float[]{endX, endY};
     }
 
 
+
+
+
+
     // DRAW RAYS RECURSIVELY, CHECKING FOR BOUNCES
-    public static float[] drawRayWithBounces(int[][] atomPositions, float startX, float startY, int direction, boolean firstRay, boolean displayRays, PApplet sketch) {
+    public static float[] drawRayWithBounces(int[][] atomPositions, Point start, int direction, boolean firstRay, boolean displayRays, PApplet sketch) {
 
         float[] endOfLine;
         int numOfAtoms = atomPositions.length;
         boolean directHit = false;
-        float[] coordinatesOfCircleOfInfluence = new float[]{0, 0};
+        Point coordinatesOfCircleOfInfluence = new Point(0, 0);
 
         int numOfCirclesOfInfluence = 0;
 
         // CHECK FOR REFLECTED - STARTING INSIDE AN ATOM'S CIRCLE OF INFLUENCE
         for (int[] atomPosition : atomPositions) {
-            if (PApplet.dist(startX, startY, atomPosition[0], atomPosition[1]) < 59 && firstRay) { // STARTS INSIDE AN ATOM
+            if (PApplet.dist(start.x, start.y, atomPosition[0], atomPosition[1]) < 59 && firstRay) { // STARTS INSIDE AN ATOM
 
                 // CHECK IF DIRECT HIT
-                if (PApplet.dist((startX + ((float) incrementsAlongLine[direction - 1][0] / 2)), (startY + ((float) incrementsAlongLine[direction - 1][1] / 2)), atomPosition[0], atomPosition[1]) < 5) {
-                    float distance = PApplet.dist(atomPosition[0], atomPosition[1], startX, startY);
-                    drawRay(startX, startY, angles[direction - 1], distance, displayRays, sketch);
+                if (PApplet.dist((start.x + ((float) incrementsAlongLine[direction - 1][0] / 2)), (start.y + ((float) incrementsAlongLine[direction - 1][1] / 2)), atomPosition[0], atomPosition[1]) < 5) {
+                    float distance = PApplet.dist(atomPosition[0], atomPosition[1], (float) start.getX(), (float) start.getY());
+                    drawRay(start, angles[direction - 1], distance, displayRays, sketch);
                     endOfLine = new float[]{-1, -1};
                     return endOfLine;
                 }
@@ -259,14 +264,14 @@ public class Rays {
 
 
         // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-        int[] exit = setExit(startX, startY, direction, sketch);
-        float distance = PApplet.dist(startX, startY, exit[0], exit[1]);
+        int[] exit = setExit(start, direction);
+        float distance = PApplet.dist(start.x, start.y, exit[0], exit[1]);
 
         // Starting position is half distance to next centre point -> Move back half
-        float[] testCoords = {startX, startY};
+        Point testCoords = new Point(start);
         if (firstRay) {
-            testCoords[0] -= ((float) incrementsAlongLine[direction - 1][0] / 2);
-            testCoords[1] -= ((float) incrementsAlongLine[direction - 1][1] / 2);
+            testCoords.x -= (incrementsAlongLine[direction - 1][0] / 2);
+            testCoords.y -= (incrementsAlongLine[direction - 1][1] / 2);
         }
 
         int[] atomsHit = new int[6];
@@ -276,21 +281,17 @@ public class Rays {
         int incrementY = incrementsAlongLine[direction - 1][1];
 
         // While next position before exit and no circles of influence found
-        while ((testCoords[0] + incrementX) < sketch.width && (testCoords[0] + incrementX) > 0 && (testCoords[1] + incrementY) < sketch.height && (testCoords[1] + incrementY) > 0 && numOfCirclesOfInfluence == 0) {
+        while ((testCoords.x + incrementX) < sketch.width && (testCoords.x + incrementX) > 0 && (testCoords.y + incrementY) < sketch.height && (testCoords.y + incrementY) > 0 && numOfCirclesOfInfluence == 0) {
 
-            // Move to next centre point
-            testCoords[0] += incrementX;
-            testCoords[1] += incrementY;
-
+            incrementCoordinates(testCoords, direction);
 
             // CHECK IF ANY CIRCLES OF INFLUENCE HIT - IF SO STORE THEM AND THE COORDINATES OF THE TEST COORDINATES
 
             for (int i = 0; i < numOfAtoms; i++) {
-                if (PApplet.dist(testCoords[0], testCoords[1], atomPositions[i][0], atomPositions[i][1]) <= 65) {
+                if (PApplet.dist(testCoords.x, testCoords.y, atomPositions[i][0], atomPositions[i][1]) <= 65) {
                     atomsHit[numOfCirclesOfInfluence] = i;
                     numOfCirclesOfInfluence++;
-                    coordinatesOfCircleOfInfluence[0] = testCoords[0];
-                    coordinatesOfCircleOfInfluence[1] = testCoords[1];
+                    coordinatesOfCircleOfInfluence = testCoords;
                 }
             }
 
@@ -300,55 +301,55 @@ public class Rays {
 
                 // CHECK FOR DIRECT HIT
                 for (int[] atom : atomPositions) {
-                    if (PApplet.dist(testCoords[0] + incrementX, testCoords[1] + incrementY, atom[0], atom[1]) < 5) {
+                    if (PApplet.dist(testCoords.x + incrementX, testCoords.y + incrementY, atom[0], atom[1]) < 5) {
                         directHit = true;
-                        distance = PApplet.dist(atom[0], atom[1], startX, startY);
+                        distance = PApplet.dist(atom[0], atom[1], start.x, start.y);
                         break;
                     }
                 }
 
                 // ELSE BOUNCE
                 if (!directHit) {
-                    distance = PApplet.dist(coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], startX, startY);
-                    drawRay(startX, startY, angles[direction - 1], distance, displayRays, sketch);
+                    distance = PApplet.dist(coordinatesOfCircleOfInfluence.x, coordinatesOfCircleOfInfluence.y, start.x, start.y);
+                    drawRay(start, angles[direction - 1], distance, displayRays, sketch);
 
                     switch (direction) {
                         case 1, 2, 5, 6:
-                            if (coordinatesOfCircleOfInfluence[0] > atomPositions[atomsHit[0]][0]) { // HITS RIGHT SIDE OF CIRCLE
+                            if (coordinatesOfCircleOfInfluence.x > atomPositions[atomsHit[0]][0]) { // HITS RIGHT SIDE OF CIRCLE
                                 switch (direction) {
                                     case 1, 5:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 3, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 3, false, displayRays, sketch);
                                     case 2:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 1, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 1, false, displayRays, sketch);
                                     case 6:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 5, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 5, false, displayRays, sketch);
                                 }
                             } else { // HITS LEFT SIDE OF CIRCLE
                                 switch (direction) {
                                     case 1:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 2, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 2, false, displayRays, sketch);
                                     case 2, 6:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 4, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 4, false, displayRays, sketch);
                                     case 5:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 6, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 6, false, displayRays, sketch);
                                 }
 
                             }
 
                         case 3, 4:
-                            if (coordinatesOfCircleOfInfluence[1] > atomPositions[atomsHit[0]][1]) { // HITS BOTTOM HALF OF CIRCLE
+                            if (coordinatesOfCircleOfInfluence.y > atomPositions[atomsHit[0]][1]) { // HITS BOTTOM HALF OF CIRCLE
                                 switch (direction) {
                                     case 3:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 1, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 1, false, displayRays, sketch);
                                     case 4:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 2, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 2, false, displayRays, sketch);
                                 }
                             } else { // HITS TOP HALF OF CIRCLE -> BOUNCES UP AND RIGHT
                                 switch (direction) {
                                     case 3:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 5, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 5, false, displayRays, sketch);
                                     case 4:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 6, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 6, false, displayRays, sketch);
                                 }
                             }
                     }
@@ -358,8 +359,8 @@ public class Rays {
             // DEAL WITH MULTIPLE CIRCLES
             else if (numOfCirclesOfInfluence > 1) {
 
-                distance = PApplet.dist(coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], startX, startY);
-                drawRay(startX, startY, angles[direction - 1], distance, displayRays, sketch);
+                distance = PApplet.dist(coordinatesOfCircleOfInfluence.x, coordinatesOfCircleOfInfluence.y, start.x, start.y);
+                drawRay(start, angles[direction - 1], distance, displayRays, sketch);
 
                 boolean oneCircleAboveOther = false;
                 boolean verticallyAligned = false;
@@ -385,33 +386,33 @@ public class Rays {
                                 // BOUNCE
                                 switch (direction) {
                                     case 1, 5:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 4, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 4, false, displayRays, sketch);
                                     case 2, 6:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 3, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 3, false, displayRays, sketch);
                                 }
                             } else {
                                 // REFLECT
                                 switch (direction) {
                                     case 1:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 6, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 6, false, displayRays, sketch);
                                     case 2:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 5, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 5, false, displayRays, sketch);
                                     case 5:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 2, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 2, false, displayRays, sketch);
                                     case 6:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 1, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 1, false, displayRays, sketch);
                                 }
                             }
                         } else { // BESIDE
                             switch (direction) {
                                 case 1:
-                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 5, false, displayRays, sketch);
+                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 5, false, displayRays, sketch);
                                 case 2:
-                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 6, false, displayRays, sketch);
+                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 6, false, displayRays, sketch);
                                 case 5:
-                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 1, false, displayRays, sketch);
+                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 1, false, displayRays, sketch);
                                 case 6:
-                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 2, false, displayRays, sketch);
+                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 2, false, displayRays, sketch);
                             }
 
                         }
@@ -437,9 +438,9 @@ public class Rays {
                         if (verticallyAligned) { // ONE ABOVE THE OTHER
                             switch (direction) {
                                 case 3:
-                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 4, false, displayRays, sketch);
+                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 4, false, displayRays, sketch);
                                 case 4:
-                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 3, false, displayRays, sketch);
+                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 3, false, displayRays, sketch);
                             }
 
                         } else { // BESIDE - CAN ONLY BE 2 CIRCLES OF INFLUENCE
@@ -447,17 +448,17 @@ public class Rays {
                             if (atomPositions[atomsHit[0]][0] > atomPositions[atomsHit[1]][0]) { // Top further right than bottom
                                 switch (direction) {
                                     case 3:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 6, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 6, false, displayRays, sketch);
                                     case 4:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 1, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 1, false, displayRays, sketch);
                                 }
 
                             } else { // Top further left than bottom
                                 switch (direction) {
                                     case 3:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 2, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 2, false, displayRays, sketch);
                                     case 4:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence[0], coordinatesOfCircleOfInfluence[1], 5, false, displayRays, sketch);
+                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 5, false, displayRays, sketch);
                                 }
                             }
                         }
@@ -465,7 +466,7 @@ public class Rays {
             }
         }
 
-        endOfLine = drawRay(startX, startY, angles[direction - 1], distance, displayRays, sketch); // doesn't hit anything
+        endOfLine = drawRay(start, angles[direction - 1], distance, displayRays, sketch); // doesn't hit anything
 
 
         if (directHit) {
@@ -480,9 +481,15 @@ public class Rays {
             int rayNumInList = shots[i] - 1;
 
             int direction = Rays.rayPositions[rayNumInList][4];
-            drawRayWithBounces(atomPositions, Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1], direction, true, true, sketch);
+            Point start = new Point (Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1]);
+            drawRayWithBounces(atomPositions, start, direction, true, true, sketch);
         }
     }
 
+
+    public static void incrementCoordinates(Point coordinates, int direction) {
+        coordinates.x += incrementsAlongLine[direction-1][0];
+        coordinates.y += incrementsAlongLine[direction-1][1];
+    }
 
 }

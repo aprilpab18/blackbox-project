@@ -4,6 +4,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 // Importing packaged util static methods
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -105,7 +106,8 @@ public class Main extends PApplet {
                 int rayNumInList = shots[i] - 1;
 
                 int direction = Rays.rayPositions[rayNumInList][4];
-                rayExitCoordinates[i] = Rays.drawRayWithBounces(atomPositions, Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1], direction, true, false,this);
+                Point start = new Point (Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1]);
+                rayExitCoordinates[i] = Rays.drawRayWithBounces(atomPositions, start, direction, true, false,this);
 
 
                 // Check for reflected rays
