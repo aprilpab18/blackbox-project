@@ -4,6 +4,7 @@ import processing.core.PApplet;
 
 import java.awt.*;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static main.java.setter.Rays.rayPositions;
 import static main.java.utilities.Text.drawText;
@@ -183,12 +184,12 @@ public class RayMarkers {
              * - DEFLECTED: Coordinates */
 
             // Extracting first two elements for Math.round to compare float with int
-            float[] exitCoords = {rayExitCoordinates[i].x, rayExitCoordinates[i].y};
+            Point exitCoords = rayExitCoordinates[i];
 
-            if (Arrays.equals(exitCoords, new float[]{-1, -1})) {
+            if (Objects.equals(exitCoords, new Point(-1, -1))) {
                 score++;
                 RayMarkers.drawAbsorbed(startIndex); // DIRECT HIT
-            } else if (Arrays.equals(exitCoords, new float[]{-2, -2})) {
+            } else if (Objects.equals(exitCoords, new Point(-2, -2))) {
                 score++;
                 RayMarkers.drawReflected180(startIndex); // REFLECTED
             } else {
@@ -202,14 +203,14 @@ public class RayMarkers {
     }
 
     // Helper method to compare exit coordinates within a range
-    private static int findEndIndex(float[] exitCoords, int[][] rayPositions) {
+    private static int findEndIndex(Point exitCoords, int[][] rayPositions) {
 
         // Loop through ray coordinates
         for (int j = 0; j < rayPositions.length; j++) {
             int[] positionCoords = {rayPositions[j][0], rayPositions[j][1]};
             // Check if the difference between coordinates is within the specified range
-            if (Math.abs(exitCoords[0] - positionCoords[0]) <= 3 &&
-                    Math.abs(exitCoords[1] - positionCoords[1]) <= 3) {
+            if (Math.abs(exitCoords.x - positionCoords[0]) <= 3 &&
+                    Math.abs(exitCoords.y - positionCoords[1]) <= 3) {
                 return j;
             }
         }

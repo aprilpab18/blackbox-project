@@ -73,79 +73,79 @@ public class Rays {
     };
 
 
-    public static int[][] downAndRightExits = {
-            {485, 525, 28}, // 28
-            {425, 525, 26}, // 26
-            {365, 525, 24}, // 24
-            {305, 525, 22}, // 22
-            {245, 525, 20}, // 20
-            {605, 325, 36}, // 36
-            {575, 375, 34}, // 34
-            {545, 425, 32}, // 32
-            {515, 475, 30}, // 30
+    public static Point[] downAndRightExits = {
+            new Point(485, 525), // 28
+            new Point(425, 525), // 26
+            new Point(365, 525), // 24
+            new Point(305, 525), // 22
+            new Point(245, 525), // 20
+            new Point(605, 325), // 36
+            new Point(575, 375), // 34
+            new Point(545, 425), // 32
+            new Point(515, 475) // 30
     };
 
-    public static int[][] downAndLeftExits = {
-            {455, 525, 27}, // 27
-            {395, 525, 25}, // 25
-            {335, 525, 23}, // 23
-            {275, 525, 21}, // 21
-            {215, 525, 19}, // 19
-            {185, 475, 17}, // 17
-            {155, 425, 15}, // 15
-            {125, 375, 13}, // 13
-            {95, 325, 11}, // 11
+    public static Point[] downAndLeftExits = {
+            new Point(455, 525), // 27
+            new Point(395, 525), // 25
+            new Point(335, 525), // 23
+            new Point(275, 525), // 21
+            new Point(215, 525), // 19
+            new Point(185, 475), // 17
+            new Point(155, 425), // 15
+            new Point(125, 375), // 13
+            new Point(95, 325) // 11
     };
 
-    public static int[][] rightExits = {
-            {500, 100, 45}, // 45
-            {530, 150, 43}, // 43
-            {560, 200, 41}, // 41
-            {590, 250, 39}, // 39
-            {620, 300, 37}, // 37
-            {590, 350, 35}, // 35
-            {560, 400, 33}, // 33
-            {530, 450, 31}, // 31
-            {500, 500, 29}, // 29
+    public static Point[] rightExits = {
+            new Point(500, 100), // 45
+            new Point(530, 150), // 43
+            new Point(560, 200), // 41
+            new Point(590, 250), // 39
+            new Point(620, 300), // 37
+            new Point(590, 350), // 35
+            new Point(560, 400), // 33
+            new Point(530, 450), // 31
+            new Point(500, 500) // 29
     };
 
-    public static int[][] leftExits = {
-            {200, 500, 18}, // 18
-            {170, 450, 16}, // 16
-            {140, 400, 14}, // 14
-            {110, 350, 12}, // 12
-            {80, 300, 10}, // 10
-            {110, 250, 8}, // 8
-            {140, 200, 6}, // 6
-            {170, 150, 4}, // 4
-            {200, 100, 2}, // 2
+    public static Point[] leftExits = {
+            new Point(200, 500), // 18
+            new Point(170, 450), // 16
+            new Point(140, 400), // 14
+            new Point(110, 350), // 12
+            new Point(80, 300), // 10
+            new Point(110, 250), // 8
+            new Point(140, 200), // 6
+            new Point(170, 150), // 4
+            new Point(200, 100) // 2
     };
 
-    public static int[][] upAndRightExits = {
-            {245, 75, 54}, // 54
-            {305, 75, 52}, // 52
-            {365, 75, 50}, // 50
-            {425, 75, 48}, // 48
-            {485, 75, 46}, // 46
-            {515, 125, 44}, // 44
-            {545, 175, 42}, // 42
-            {575, 225, 40}, // 40
-            {605, 275, 38}, // 38
+    public static Point[] upAndRightExits = {
+            new Point(245, 75), // 54
+            new Point(305, 75), // 52
+            new Point(365, 75), // 50
+            new Point(425, 75), // 48
+            new Point(485, 75), // 46
+            new Point(515, 125), // 44
+            new Point(545, 175), // 42
+            new Point(575, 225), // 40
+            new Point(605, 275) // 38
     };
 
-    public static int[][] upAndLeftExits = {
-            {95, 275, 9}, // 9
-            {125, 225, 7}, // 7
-            {155, 175, 5}, // 5
-            {185, 125, 3}, // 3
-            {215, 75, 1}, // 1
-            {275, 75, 53}, // 53
-            {335, 75, 51}, // 51
-            {395, 75, 49}, // 49
-            {455, 75, 47}, // 47
+    public static Point[] upAndLeftExits = {
+            new Point(95, 275), // 9
+            new Point(125, 225), // 7
+            new Point(155, 175), // 5
+            new Point(185, 125), // 3
+            new Point(215, 75), // 1
+            new Point(275, 75), // 53
+            new Point(335, 75), // 51
+            new Point(395, 75), // 49
+            new Point(455, 75) // 47
     };
 
-    private static final int[][][] exits = {
+    private static final Point[][] exits = {
             downAndRightExits,
             downAndLeftExits,
             rightExits,
@@ -177,18 +177,18 @@ public class Rays {
 
 
     // FIND EXIT ON LINE OF RAY
-    public static int[] setExit(Point start, int direction) {
-        int[] exit = new int[]{0, 0, 0};
-        int[][] exitsInDirection = exits[direction - 1];
+    public static Point setExit(Point start, int direction) {
+        Point exit = new Point(0,0);
+        Point[] exitsInDirection = exits[direction - 1];
         float[] testCoords = new float[]{start.x, start.y};
 
         while (true) {
             boolean exitSet = false;
 
             // CHECK IF TEST COORDS HAVE REACHED ANY EXIT IN ARRAY
-            for (int i = 0; i < exitsInDirection.length; i++) {
-                if (PApplet.dist(testCoords[0], testCoords[1], exitsInDirection[i][0], exitsInDirection[i][1]) < 15) { // IF COORDS REACH EXIT
-                    exit = new int[]{exitsInDirection[i][0], exitsInDirection[i][1], exitsInDirection[i][2]}; // Set exit coordinates
+            for (Point exitInDirection : exitsInDirection) {
+                if (PApplet.dist(testCoords[0], testCoords[1], exitInDirection.x, exitInDirection.y) < 15) { // IF COORDS REACH EXIT
+                    exit = exitInDirection; // Set exit coordinates
 
                     exitSet = true;
                     break;
@@ -264,8 +264,8 @@ public class Rays {
 
 
         // SET DISTANCE TO MAX -> PASSES STRAIGHT THROUGH
-        int[] exit = setExit(start, direction);
-        float distance = PApplet.dist(start.x, start.y, exit[0], exit[1]);
+        Point exit = setExit(start, direction);
+        float distance = PApplet.dist(start.x, start.y, exit.x, exit.y);
 
         // Starting position is half distance to next centre point -> Move back half
         Point testCoords = new Point(start);
