@@ -51,7 +51,7 @@ public class EndScreen {
 
         if (showRays) {
             parent.text("Press 'X' to hide the rays you shot", 10, 20);
-            rays.displayRays(numOfRays, shots, atomPositions);
+            rays.displayRays(numOfRays, shots);
 
             // Yellow Atoms => Guesses
             for (int[] atom : atomPositions) {

@@ -99,6 +99,7 @@ public class Main extends PApplet {
             // Draw grid
             grid.drawImage(selectedNumber);
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
+            Rays.setAtomPositions(atomPositions);
 
             // Draw rays (Move into showingAtoms in next sprint)
             for (int i = 0; i < numOfRays; i++) {
@@ -106,7 +107,7 @@ public class Main extends PApplet {
 
                 int direction = Rays.rayPositions[rayNumInList][4];
                 Point start = new Point (Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1]);
-                rayExitCoordinates[i] = Rays.drawRayWithBounces(atomPositions, start, direction, true, false);
+                rayExitCoordinates[i] = Rays.drawRayWithBounces(start, direction, true, false);
 
 
                 // Check for reflected rays
@@ -136,7 +137,7 @@ public class Main extends PApplet {
             textAlign(0, 0);
             if (showingAtoms) {
                 text("Press 'X' to hide the atoms & rays", 10, 20);
-                rays.displayRays(numOfRays, shots, atomPositions);
+                rays.displayRays(numOfRays, shots);
                 grid.drawAtoms(atomPositions);
             }
             else {
