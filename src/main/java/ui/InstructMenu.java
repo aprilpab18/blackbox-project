@@ -9,9 +9,7 @@ import static main.java.utilities.Text.drawBullet;
 import static main.java.utilities.Text.drawText;
 
 public class InstructMenu {
-
     private final PApplet parent;
-
     StartMenu startMenu;
 
     public InstructMenu(PApplet parent, StartMenu startMenu) {
@@ -22,26 +20,25 @@ public class InstructMenu {
 
     public void displayInstructMenu() {
         parent.background(0);
-
         // Draw Rays
         startMenu.drawRay(25);
         startMenu.drawRay(675);
-
         // Instruction Details
         drawInstructions();
-
         // Buttons
         startMenu.drawStartButton(493, 550);
     }
 
     private void drawInstructions() {
         drawBullet(80, 90);
-        drawText(25, "To shoot a ray, type the edge number you would like to shoot from and press enter.", 100, 100);
+        drawText(25, "To shoot a ray, type the edge number you would like to shoot from and press enter."
+                , 100, 100);
 
         drawBullet(80, 120);
         drawText(25, "The computer will place a ray marker after each shot that will allow you to keep track"
                 , 100, 130);
-        drawText(25, " of where your rays enter and exit the board.", 103, 160);
+        drawText(25, " of where your rays enter and exit the board."
+                , 103, 160);
 
         drawBullet(80, 180);
         drawText(25, "To keep track of potential atom locations, simply click the hexagon on the board where"
@@ -69,7 +66,6 @@ public class InstructMenu {
                 , 100, 440);
         drawText(25, "You are aiming to keep your score as low as possible!"
                 , 101, 470);
-
 
         drawText(50, "Good luck and have fun!"
                 , 280, 530);

@@ -104,7 +104,6 @@ public class EndScreen {
     }
 
     // SCOREBOARDS + ATOMS KEY
-
     private void drawScoreBoard() {
         // Outline
         parent.stroke(255, 255, 255);
@@ -162,11 +161,10 @@ public class EndScreen {
     // GRAPHICS METHODS
 
     // Variables for Ray
-    private float x = 0;    // Initial x-coordinate of the ray
-    private float speed = 1.2F;  // Speed of the ray
+    private float x = 0;
+    private float speed = 1.2F;
 
     private void drawRay(float y) {
-
         // Draw ray dynamically
         parent.stroke(255, 255, 255);
         parent.line(0, y, x, y);

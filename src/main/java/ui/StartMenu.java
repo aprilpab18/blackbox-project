@@ -15,8 +15,8 @@ public class StartMenu {
     private boolean expanding = true;
 
     // VARIABLES FOR RAY
-    float x = 0;      // Initial x-coordinate of the ray
-    float speed = 1.2F;  // Speed of the ray
+    float x = 0;
+    float speed = 1.2F;
 
     public StartMenu(PApplet parent) {
         this.parent = parent;
@@ -26,41 +26,39 @@ public class StartMenu {
     // METHODS
     public void displayStartMenu() {
         parent.background(0);
-
         drawAtom(100, 100);
         drawAtom(1000, 600);
-
         drawRay(250);
         drawRay(450);
-
         drawTitle();
-
         drawStartButton(400, 375);
         drawInstructButton(530, 375);
-
         // Displaying Instructions Screen
         if (instructScreen) {
             instructMenu.displayInstructMenu();
         }
-
     }
 
     public void drawAtom(float x, float y) {
-        // ATOM
-        parent.fill(0, 150, 255);           // Blue
-        parent.ellipse(x, y, 35, 35); // Drawing circle
-        // with coordinates & size
-
+        parent.fill(0, 150, 255);
+        parent.ellipse(x, y, 35, 35);
         drawCircleInfluence(x, y);
-
     }
 
+    /**
+     * This method draws a circle of influence and animates it to expand
+     * and retract based on geometry
+     *
+     * @param x The x-coordinate of the centre of the circle
+     * @param y The y-coorindate of the centre of the circle
+     */
     private void drawCircleInfluence(float x, float y) {
         float angleOffset = PApplet.radians(45); // Offset to start the outer ring from the top
 
-        parent.noFill();            // Ensures circle of influence is an outline
-        parent.stroke(255);     // White stroke color
-        parent.strokeWeight(3);     // Font size
+        // Circle of influence details
+        parent.noFill();
+        parent.stroke(255);
+        parent.strokeWeight(3);
 
         // DRAWING OUTER CIRCLE using Geometry
         parent.beginShape();
@@ -74,7 +72,7 @@ public class StartMenu {
         parent.endShape(parent.CLOSE);
 
         // ANIMATION
-        if (expanding) { // Expanding
+        if (expanding) {
             outerRadius += 1;
             if (outerRadius >= 65) { // Retracts when size met
                 expanding = false;
@@ -98,7 +96,8 @@ public class StartMenu {
         parent.text("Black Box", (float) parent.width / 2 - titleWidth, (float) parent.height / 2);
 
         parent.fill(255, 38, 125);
-        parent.text("+", (float) parent.width / 2 - titleWidth + parent.textWidth("Black Box "), (float) parent.height / 2);
+        parent.text("+", (float) parent.width / 2 - titleWidth + parent.textWidth("Black Box "),
+                (float) parent.height / 2);
     }
 
     public void drawRay(float y) {
@@ -113,15 +112,22 @@ public class StartMenu {
         if (x >= 1100 || x < 0) {
             speed *= -1; // bounce back
         }
-
     }
 
-    // Methods for Start button
-    public void drawStartButton(int x, int y) {
-        // Check if the mouse is over the button
-        boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 100 && parent.mouseY >= y && parent.mouseY <= y + 50);
+    // METHODS FOR BUTTONS
 
-        // Check if mouse is pressed
+    /**
+     * This method draws a start button at the specified coordinates
+     * and handles the hover and click events
+     * The button changes colour when the mouse hovers over it
+     * and sets the startPressed variable to true when clicked.
+     *
+     * @param x The x-coordinates of the top left corner of the button
+     * @param y The y-coordinates of the top left corner of the button
+     */
+    public void drawStartButton(int x, int y) {
+        // Check if the mouse is over the button or pressed
+        boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 100 && parent.mouseY >= y && parent.mouseY <= y + 50);
         boolean mousePressed = parent.mousePressed;
 
         // Hover Logic
@@ -148,8 +154,9 @@ public class StartMenu {
         return startPressed;
     }
 
+    // Similar to drawStartButton but for instructions
     public void drawInstructButton(int x, int y) {
-        // Check if the mouse is over the button
+        // Check if the mouse is over the button or pressed
         boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 155 && parent.mouseY >= y && parent.mouseY <= y + 50);
 
         // Check if mouse is pressed
@@ -173,7 +180,6 @@ public class StartMenu {
         if (mouseOver && mousePressed) {
             instructScreen = true;
         }
-
     }
 
     public boolean isInstructDisplayed() {

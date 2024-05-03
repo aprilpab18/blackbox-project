@@ -26,8 +26,8 @@ public class Grid {
         parent.line(xPos + sideLength, yPos + (sideLength / 2), xPos, yPos + sideLength + 5); // Bottom right line
     }
 
-    public int[][] drawGrid(int xPos, int yPos, int sideLength, int[] atomBoxNumbers) { // xPos of top left of left line of first row
-
+    // xPos of top left of left line of first row
+    public int[][] drawGrid(int xPos, int yPos, int sideLength, int[] atomBoxNumbers) {
         int[][] atomPositions = new int[6][2];
         parent.stroke(255, 38, 125); // Colour of grid
         parent.strokeWeight(3);
@@ -62,7 +62,6 @@ public class Grid {
                 drawHexagon(xPos - (3 * sideLength) + ((sideLength * 2) * j) + (sideLength * i), yPos + (7 * sideLength + (sideLength / 2) + 25) + ((sideLength + (sideLength / 2)) * i) + (5 * i), sideLength);
                 hexagonCentreCoordinates[boxNumber] = new int[]{xPos - (3 * sideLength) + ((sideLength * 2) * j) + (sideLength * i), yPos + (7 * sideLength + (sideLength / 2) + 25) + ((sideLength + (sideLength / 2)) * i) + (5 * i)};
 
-
                 for (int k = 0; k < 6; k++) {
                     if (boxNumber == atomBoxNumbers[k]) {
                         atom = true;
@@ -81,7 +80,7 @@ public class Grid {
         return atomPositions;
     }
 
-
+    // Delete?
     public void drawAtoms(int[][] atomPositions) {
         for (int i = 0; i < 6; i++) {
             parent.stroke(0, 0, 255);
@@ -94,7 +93,6 @@ public class Grid {
             parent.stroke(255, 255, 255, 120);
             parent.ellipse(atomPositions[i][0], atomPositions[i][1], 118, 118);
         }
-
     }
 
 
@@ -103,10 +101,9 @@ public class Grid {
         parent.image(myImage, 0, 0, parent.width, parent.height);
 
         // Design of numbers
-
-        parent.fill(255, 38, 125); // Set text color to pink
-        parent.textSize(18); // Set text size
-        parent.textAlign(parent.CENTER, parent.CENTER); // Align text to the center
+        parent.fill(255, 38, 125);
+        parent.textSize(18);
+        parent.textAlign(parent.CENTER, parent.CENTER);
 
         // Setting numbers to borders
         int[][] numberPositions = {

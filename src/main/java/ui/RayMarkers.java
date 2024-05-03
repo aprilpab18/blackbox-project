@@ -3,7 +3,6 @@ package main.java.ui;
 import processing.core.PApplet;
 
 import java.awt.*;
-import java.util.Arrays;
 import java.util.Objects;
 
 import static main.java.setter.Rays.rayPositions;
@@ -23,13 +22,18 @@ public class RayMarkers {
     private static final int[] purple = {138, 43, 226};
     private static final int[] blue = {0, 0, 255};
 
-    // Method for logic to draw marker
+    /**
+     * Draws a marker on a given position with a specific colour
+     * The colour is defined by an RGB array and position is determined by an int
+     *
+     * @param rgb An array of ints representing red, green, and blue shades of the colour
+     * @param position An int representing the position where the marker is drawn
+     */
     private static void drawMarker(int[] rgb, int position) {
         // Getting colours from array
         int r = rgb[0];
         int g = rgb[1];
         int b = rgb[2];
-
         parent.noStroke();
         parent.fill(r, g, b);
 
@@ -38,8 +42,8 @@ public class RayMarkers {
         int y;
 
         // VARIABLES for indexes of marker co-ordinates
-        int firstIndex = MarkerCoords.numberPositions[position][0];
-        int secondIndex = MarkerCoords.numberPositions[position][1];
+        int firstIndex = FixedCoords.numberPositions[position][0];
+        int secondIndex = FixedCoords.numberPositions[position][1];
 
         // CONSTANTS for x CO-ORDS
         int topLeftX = firstIndex - 19;
@@ -58,7 +62,6 @@ public class RayMarkers {
         if (position >= 0 && position <= 8) { // top left
             x = topLeftX;
             y = leftY;
-            // Draw marker
             drawSquare(x, y);
         } else if (position >= 9 && position <= 18) { // bottom left
             x = bottomLeftX;
@@ -111,8 +114,8 @@ public class RayMarkers {
         int y;
 
         // VARIABLES for indexes of marker co-ordinates
-        int firstIndex = MarkerCoords.numberPositions[position][0];
-        int secondIndex = MarkerCoords.numberPositions[position][1];
+        int firstIndex = FixedCoords.numberPositions[position][0];
+        int secondIndex = FixedCoords.numberPositions[position][1];
 
         // CONSTANTS for x CO-ORDS
         int topLeftX = firstIndex - 19;
@@ -131,32 +134,26 @@ public class RayMarkers {
         if (position >= 0 && position <= 8) { // top left
             x = topLeftX;
             y = leftY;
-            // Draw number
             drawNumber(x, y, num);
         } else if (position >= 9 && position <= 18) { // bottom left
             x = bottomLeftX;
             y = leftY;
-            // Draw number
             drawNumber(x, y, num);
         } else if (position >= 19 && position <= 27) { // bottom
             x = topBottomX;
             y = bottomY;
-            // Draw number
             drawNumber(x, y, num);
         } else if (position >= 28 && position <= 35) { // bottom right
             x = bottomRightX;
             y = rightY;
-            // Draw number
             drawNumber(x, y, num);
         } else if (position >= 36 && position <= 45) { // top right
             x = topRightX;
             y = rightY;
-            // Draw number
             drawNumber(x, y, num);
         } else if (position >= 46 && position <= 53) { // top
             x = topBottomX;
             y = topY;
-            // Draw number
             drawNumber(x, y, num);
         }
     }
@@ -169,23 +166,28 @@ public class RayMarkers {
     // METHODS FOR FIGURING OUT WHICH RAY MARKER TO DRAW + SCORING
     public static int markerScore = 0;
 
+    /**
+     * This method is used to draw markers for rays based on their exit coordinates
+     * - Direct Hit: -1, -1
+     * - Reflected: -2, -2
+     * - Deflected: Coordinates
+     * It also calculates the score and marker based on the condition of the rays
+     *
+     * @param numOfRays The number of rays to be processed
+     * @param shots An array of ints representing the start indices of the rays
+     * @param rayExitCoordinates An array of Points
+     *                           representing the exit coords of the rays
+     */
     public static void drawRayMarkers(int numOfRays, int[] shots, Point[] rayExitCoordinates) {
-
         // Initial counts reset to 0
         int numDeflectedRays = 0;
         int score = 0;
 
         for (int i = 0; i < numOfRays; i++) {
             int startIndex = shots[i] - 1;
-
-            /* Ray Conditions
-             * - DIRECT HIT: -1, -1
-             * - REFLECTED: -2, -2
-             * - DEFLECTED: Coordinates */
-
             // Extracting first two elements for Math.round to compare float with int
             Point exitCoords = rayExitCoordinates[i];
-
+            // Calculating type of ray
             if (Objects.equals(exitCoords, new Point(-1, -1))) {
                 score++;
                 RayMarkers.drawAbsorbed(startIndex); // DIRECT HIT
@@ -202,9 +204,17 @@ public class RayMarkers {
         markerScore = score;
     }
 
-    // Helper method to compare exit coordinates within a range
+    /**
+     * This helper method find the index of a point in the rayPositions
+     * array that is within a certain range of the exitCoords point.
+     * The range is defined as a difference of less than or equal to 3
+     *
+     * @param exitCoords
+     * @param rayPositions
+     * @return The index of the matching point in the rayPositions array.
+     *         If no matching point is found, it defaults to 0.
+     */
     private static int findEndIndex(Point exitCoords, int[][] rayPositions) {
-
         // Loop through ray coordinates
         for (int j = 0; j < rayPositions.length; j++) {
             int[] positionCoords = {rayPositions[j][0], rayPositions[j][1]};
@@ -221,10 +231,8 @@ public class RayMarkers {
     public static void drawRayMarkerKey(int x, int y) {
         parent.stroke(255, 255, 255);
         parent.fill(0);
-
         // Draw the rectangle
         parent.rect(x, y, 250, 215, 12, 12, 12, 12);
-
         // Text
         drawDetails();
     }
@@ -232,7 +240,6 @@ public class RayMarkers {
     private static void drawDetails() {
         // Title
         drawText(20, "Ray Markers Key", 807, 80);
-
         // Key
         drawKey(red, 775, 105);
         drawText(17, "Ray Absorbed", 800, 115);
@@ -245,11 +252,11 @@ public class RayMarkers {
         drawText(15, "of deflected ray start and end)", 800, 250);
     }
 
-    public static void drawKey(int[] rgb, int x, int y) {
+    private static void drawKey(int[] rgb, int x, int y) {
         int r = rgb[0];
         int g = rgb[1];
         int b = rgb[2];
-
+        // Drawing Key
         parent.noStroke();
         parent.fill(r, g, b);
         parent.rect(x, y, 10, 10);
