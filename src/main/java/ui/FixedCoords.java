@@ -1,6 +1,6 @@
 package main.java.ui;
 
-public class MarkerCoords {
+public class FixedCoords {
 
     // Co-ords of Grid used for individual markers
     static int[][] numberPositions = {

@@ -1,9 +1,6 @@
 package main.java.ui;
 
-
 // Class for storing pairs of x and y coordinates of atoms
-
-
 public class AtomLocation {
     private int x;
     private int y;
