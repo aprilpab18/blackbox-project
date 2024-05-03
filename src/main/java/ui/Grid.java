@@ -80,7 +80,6 @@ public class Grid {
         return atomPositions;
     }
 
-    // Delete?
     public void drawAtoms(int[][] atomPositions) {
         for (int i = 0; i < 6; i++) {
             parent.stroke(0, 0, 255);
@@ -94,7 +93,6 @@ public class Grid {
             parent.ellipse(atomPositions[i][0], atomPositions[i][1], 118, 118);
         }
     }
-
 
     public void drawImage(int selectedNumber) {
         // Draw image over Hexagon Grid

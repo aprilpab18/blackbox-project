@@ -8,12 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Guessing {
-
     private final PApplet parent;
-
     private final Grid grid;
-
-
     private boolean endGamePressed;
 
     // Keeps track of number of potential atom locations
@@ -31,9 +27,7 @@ public class Guessing {
     }
 
     public void drawEndButton(int x, int y) {
-
         boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 100 && parent.mouseY >= y && parent.mouseY <= y + 50);
-
         // Check if mouse is pressed
         boolean mousePressed = parent.mousePressed;
 
@@ -56,9 +50,7 @@ public class Guessing {
             endGamePressed = true;
         } else if (mouseOver && mousePressed) {
             endGamePressed = false;
-
             drawError(20, "You have not yet placed 6 atoms!", x - 40, y + 75);
-
         }
     }
 
@@ -104,27 +96,20 @@ public class Guessing {
                         numAtomGuesses++;
 //                        System.out.println(numAtomGuesses);
                     }
-
                     // Exit loop since we found the clicked hexagon
                     break;
                 }
             }
         }
-
         // Return the updated list of atom guess locations
         return atomGuessLocationsList;
     }
 
     public void displayGuessedAtoms(List<AtomLocation> atomGuessLocationsList) {
-
         parent.fill(255);
         for (AtomLocation atomLocation : atomGuessLocationsList) {
-
             parent.ellipse(atomLocation.getX(), atomLocation.getY(), 30, 30);
 
         }
-
     }
-
-
 }
