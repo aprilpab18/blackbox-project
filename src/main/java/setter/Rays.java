@@ -346,60 +346,7 @@ public class Rays {
 
             // DEAL WITH MULTIPLE CIRCLES
             else if (numOfCirclesOfInfluence > 1) {
-
-                distance = PApplet.dist(coordinatesOfCircleOfInfluence.x, coordinatesOfCircleOfInfluence.y, start.x, start.y);
-                drawRay(start, angles[direction - 1], distance, displayRays);
-
-
-                switch (direction) {
-                    case 1, 2, 5, 6:
-
-                        // ONE ABOVE THE OTHER -> REFLECT
-                        // BESIDE EACH OTHER -> BOUNCE
-
-                        boolean oneCircleAboveOther = checkIfOneCircleAboveOther(atomPositions, atomsHit, numOfCirclesOfInfluence);
-
-
-                        if (oneCircleAboveOther) { // ONE ABOVE THE OTHER
-                            if (PApplet.dist(atomPositions[atomsHit[0]][0], atomPositions[atomsHit[0]][1], atomPositions[atomsHit[1]][0], atomPositions[atomsHit[1]][1]) <= 60) {
-                                // BOUNCE
-                                switch (direction) {
-                                    case 1, 5:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 4, false, displayRays);
-                                    case 2, 6:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 3, false, displayRays);
-                                }
-                            } else {
-                                // REFLECT
-                                switch (direction) {
-                                    case 1:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 6, false, displayRays);
-                                    case 2:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 5, false, displayRays);
-                                    case 5:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 2, false, displayRays);
-                                    case 6:
-                                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 1, false, displayRays);
-                                }
-                            }
-                        } else { // BESIDE
-                            switch (direction) {
-                                case 1:
-                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 5, false, displayRays);
-                                case 2:
-                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 6, false, displayRays);
-                                case 5:
-                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 1, false, displayRays);
-                                case 6:
-                                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 2, false, displayRays);
-                            }
-
-                        }
-
-
-                    case 3, 4:
-                        return horizontalRaysRecursiveCallsMultipleCircles(atomPositions, direction, coordinatesOfCircleOfInfluence, atomsHit, numOfCirclesOfInfluence, displayRays);
-                }
+                return displayAndReturnForMultipleCirclesOfInfluence(start, coordinatesOfCircleOfInfluence, direction, atomPositions, atomsHit, numOfCirclesOfInfluence, displayRays);
             }
         }
 
@@ -479,40 +426,120 @@ public class Rays {
         return false;
     }
 
+    private static Point horizontalRaysVerticallyAlignedRecursiveCalls(int direction, int[][] atomPositions, Point coordinatesOfCircleOfInfluence, boolean displayRays) {
+        return switch (direction) {
+            case 3 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 4, false, displayRays);
+            case 4 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 3, false, displayRays);
+            default -> new Point(0, 0); // ERROR
+        };
+    }
+
+    private static boolean checkIfTopCircleFurtherRightThanBottom(int[][] atomPositions, int[] atomsHit) {
+        return atomPositions[atomsHit[0]][0] > atomPositions[atomsHit[1]][0];
+    }
+
+    private static Point horizontalRaysTopCircleFurtherRightRecursiveCalls(int direction, int[][] atomPositions, Point coordinatesOfCircleOfInfluence, boolean displayRays) {
+        return switch (direction) {
+            case 3 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 6, false, displayRays);
+            case 4 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 1, false, displayRays);
+            default -> new Point(0, 0); // ERROR
+        };
+    }
+
+    private static Point horizontalRaysTopCircleFurtherLeftRecursiveCalls(int direction, int[][] atomPositions, Point coordinatesOfCircleOfInfluence, boolean displayRays) {
+        return switch (direction) {
+            case 3 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 2, false, displayRays);
+            case 4 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 5, false, displayRays);
+            default -> new Point(0, 0); // ERROR
+        };
+    }
+
+    private static Point horizontalRaysMultipleCirclesBesideEachOtherRecursiveCalls(int direction, int[][] atomPositions, int[] atomsHit, Point coordinatesOfCircleOfInfluence, boolean displayRays) {
+        if (checkIfTopCircleFurtherRightThanBottom(atomPositions, atomsHit)) { // Top further right than bottom
+            return horizontalRaysTopCircleFurtherRightRecursiveCalls(direction, atomPositions, coordinatesOfCircleOfInfluence, displayRays);
+        }
+        else { // Top further left than bottom
+            return horizontalRaysTopCircleFurtherLeftRecursiveCalls(direction, atomPositions, coordinatesOfCircleOfInfluence, displayRays);
+        }
+    }
+
     private static Point horizontalRaysRecursiveCallsMultipleCircles(int[][] atomPositions, int direction, Point coordinatesOfCircleOfInfluence, int[] atomsHit, int numOfCirclesOfInfluence, boolean displayRays) {
         boolean verticallyAligned = checkIfVerticallyAligned(atomPositions, atomsHit, numOfCirclesOfInfluence);
 
-
         if (verticallyAligned) { // ONE ABOVE THE OTHER
-            switch (direction) {
-                case 3:
-                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 4, false, displayRays);
-                case 4:
-                    return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 3, false, displayRays);
-            }
-
+            return horizontalRaysVerticallyAlignedRecursiveCalls(direction, atomPositions, coordinatesOfCircleOfInfluence, displayRays);
         }
         else { // BESIDE - CAN ONLY BE 2 CIRCLES OF INFLUENCE
-            // Atom positions sorted -> First circle of influence found will be higher up
-            if (atomPositions[atomsHit[0]][0] > atomPositions[atomsHit[1]][0]) { // Top further right than bottom
-                switch (direction) {
-                    case 3:
-                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 6, false, displayRays);
-                    case 4:
-                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 1, false, displayRays);
-                }
-
-            }
-            else { // Top further left than bottom
-                switch (direction) {
-                    case 3:
-                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 2, false, displayRays);
-                    case 4:
-                        return drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 5, false, displayRays);
-                }
-            }
+            return horizontalRaysMultipleCirclesBesideEachOtherRecursiveCalls(direction, atomPositions, atomsHit, coordinatesOfCircleOfInfluence, displayRays);
         }
+    }
 
-        return new Point(0, 0); // ERROR
+    private static boolean checkIfDiagonalRayShouldReflectMultipleCircles(int[][] atomPositions, int[] atomsHit) {
+        return !(PApplet.dist(atomPositions[atomsHit[0]][0], atomPositions[atomsHit[0]][1], atomPositions[atomsHit[1]][0], atomPositions[atomsHit[1]][1]) <= 60);
+    }
+
+    private static Point diagonalRaysReflectRecursiveCalls(int direction, int[][] atomPositions, Point coordinatesOfCircleOfInfluence, boolean displayRays) {
+        return switch (direction) {
+            case 1 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 6, false, displayRays);
+            case 2 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 5, false, displayRays);
+            case 5 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 2, false, displayRays);
+            case 6 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 1, false, displayRays);
+            default -> new Point(0, 0); // ERROR
+        };
+    }
+
+    private static Point diagonalRaysOneCircleAboveOtherBounceRecursiveCalls(int direction, int[][] atomPositions, Point coordinatesOfCircleOfInfluence, boolean displayRays) {
+        return switch (direction) {
+            case 1, 5 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 4, false, displayRays);
+            case 2, 6 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 3, false, displayRays);
+            default -> new Point(0, 0); // ERROR
+        };
+    }
+
+    private static Point diagonalRaysOneCircleAboveOtherRecursiveCalls(int[][] atomPositions, int[] atomsHit, int direction, Point coordinatesOfCircleOfInfluence, boolean displayRays) {
+        if (checkIfDiagonalRayShouldReflectMultipleCircles(atomPositions, atomsHit)) {
+            return diagonalRaysReflectRecursiveCalls(direction, atomPositions, coordinatesOfCircleOfInfluence, displayRays);
+        }
+        else {
+            return diagonalRaysOneCircleAboveOtherBounceRecursiveCalls(direction, atomPositions, coordinatesOfCircleOfInfluence, displayRays);
+        }
+    }
+
+    private static Point diagonalRaysCirclesBesideEachOtherRecursiveCalls(int direction, int[][] atomPositions, Point coordinatesOfCircleOfInfluence, boolean displayRays) {
+        return switch (direction) {
+            case 1 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 5, false, displayRays);
+            case 2 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 6, false, displayRays);
+            case 5 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 1, false, displayRays);
+            case 6 -> drawRayWithBounces(atomPositions, coordinatesOfCircleOfInfluence, 2, false, displayRays);
+            default -> new Point(0, 0);
+        };
+    }
+
+    private static Point diagonalRaysRecursiveCallsMultipleCircles(int[][] atomPositions, int[] atomsHit, int numOfCirclesOfInfluence, int direction, Point coordinatesOfCircleOfInfluence, boolean displayRays) {
+        boolean oneCircleAboveOther = checkIfOneCircleAboveOther(atomPositions, atomsHit, numOfCirclesOfInfluence);
+
+        if (oneCircleAboveOther) {
+            return diagonalRaysOneCircleAboveOtherRecursiveCalls(atomPositions, atomsHit, direction, coordinatesOfCircleOfInfluence, displayRays);
+        }
+        else {
+            return diagonalRaysCirclesBesideEachOtherRecursiveCalls(direction, atomPositions, coordinatesOfCircleOfInfluence, displayRays);
+        }
+    }
+
+    private static Point multipleCirclesOfInfluenceRecursiveCalls(int direction, int[][] atomPositions, int[] atomsHit, int numOfCirclesOfInfluence, Point coordinatesOfCircleOfInfluence, boolean displayRays) {
+        return switch (direction) {
+            case 1, 2, 5, 6 -> // Diagonals
+                    diagonalRaysRecursiveCallsMultipleCircles(atomPositions, atomsHit, numOfCirclesOfInfluence, direction, coordinatesOfCircleOfInfluence, displayRays);
+            case 3, 4 -> // Horizontals
+                    horizontalRaysRecursiveCallsMultipleCircles(atomPositions, direction, coordinatesOfCircleOfInfluence, atomsHit, numOfCirclesOfInfluence, displayRays);
+            default -> new Point(0, 0); // ERROR
+        };
+    }
+
+    private static Point displayAndReturnForMultipleCirclesOfInfluence(Point start, Point coordinatesOfCircleOfInfluence, int direction, int[][] atomPositions, int[] atomsHit, int numOfCirclesOfInfluence, boolean displayRays) {
+        float distance = PApplet.dist(coordinatesOfCircleOfInfluence.x, coordinatesOfCircleOfInfluence.y, start.x, start.y);
+        drawRay(start, angles[direction - 1], distance, displayRays);
+
+        return multipleCirclesOfInfluenceRecursiveCalls(direction, atomPositions, atomsHit, numOfCirclesOfInfluence, coordinatesOfCircleOfInfluence, displayRays);
     }
 }
