@@ -22,7 +22,7 @@ public class Main extends PApplet {
     Guessing guessing;
     EndScreen endScreen;
 
-    public int numOfAtoms = 6;
+    public static final int NUMBER_OF_ATOMS = 6;
     public boolean startScreen = true;
     public boolean gameScreen = true;
     public boolean showEndScreen = false;
@@ -35,8 +35,8 @@ public class Main extends PApplet {
     public String userInput = "";
     public int[] shots = new int[54]; // Numbers on grid where rays have been shot from
     public int numOfRays = 0;
-    public int[] atomBoxNumbers = new int[numOfAtoms];
-    public int[][] atomPositions = new int[numOfAtoms][2];
+    public int[] atomBoxNumbers = new int[NUMBER_OF_ATOMS];
+    public int[][] atomPositions = new int[NUMBER_OF_ATOMS][2];
     boolean showingAtoms = false;
     public int selectedNumber = -1;
     public Point[] rayExitCoordinates = new Point[54];
@@ -63,7 +63,7 @@ public class Main extends PApplet {
 
         // Generates unique random atom positions -> Not very efficient way -> Try move into function
         while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) {
-            atomBoxNumbers = computer.generateAtoms(numOfAtoms);
+            atomBoxNumbers = computer.generateAtoms(NUMBER_OF_ATOMS);
         }
     }
 
@@ -134,14 +134,14 @@ public class Main extends PApplet {
             fill(255);
             textSize(20);
             textAlign(0, 0);
-//            if (showingAtoms) {
-//                text("Press 'X' to hide the atoms & rays", 10, 20);
-//                rays.displayRays(numOfRays, shots, atomPositions, this);
-//                grid.drawAtoms(atomPositions);
-//            }
-//            else {
-//                text("Press 'X' to show the atoms & rays", 10, 20);
-//            }
+            if (showingAtoms) {
+                text("Press 'X' to hide the atoms & rays", 10, 20);
+                rays.displayRays(numOfRays, shots, atomPositions);
+                grid.drawAtoms(atomPositions);
+            }
+            else {
+                text("Press 'X' to show the atoms & rays", 10, 20);
+            }
 
             // Ray Markers
             RayMarkers.drawRayMarkerKey(750,50);
