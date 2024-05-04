@@ -2,6 +2,10 @@ package main.java.setter;
 import processing.core.*;
 import java.awt.*;
 
+/**
+ * The Rays class handles all rays being shot and displayed during the game
+ */
+
 public class Rays {
 
     static PApplet parent;
@@ -10,7 +14,7 @@ public class Rays {
         Rays.parent = parent;
     }
 
-    // START AND END COORDINATES OF RAYS AND DIRECTION THEY MOVE IN
+    // Start and end coordinates of rays and direction they move in
     public static int[][] rayPositions = {
             {215, 75, 215, 75, 1}, // 1
             {200, 99, 200, 99, 3}, // 2
@@ -173,7 +177,14 @@ public class Rays {
     static int[][] atomPositions;
     static int numOfAtoms;
 
-    // FIND EXIT ON LINE OF RAY
+
+    /**
+     * Finds the exit point along the line of a ray should it not deflect
+     * @param start      Coordinates of start of the line
+     * @param direction  Direction the ray is moving in
+     * @return           Coordinates of the ray's exit
+     **/
+
     public static Point setExit(Point start, int direction) {
         Point exit = new Point(0,0);
         Point[] exitsInDirection = exits[direction - 1];
@@ -191,44 +202,75 @@ public class Rays {
                     break;
                 }
             }
-            if (exitSet) { // If exit found, exit infinite loop
+            if (exitSet) {
                 break;
             }
             // MOVE TEST COORDINATES TO NEXT POINT ALONG LINE
             testCoords[0] += ((float) incrementsAlongLine[direction - 1][0] / 2);
             testCoords[1] += ((float) incrementsAlongLine[direction - 1][1] / 2);
+
             // IF TEST COORDS GO OFF-SCREEN, ERROR (NO EXIT FOUND)
             if (testCoords[0] < 0 || testCoords[0] > parent.width
                     || testCoords[1] > parent.height || testCoords[1] < 0) {
-                PApplet.print("NO EXIT FOUND");
-                break;
+                System.out.println("NO EXIT FOUND");
             }
         }
         return exit;
     }
 
 
-    // DISPLAYS RAY AND RETURNS COORDINATES OF END OF RAY
-    public static Point drawRay(Point start, float angle, float lineLength, boolean displayRay) {
+    /**
+     * Calculates coordinates at the end of a line of a ray
+     * @param start         Coordinates of start of the line
+     * @param angle         Angle at which the ray should point
+     * @param lineLength    Length of the line of the ray
+     * @return              Coordinates at the end of a line of a ray
+     */
+    private static Point calculateEndCoordinates(Point start, float angle, float lineLength) {
+        return new Point((int) (start.x + PApplet.cos(angle) * lineLength),
+                (int) (start.y + PApplet.sin(angle) * lineLength));
+    }
+
+
+    /**
+     * Draws rays and calculates exit coordinates of ray drawn
+     * @param start         Coordinates of the start of the line
+     * @param angle         Angle at which the ray should point
+     * @param lineLength    Length of the line of the ray
+     * @param displayRay    Whether ray should be drawn or just end points calculated
+     * @return              End coordinates of ray
+     */
+    private static Point drawRayAndReturnEndCoords(Point start, float angle, float lineLength, boolean displayRay) {
         parent.stroke(0, 255, 0); // Colour of rays
         parent.strokeWeight(3);
-        // CALCULATE END COORDINATES
-        Point endCoordinates = new Point((int) (start.x + PApplet.cos(angle) * lineLength),
-                (int) (start.y + PApplet.sin(angle) * lineLength));
 
+        Point endCoordinates = calculateEndCoordinates(start, angle, lineLength);
         if (displayRay) {
             parent.line((float) start.getX(), (float) start.getY(), endCoordinates.x, endCoordinates.y);
         }
+
         return endCoordinates;
     }
 
+    /**
+     * Sets the values of atomPositions
+     * @param positionsOfAtoms      Passed in atom positions array
+     */
     public static void setAtomPositions(int[][] positionsOfAtoms) {
         atomPositions = positionsOfAtoms;
         numOfAtoms = atomPositions.length;
     }
 
 
-    // DRAW RAYS RECURSIVELY, CHECKING FOR BOUNCES
+
+    /**
+     * Recursively draws rays, checking for bounces
+     * @param start         Coordinates of the start of the line
+     * @param direction     Direction the ray is moving in
+     * @param firstRay      Whether it is the first ray being drawn (or recursive call)
+     * @param displayRays   Whether the ray should be displayed
+     * @return              End coordinates of ray
+     */
     public static Point drawRayWithBounces(Point start, int direction, boolean firstRay, boolean displayRays) {
         Point coordinatesOfCircleOfInfluence = new Point(0, 0);
         int numOfCirclesOfInfluence = 0;
@@ -263,7 +305,11 @@ public class Rays {
         return displayAndReturnForNoCollisions(start, direction, displayRays);
     }
 
-
+    /**
+     * Display all rays on screen
+     * @param numOfRays     How many rays user has shot
+     * @param shots         Positions on grid that have been shot from
+     */
     public void displayRays(int numOfRays, int[] shots) {
         for (int i = 0; i < numOfRays; i++) {
             int rayNumInList = shots[i] - 1;
@@ -274,15 +320,34 @@ public class Rays {
         }
     }
 
+    /**
+     * Moves coordinates to centre of next hexagon along the ray
+     * @param coordinates   Starting coordinates of position along the ray
+     * @param direction     Direction the ray is moving in
+     */
     public static void incrementCoordinatesOnePosition(Point coordinates, int direction) {
         coordinates.x += incrementsAlongLine[direction-1][0];
         coordinates.y += incrementsAlongLine[direction-1][1];
     }
 
+    /**
+     * Checks if a ray starts within a circle of influence
+     * @param start         Coordinates of the start of the line
+     * @param atomPosition  Coordinates of the atom being checked
+     * @return              Whether the ray starts inside the atom's circle of influence
+     */
     private static boolean checkForStartingInsideAtom(Point start, int[] atomPosition) {
         return PApplet.dist(start.x, start.y, atomPosition[0], atomPosition[1]) < 59;
     }
 
+    /**
+     * Checks if a ray will be a direct hit from the circle of influence
+     * @param start                 Start coordinates of the ray
+     * @param direction             Direction in which the ray is moving
+     * @param atomPosition          Coordinates of the atom being checked
+     * @param startingInsideAtom    Whether the ray starts inside an atom
+     * @return                      Whether the ray will go on to be a direct hit
+     */
     private static boolean checkForDirectHit(Point start, int direction,
                                              int[] atomPosition, boolean startingInsideAtom) {
         if (startingInsideAtom) {
@@ -297,19 +362,43 @@ public class Rays {
         }
     }
 
+    /**
+     * Displays a direct hit
+     * @param start         Coordinates of start of the line
+     * @param atomPosition  Coordinates of the atom being checked
+     * @param direction     Direction in which the ray is moving
+     * @param displayRays   Whether the ray should be displayed
+     */
     private static void drawDirectHit(Point start, int[] atomPosition, int direction, boolean displayRays) {
         float distance = PApplet.dist(atomPosition[0], atomPosition[1],
                 (float) start.getX(), (float) start.getY());
-        drawRay(start, angles[direction - 1], distance, displayRays);
+        drawRayAndReturnEndCoords(start, angles[direction - 1], distance, displayRays);
     }
 
+    /**
+     * Returns coordinates for a direct hit
+     * @return      (-1,-1) which signifies a direct hit
+     */
     private static Point returnDirectHit() {
         return new Point(-1, -1);
     }
+
+    /**
+     * Returns coordinates for a reflected hit
+     * @return      (-2,-2) which signifies a reflected ray
+     */
     private static Point returnReflected() {
         return new Point(-2, -2);
     }
 
+    /**
+     * Returns value for starting inside an atom
+     * @param start         Coordinates of start of the line
+     * @param direction     Direction in which the ray is moving
+     * @param atomPosition  Coordinates of atom being checked
+     * @param displayRays   Whether the ray should be displayed
+     * @return              Returns direct hit or reflected values
+     */
     private static Point returnStartingInsideAtom(Point start, int direction,
                                                   int[] atomPosition, boolean displayRays) {
         if (checkForDirectHit(start, direction, atomPosition, true)) {
@@ -321,6 +410,12 @@ public class Rays {
         return returnReflected();
     }
 
+    /**
+     *  Moves coordinates back along line half the distance to next hexagon centre
+     * @param testCoords    Coordinates to be incremented
+     * @param direction     Direction in which the ray is moving
+     * @param firstRay      Whether it is the first ray being drawn (or recursive call)
+     */
     private static void decrementCoordinatesHalfAPosition(Point testCoords, int direction, boolean firstRay) {
         if (firstRay) {
             testCoords.x -= (incrementsAlongLine[direction - 1][0] / 2);
@@ -328,6 +423,12 @@ public class Rays {
         }
     }
 
+    /**
+     * Checks if the next hexagon centre coordinate along ray is on the screen
+     * @param coordinates   Current coordinates along line of ray
+     * @param direction     Direction the ray is moving in
+     * @return              If the next hexagon centre coordinate along ray is on the screen
+     */
     private static boolean checkIfNextCoordinatesOnScreen(Point coordinates, int direction) {
         int incrementX = incrementsAlongLine[direction - 1][0];
         int incrementY = incrementsAlongLine[direction - 1][1];
@@ -342,10 +443,23 @@ public class Rays {
 
     // ONE CIRCLE OF INFLUENCE -----------------------------------------------------------------------------------------
 
+    /**
+     * Checks if a ray hitting one circle of influence hit the right side of the circle
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @return      If a ray hitting one circle of influence hit the right side of the circle
+     */
     private static boolean checkIfHitsRightSideOfCircle(Point coordinatesOfCircleOfInfluence, int[] atomsHit) {
         return coordinatesOfCircleOfInfluence.x > atomPositions[atomsHit[0]][0];
     }
 
+    /**
+     * Calls recursive calls for a diagonal ray which hits the right side of the circle of influence
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for a diagonal ray which hits the right side of the circle of influence
+     */
     private static Point diagonalRaysHitRightSideOfCircleRecursiveCalls(int direction,
                                                                         Point coordinatesOfCircleOfInfluence,
                                                                         boolean displayRays) {
@@ -357,6 +471,13 @@ public class Rays {
         };
     }
 
+    /**
+     * Calls recursive calls for a diagonal ray which hits the left side of the circle of influence
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for a diagonal ray which hits the left side of the circle of influence
+     */
     private static Point diagonalRaysHitLeftSideOfCircleRecursiveCalls(int direction,
                                                                        Point coordinatesOfCircleOfInfluence,
                                                                        boolean displayRays) {
@@ -368,10 +489,23 @@ public class Rays {
         };
     }
 
+    /**
+     * Checks if a ray hitting one circle of influence hit the bottom half of the circle
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @return      If a ray hitting one circle of influence hit the bottom half of the circle
+     */
     private static boolean checkIfHitsBottomHalfOfCircle(Point coordinatesOfCircleOfInfluence, int[] atomsHit) {
         return coordinatesOfCircleOfInfluence.y > atomPositions[atomsHit[0]][1];
     }
 
+    /**
+     * Calls recursive calls for a diagonal ray which hits the bottom half of the circle of influence
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for a diagonal ray which hits the bottom half of the circle of influence
+     */
     private static Point diagonalRaysHitBottomHalfOfCircleRecursiveCalls(int direction,
                                                                          Point coordinatesOfCircleOfInfluence,
                                                                          boolean displayRays) {
@@ -382,6 +516,13 @@ public class Rays {
         };
     }
 
+    /**
+     * Calls recursive calls for a diagonal ray which hits the top half of the circle of influence
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for a diagonal ray which hits the top half of the circle of influence
+     */
     private static Point diagonalRaysHitTopHalfOfCircleRecursiveCalls(int direction,
                                                                       Point coordinatesOfCircleOfInfluence,
                                                                       boolean displayRays) {
@@ -392,6 +533,14 @@ public class Rays {
         };
     }
 
+    /**
+     * Calls recursive calls for a diagonal ray which hits one circle of influence
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param direction                         Direction the ray is moving in
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for a diagonal ray which hits one circle of influence
+     */
     private static Point diagonalRaysRecursiveCallsOneCircle(Point coordinatesOfCircleOfInfluence, int[] atomsHit,
                                                              int direction, boolean displayRays) {
         if (checkIfHitsRightSideOfCircle(coordinatesOfCircleOfInfluence, atomsHit)) {
@@ -404,6 +553,14 @@ public class Rays {
         }
     }
 
+    /**
+     * Calls recursive calls for a horizontal ray which hits one circle of influence
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param direction                         Direction the ray is moving in
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for a horizontal ray which hits one circle of influence
+     */
     private static Point horizontalRaysRecursiveCallsOneCircle(Point coordinatesOfCircleOfInfluence, int[] atomsHit,
                                                                int direction, boolean displayRays) {
         if (checkIfHitsBottomHalfOfCircle(coordinatesOfCircleOfInfluence, atomsHit)) {
@@ -416,6 +573,14 @@ public class Rays {
         }
     }
 
+    /**
+     * Calls recursive calls for a ray which hits one circle of influence
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for a ray which hits one circle of influence
+     */
     private static Point oneCircleOfInfluenceRecursiveCalls(int direction, Point coordinatesOfCircleOfInfluence,
                                                             int[] atomsHit, boolean displayRays) {
         return switch (direction) {
@@ -429,17 +594,36 @@ public class Rays {
         };
     }
 
+    /**
+     * Displays rays and calls recursive calls for a ray which hits one circle of influence
+     * @param start                             Coordinates of start of the line
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param direction                         Direction the ray is moving in
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for a ray which hits one circle of influence
+     */
     private static Point displayAndRecursiveCallsForOneCircleOfInfluence(Point start,
                                                                          Point coordinatesOfCircleOfInfluence,
                                                                          int direction, int[] atomsHit,
                                                                          boolean displayRays) {
         float distance = PApplet.dist(coordinatesOfCircleOfInfluence.x, coordinatesOfCircleOfInfluence.y,
                 start.x, start.y);
-        drawRay(start, angles[direction - 1], distance, displayRays);
+        drawRayAndReturnEndCoords(start, angles[direction - 1], distance, displayRays);
 
         return oneCircleOfInfluenceRecursiveCalls(direction, coordinatesOfCircleOfInfluence, atomsHit, displayRays);
     }
 
+    /**
+     * Displays rays and returns exit coordinates for a ray which hits one circle of influence
+     * @param start                             Coordinates of start of the line
+     * @param testCoords                        Coordinates at position being checked along line
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return                                  Exit coordinates for a ray which hits one circle of influence
+     */
     private static Point displayAndReturnForOneCircleOfInfluence(Point start, Point testCoords,
                                                                  int direction, Point coordinatesOfCircleOfInfluence,
                                                                  int[] atomsHit, boolean displayRays) {
@@ -455,6 +639,13 @@ public class Rays {
     }
 
     // MULTIPLE CIRCLES OF INFLUENCE -----------------------------------------------------------------------------------
+
+    /**
+     * Checks if one of the circles of influence is higher up than the others
+     * @param atomsHit                  List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param numOfCirclesOfInfluence   How many circles of influence were found at the coordinates
+     * @return      Whether one of the circles of influence is higher up than the others
+     */
     private static boolean checkIfOneCircleAboveOther(int[] atomsHit, int numOfCirclesOfInfluence) {
         int y = atomPositions[atomsHit[0]][1];
         for (int i = 1; i < numOfCirclesOfInfluence; i++) {
@@ -465,6 +656,12 @@ public class Rays {
         return false;
     }
 
+    /**
+     * Checks if any of the circles of influence are vertically aligned
+     * @param atomsHit                  List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param numOfCirclesOfInfluence   How many circles of influence were found at the coordinates
+     * @return      If any of the circles of influence are vertically aligned
+     */
     private static boolean checkIfVerticallyAligned(int[] atomsHit, int numOfCirclesOfInfluence) {
         for (int i = 0; i < numOfCirclesOfInfluence; i++) {
             for (int j = i + 1; j < numOfCirclesOfInfluence; j++) {
@@ -476,6 +673,13 @@ public class Rays {
         return false;
     }
 
+    /**
+     * Calls recursive calls for a horizontal ray with vertically aligned circles of influence
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for a horizontal ray with vertically aligned circles of influence
+     */
     private static Point horizontalRaysVerticallyAlignedRecursiveCalls(int direction,
                                                                        Point coordinatesOfCircleOfInfluence,
                                                                        boolean displayRays) {
@@ -486,10 +690,22 @@ public class Rays {
         };
     }
 
+    /**
+     * Checks if the top circle of influence is further right than the bottom
+     * @param atomsHit      List of coordinates of atoms whose circles of influence were hit by the ray
+     * @return      If the top circle of influence is further right than the bottom
+     */
     private static boolean checkIfTopCircleFurtherRightThanBottom(int[] atomsHit) {
         return atomPositions[atomsHit[0]][0] > atomPositions[atomsHit[1]][0];
     }
 
+    /**
+     * Calls recursive calls for horizontal rays if top circle is further right than bottom
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for horizontal rays if top circle is further right than bottom
+     */
     private static Point horizontalRaysTopCircleFurtherRightRecursiveCalls(int direction,
                                                                            Point coordinatesOfCircleOfInfluence,
                                                                            boolean displayRays) {
@@ -500,6 +716,13 @@ public class Rays {
         };
     }
 
+    /**
+     * Calls recursive calls for horizontal rays if top circle is further left than bottom
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for horizontal rays if top circle is further left than bottom
+     */
     private static Point horizontalRaysTopCircleFurtherLeftRecursiveCalls(int direction,
                                                                           Point coordinatesOfCircleOfInfluence,
                                                                           boolean displayRays) {
@@ -510,6 +733,14 @@ public class Rays {
         };
     }
 
+    /**
+     * Calls recursive calls for horizontal rays if circles are beside each other
+     * @param direction                         Direction the ray is moving in
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for horizontal rays if circles are beside each other
+     */
     private static Point horizontalRaysMultipleCirclesBesideEachOtherRecursiveCalls(int direction, int[] atomsHit,
                                                                                     Point coordinatesOfCircleOfInfluence,
                                                                                     boolean displayRays) {
@@ -523,6 +754,15 @@ public class Rays {
         }
     }
 
+    /**
+     * Calls recursive calls for horizontal rays with multiple circles of influence
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param numOfCirclesOfInfluence           How many circles of influence were found at the coordinates
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for horizontal rays with multiple circles of influence
+     */
     private static Point horizontalRaysRecursiveCallsMultipleCircles(int direction,
                                                                      Point coordinatesOfCircleOfInfluence,
                                                                      int[] atomsHit, int numOfCirclesOfInfluence,
@@ -539,6 +779,11 @@ public class Rays {
         }
     }
 
+    /**
+     * Checks whether a diagonal ray meeting multiple circles of influence should reflect
+     * @param atomsHit          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @return      Whether ray should reflect
+     */
     private static boolean checkIfDiagonalRayShouldReflectMultipleCircles(int[] atomsHit) {
         return !(PApplet.dist(atomPositions[atomsHit[0]][0],
                 atomPositions[atomsHit[0]][1],
@@ -546,6 +791,13 @@ public class Rays {
                 atomPositions[atomsHit[1]][1]) <= 60);
     }
 
+    /**
+     * Calls recursive calls for diagonal ray if it should reflect
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for diagonal ray if it should reflect
+     */
     private static Point diagonalRaysReflectRecursiveCalls(int direction,
                                                            Point coordinatesOfCircleOfInfluence,
                                                            boolean displayRays) {
@@ -558,6 +810,13 @@ public class Rays {
         };
     }
 
+    /**
+     * Calls recursive calls for diagonal rays meeting multiple circles of influence bouncing with one circle above the other
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for diagonal rays meeting multiple circles of influence bouncing with one circle above the other
+     */
     private static Point diagonalRaysOneCircleAboveOtherBounceRecursiveCalls(int direction,
                                                                              Point coordinatesOfCircleOfInfluence,
                                                                              boolean displayRays) {
@@ -568,6 +827,14 @@ public class Rays {
         };
     }
 
+    /**
+     * Calls recursive calls for diagonal rays meeting multiple circles of influence with one circle above the other
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return
+     */
     private static Point diagonalRaysOneCircleAboveOtherRecursiveCalls(int[] atomsHit, int direction,
                                                                        Point coordinatesOfCircleOfInfluence,
                                                                        boolean displayRays) {
@@ -580,6 +847,13 @@ public class Rays {
         }
     }
 
+    /**
+     * Calls recursive calls for diagonal rays meeting multiple circles of influence with one circle above the other
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for diagonal rays meeting multiple circles of influence with one circle above the other
+     */
     private static Point diagonalRaysCirclesBesideEachOtherRecursiveCalls(int direction,
                                                                           Point coordinatesOfCircleOfInfluence,
                                                                           boolean displayRays) {
@@ -592,6 +866,15 @@ public class Rays {
         };
     }
 
+    /**
+     * Calls recursive calls for diagonal rays meeting multiple circles of influence
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param numOfCirclesOfInfluence           How many circles of influence were found at the coordinates
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive call for diagonal rays meeting multiple circles of influence
+     */
     private static Point diagonalRaysRecursiveCallsMultipleCircles(int[] atomsHit, int numOfCirclesOfInfluence,
                                                                    int direction,
                                                                    Point coordinatesOfCircleOfInfluence,
@@ -608,6 +891,15 @@ public class Rays {
         }
     }
 
+    /**
+     * Calls recursive calls for rays meeting multiple circles of influence
+     * @param direction                         Direction the ray is moving in
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param numOfCirclesOfInfluence           How many circles of influence were found at the coordinates
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive calls for rays meeting multiple circles of influence
+     */
     private static Point multipleCirclesOfInfluenceRecursiveCalls(int direction, int[] atomsHit,
                                                                   int numOfCirclesOfInfluence,
                                                                   Point coordinatesOfCircleOfInfluence,
@@ -623,6 +915,16 @@ public class Rays {
         };
     }
 
+    /**
+     * Draws rays and returns exit coordinates of ray for multiple circles of influence
+     * @param start                             Coordinates of start of the line
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param direction                         Direction the ray is moving in
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param numOfCirclesOfInfluence           How many circles of influence were found at the coordinates
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Exit coordinates of ray for multiple circles of influence
+     */
     private static Point displayAndReturnForMultipleCirclesOfInfluence(Point start,
                                                                        Point coordinatesOfCircleOfInfluence,
                                                                        int direction, int[] atomsHit,
@@ -630,19 +932,37 @@ public class Rays {
                                                                        boolean displayRays) {
         float distance = PApplet.dist(coordinatesOfCircleOfInfluence.x, coordinatesOfCircleOfInfluence.y,
                 start.x, start.y);
-        drawRay(start, angles[direction - 1], distance, displayRays);
+        drawRayAndReturnEndCoords(start, angles[direction - 1], distance, displayRays);
 
         return multipleCirclesOfInfluenceRecursiveCalls(direction, atomsHit, numOfCirclesOfInfluence,
                 coordinatesOfCircleOfInfluence, displayRays);
     }
 
+    /**
+     * Displays ray and returns exit coordinates for a ray which does not deflect
+     * @param start         Coordinates of start of the line
+     * @param direction     Direction the ray is moving in
+     * @param displayRays   Whether ray should be drawn or just end points calculated
+     * @return      Exit coordinates for a ray which does not deflect
+     */
     private static Point displayAndReturnForNoCollisions(Point start, int direction, boolean displayRays) {
         Point exit = setExit(start, direction);
         float distance = PApplet.dist(start.x, start.y, exit.x, exit.y);
 
-        return drawRay(start, angles[direction - 1], distance, displayRays);
+        return drawRayAndReturnEndCoords(start, angles[direction - 1], distance, displayRays);
     }
 
+    /**
+     * Displays rays and calls recursive calls for a ray which has hit 1+ circle(s) of influence
+     * @param numOfCirclesOfInfluence           How many circles of influence were found at the coordinates
+     * @param start                             Coordinates of start of the line
+     * @param testCoords
+     * @param direction                         Direction the ray is moving in
+     * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
+     * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
+     * @param displayRays                       Whether ray should be drawn or just end points calculated
+     * @return      Recursive calls for a ray which has hit 1+ circle(s) of influence
+     */
     private static Point displayAndRecursiveCallsForCircleOfInfluence(int numOfCirclesOfInfluence, Point start,
                                                                       Point testCoords, int direction,
                                                                       Point coordinatesOfCircleOfInfluence,
