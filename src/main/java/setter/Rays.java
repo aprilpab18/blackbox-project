@@ -444,7 +444,8 @@ public class Rays {
     // ONE CIRCLE OF INFLUENCE -----------------------------------------------------------------------------------------
 
     /**
-     * Checks if a ray hitting one circle of influence hit the right side of the circle
+     * Checks if a ray hitting one circle of influence
+     * hit the right side of the circle
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
      * @return      If a ray hitting one circle of influence hit the right side of the circle
@@ -454,7 +455,8 @@ public class Rays {
     }
 
     /**
-     * Calls recursive calls for a diagonal ray which hits the right side of the circle of influence
+     * Calls recursive calls for a diagonal ray which
+     * hits the right side of the circle of influence
      * @param direction                         Direction the ray is moving in
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param displayRays                       Whether ray should be drawn or just end points calculated
@@ -472,7 +474,8 @@ public class Rays {
     }
 
     /**
-     * Calls recursive calls for a diagonal ray which hits the left side of the circle of influence
+     * Calls recursive calls for a diagonal ray which
+     * hits the left side of the circle of influence
      * @param direction                         Direction the ray is moving in
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param displayRays                       Whether ray should be drawn or just end points calculated
@@ -490,7 +493,8 @@ public class Rays {
     }
 
     /**
-     * Checks if a ray hitting one circle of influence hit the bottom half of the circle
+     * Checks if a ray hitting one circle of influence
+     * hit the bottom half of the circle
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
      * @return      If a ray hitting one circle of influence hit the bottom half of the circle
@@ -500,7 +504,8 @@ public class Rays {
     }
 
     /**
-     * Calls recursive calls for a diagonal ray which hits the bottom half of the circle of influence
+     * Calls recursive calls for a diagonal ray which
+     * hits the bottom half of the circle of influence
      * @param direction                         Direction the ray is moving in
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param displayRays                       Whether ray should be drawn or just end points calculated
@@ -517,7 +522,8 @@ public class Rays {
     }
 
     /**
-     * Calls recursive calls for a diagonal ray which hits the top half of the circle of influence
+     * Calls recursive calls for a diagonal ray which
+     * hits the top half of the circle of influence
      * @param direction                         Direction the ray is moving in
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param displayRays                       Whether ray should be drawn or just end points calculated
@@ -534,7 +540,8 @@ public class Rays {
     }
 
     /**
-     * Calls recursive calls for a diagonal ray which hits one circle of influence
+     * Calls recursive calls for a diagonal ray which
+     * hits one circle of influence
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
      * @param direction                         Direction the ray is moving in
@@ -595,7 +602,8 @@ public class Rays {
     }
 
     /**
-     * Displays rays and calls recursive calls for a ray which hits one circle of influence
+     * Displays rays and calls recursive calls for a ray
+     * which hits one circle of influence
      * @param start                             Coordinates of start of the line
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param direction                         Direction the ray is moving in
@@ -615,7 +623,8 @@ public class Rays {
     }
 
     /**
-     * Displays rays and returns exit coordinates for a ray which hits one circle of influence
+     * Displays rays and returns exit coordinates
+     * for a ray which hits one circle of influence
      * @param start                             Coordinates of start of the line
      * @param testCoords                        Coordinates at position being checked along line
      * @param direction                         Direction the ray is moving in
@@ -641,7 +650,8 @@ public class Rays {
     // MULTIPLE CIRCLES OF INFLUENCE -----------------------------------------------------------------------------------
 
     /**
-     * Checks if one of the circles of influence is higher up than the others
+     * Checks if one of the circles of influence
+     * is higher up than the others
      * @param atomsHit                  List of coordinates of atoms whose circles of influence were hit by the ray
      * @param numOfCirclesOfInfluence   How many circles of influence were found at the coordinates
      * @return      Whether one of the circles of influence is higher up than the others
@@ -657,7 +667,8 @@ public class Rays {
     }
 
     /**
-     * Checks if any of the circles of influence are vertically aligned
+     * Checks if any of the circles of influence
+     * are vertically aligned
      * @param atomsHit                  List of coordinates of atoms whose circles of influence were hit by the ray
      * @param numOfCirclesOfInfluence   How many circles of influence were found at the coordinates
      * @return      If any of the circles of influence are vertically aligned
@@ -674,7 +685,8 @@ public class Rays {
     }
 
     /**
-     * Calls recursive calls for a horizontal ray with vertically aligned circles of influence
+     * Calls recursive calls for a horizontal ray
+     * with vertically aligned circles of influence
      * @param direction                         Direction the ray is moving in
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param displayRays                       Whether ray should be drawn or just end points calculated
@@ -691,7 +703,8 @@ public class Rays {
     }
 
     /**
-     * Checks if the top circle of influence is further right than the bottom
+     * Checks if the top circle of influence is
+     * further right than the bottom
      * @param atomsHit      List of coordinates of atoms whose circles of influence were hit by the ray
      * @return      If the top circle of influence is further right than the bottom
      */
@@ -700,7 +713,8 @@ public class Rays {
     }
 
     /**
-     * Calls recursive calls for horizontal rays if top circle is further right than bottom
+     * Calls recursive calls for horizontal rays
+     * if top circle is further right than bottom
      * @param direction                         Direction the ray is moving in
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param displayRays                       Whether ray should be drawn or just end points calculated
@@ -717,7 +731,8 @@ public class Rays {
     }
 
     /**
-     * Calls recursive calls for horizontal rays if top circle is further left than bottom
+     * Calls recursive calls for horizontal rays
+     * if top circle is further left than bottom
      * @param direction                         Direction the ray is moving in
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param displayRays                       Whether ray should be drawn or just end points calculated
@@ -734,7 +749,8 @@ public class Rays {
     }
 
     /**
-     * Calls recursive calls for horizontal rays if circles are beside each other
+     * Calls recursive calls for horizontal rays
+     * if circles are beside each other
      * @param direction                         Direction the ray is moving in
      * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
@@ -780,7 +796,8 @@ public class Rays {
     }
 
     /**
-     * Checks whether a diagonal ray meeting multiple circles of influence should reflect
+     * Checks whether a diagonal ray meeting multiple
+     * circles of influence should reflect
      * @param atomsHit          List of coordinates of atoms whose circles of influence were hit by the ray
      * @return      Whether ray should reflect
      */
@@ -811,7 +828,8 @@ public class Rays {
     }
 
     /**
-     * Calls recursive calls for diagonal rays meeting multiple circles of influence bouncing with one circle above the other
+     * Calls recursive calls for diagonal rays meeting
+     * multiple circles of influence bouncing with one circle above the other
      * @param direction                         Direction the ray is moving in
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param displayRays                       Whether ray should be drawn or just end points calculated
@@ -828,7 +846,8 @@ public class Rays {
     }
 
     /**
-     * Calls recursive calls for diagonal rays meeting multiple circles of influence with one circle above the other
+     * Calls recursive calls for diagonal rays meeting
+     * multiple circles of influence with one circle above the other
      * @param atomsHit                          List of coordinates of atoms whose circles of influence were hit by the ray
      * @param direction                         Direction the ray is moving in
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
@@ -848,7 +867,8 @@ public class Rays {
     }
 
     /**
-     * Calls recursive calls for diagonal rays meeting multiple circles of influence with one circle above the other
+     * Calls recursive calls for diagonal rays meeting
+     * multiple circles of influence with one circle above the other
      * @param direction                         Direction the ray is moving in
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param displayRays                       Whether ray should be drawn or just end points calculated
@@ -916,7 +936,8 @@ public class Rays {
     }
 
     /**
-     * Draws rays and returns exit coordinates of ray for multiple circles of influence
+     * Draws rays and returns exit coordinates of
+     * ray for multiple circles of influence
      * @param start                             Coordinates of start of the line
      * @param coordinatesOfCircleOfInfluence    Coordinates at which a circle of influence was detected along ray
      * @param direction                         Direction the ray is moving in
@@ -939,7 +960,8 @@ public class Rays {
     }
 
     /**
-     * Displays ray and returns exit coordinates for a ray which does not deflect
+     * Displays ray and returns exit coordinates
+     * for a ray which does not deflect
      * @param start         Coordinates of start of the line
      * @param direction     Direction the ray is moving in
      * @param displayRays   Whether ray should be drawn or just end points calculated
@@ -953,7 +975,8 @@ public class Rays {
     }
 
     /**
-     * Displays rays and calls recursive calls for a ray which has hit 1+ circle(s) of influence
+     * Displays rays and calls recursive calls
+     * for a ray which has hit 1+ circle(s) of influence
      * @param numOfCirclesOfInfluence           How many circles of influence were found at the coordinates
      * @param start                             Coordinates of start of the line
      * @param testCoords
