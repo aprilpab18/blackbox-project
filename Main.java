@@ -101,7 +101,7 @@ public class Main extends PApplet {
             atomPositions = grid.drawGrid(230, 100, 30, atomBoxNumbers);
             Rays.setAtomPositions(atomPositions);
 
-            // Draw rays (Move into showingAtoms in next sprint)
+            // Draw rays
             for (int i = 0; i < numOfRays; i++) {
                 int rayNumInList = shots[i] - 1;
 
