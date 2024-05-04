@@ -62,19 +62,11 @@ public class Guessing {
 
     /**
      * Updates the list of guessed atom locations based on mouse click
+     * that is within a specific range from the centre of a hexagon on the grid
      *
      * @param mouseX The x-coordinate of the mouse click
      * @param mouseY The y-coordinate of the mouse click
      * @return The updated list of AtomLocation objects representing guessed atom locations
-     * <p>
-     *      This method is triggered when the mouse is pressed and atom guesses < 7
-     *      - It iterates through hexagon coordinates and calculates distance
-     *        between it and the mouse click
-     *      - If mouse click is within threshold (< 20), hexagon has been clicked
-     *      Then it checks if clicked location is empty (no atom)
-     *      - If not empty, guessed atom removed
-     *      - If empty and guesses < 6, new atom is placed and stored in list
-     * </p>
      */
     public List<AtomLocation> updateAtomsGuessed(int mouseX, int mouseY) {
         if (numAtomGuesses < 7) {
