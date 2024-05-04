@@ -1,3 +1,10 @@
+/**
+ * Handles all the logic related to the end screen including:
+ * - Graphics/Animations
+ * - Combined total Scoring and details
+ * - Displaying a visual summary of atoms, rays and ray markers
+ */
+
 package main.java.ui;
 
 import main.java.setter.Rays;

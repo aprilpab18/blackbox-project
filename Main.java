@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static main.java.utilities.Text.*;
-import main.java.utilities.ErrorHandling;
 
 
 public class Main extends PApplet {
@@ -119,10 +118,10 @@ public class Main extends PApplet {
 
             // ERROR HANDLING
             if(!inputInRange){
-                ErrorHandling.handleInputOutOfRange(350, 625);
+                drawError(20, "Number not in range, please try again.", 350, 625);
             }
             else if(duplicateInput){
-                ErrorHandling.handleDuplicateInput(350, 625);
+                drawError(20, "Duplicate input number, please try again.", 350, 625);
             }
 
             // Show/hide atoms for testing purposes

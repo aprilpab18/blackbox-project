@@ -1,3 +1,7 @@
+/**
+ * Deals with the guessing of atoms by the setter and navigation to the end screen
+ */
+
 package main.java.ui;
 
 import processing.core.PApplet;
@@ -29,7 +33,6 @@ public class Guessing {
                 && parent.mouseY >= y && parent.mouseY <= y + 50);
         // Check if mouse is pressed
         boolean mousePressed = parent.mousePressed;
-
         // Hover Logic
         if (mouseOver) {
             parent.stroke(255, 255, 255);

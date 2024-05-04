@@ -1,8 +1,10 @@
+/**
+ * Contains the coordinates of Grid used for individual markers used in RayMarkers
+ */
+
 package main.java.ui;
 
 public class FixedCoords {
-
-    // Co-ords of Grid used for individual markers
     static int[][] numberPositions = {
             // x, y
             {211, 66}, // 1

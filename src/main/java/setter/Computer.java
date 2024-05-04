@@ -1,3 +1,7 @@
+/**
+ * Contains methods used by the computer/experimenter to generate atoms
+ */
+
 package main.java.setter;
 
 import java.util.Arrays;
@@ -18,9 +22,7 @@ public class Computer {
             Random random = new Random();
             atomNumbers[i] = random.nextInt(60);
         }
-
         Arrays.sort(atomNumbers);
-
         return atomNumbers;
     }
 
@@ -41,5 +43,4 @@ public class Computer {
         }
         return true;
     }
-
 }

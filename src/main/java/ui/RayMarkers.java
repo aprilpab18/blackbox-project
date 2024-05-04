@@ -1,3 +1,7 @@
+/**
+ * Handles all logic with the drawing of ray markers and incrementing of respective scores
+ */
+
 package main.java.ui;
 
 import processing.core.PApplet;
@@ -213,8 +217,8 @@ public class RayMarkers {
      * Helper method refactored from drawRayMarkers in order to make JUnit testing
      * This calculates the score based on the exit coordinates of the rays:
      * - Direct Hit: +1
-     * - Reflected: +2
-     * - Deflected: +1
+     * - Reflected: +1
+     * - Deflected: +2
      *
      * @param numOfRays The number of rays to be processed
      * @param rayExitCoordinates An array of Points

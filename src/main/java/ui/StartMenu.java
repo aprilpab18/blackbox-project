@@ -1,3 +1,9 @@
+/**
+ * Handles all the logic related to the start screen including:
+ * - Graphics/Animations
+ * - Navigation using buttons
+ */
+
 package main.java.ui;
 
 import processing.core.PApplet;

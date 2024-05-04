@@ -1,3 +1,7 @@
+/**
+ * Handles graphics of displaying the Instructions Menu
+ */
+
 package main.java.ui;
 
 import processing.core.PApplet;

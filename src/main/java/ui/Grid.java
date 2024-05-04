@@ -1,4 +1,6 @@
-// Deals with everything to do with drawing the grid
+/**
+ * Deals with everything to do with drawing the grid and its numbering
+ */
 
 package main.java.ui;
 

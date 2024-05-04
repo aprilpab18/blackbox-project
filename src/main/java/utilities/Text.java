@@ -1,3 +1,7 @@
+/**
+ * This class contains utility methods used to write text or draw symbols and box outlines
+ */
+
 package main.java.utilities;
 
 import processing.core.PApplet;

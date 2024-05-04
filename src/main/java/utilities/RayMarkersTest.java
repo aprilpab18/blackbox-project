@@ -1,3 +1,12 @@
+/**
+ * NOTE: More intricate testing could not be implemented due to GUI and the Processing library
+ * which heavily relies on the 'parent' instance by the PApplet class to allow the use of
+ * sketching features which our rays were heavily reliant on.
+ * Without the actual main PApplet instance, the parent in each test class returns a NullPointerException.
+ * To avoid this, mock libraries like Mockito could be used to make mock instances of the entire
+ * PApplet instances, but it would be more complicated and to achieve.
+ */
+
 package main.java.utilities;
 
 import static main.java.ui.RayMarkers.findEndIndex;
@@ -29,7 +38,6 @@ public class RayMarkersTest {
                 new Point(-2, -2),  // Reflected
                 new Point(1, 1)     // Deflected
         };
-
         // Check the score
         int score = RayMarkers.calculateMarkerScore(numOfRays, rayExitCoordinates);
         assertEquals(4, score, "Incorrect Total Score.");
@@ -46,7 +54,6 @@ public class RayMarkersTest {
                 {6, 6},
                 {8, 8}
         };
-
         // Matching a ray position exactly
         Point exitCoords1 = new Point(4, 4);
         int result1 = findEndIndex(exitCoords1, rayPositions);
