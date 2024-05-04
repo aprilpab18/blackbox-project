@@ -15,8 +15,6 @@ public class Guessing {
     // Keeps track of number of potential atom locations
     public int numAtomGuesses = 0;
 
-    public int[][] atomGuessLocations = new int[6][2];
-
     private final List<AtomLocation> atomGuessLocationsList = new ArrayList<>();
 
 
@@ -27,7 +25,8 @@ public class Guessing {
     }
 
     public void drawEndButton(int x, int y) {
-        boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 100 && parent.mouseY >= y && parent.mouseY <= y + 50);
+        boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 100
+                && parent.mouseY >= y && parent.mouseY <= y + 50);
         // Check if mouse is pressed
         boolean mousePressed = parent.mousePressed;
 
@@ -58,24 +57,31 @@ public class Guessing {
         return endGamePressed;
     }
 
-    // Method to update atom guesses
+    /**
+     * Updates the list of guessed atom locations based on mouse click
+     *
+     * @param mouseX The x-coordinate of the mouse click
+     * @param mouseY The y-coordinate of the mouse click
+     * @return The updated list of AtomLocation objects representing guessed atom locations
+     * <p>
+     *      This method is triggered when the mouse is pressed and atom guesses < 7
+     *      - It iterates through hexagon coordinates and calculates distance
+     *        between it and the mouse click
+     *      - If mouse click is within threshold (< 20), hexagon has been clicked
+     *      Then it checks if clicked location is empty (no atom)
+     *      - If not empty, guessed atom removed
+     *      - If empty and guesses < 6, new atom is placed and stored in list
+     * </p>
+     */
     public List<AtomLocation> updateAtomsGuessed(int mouseX, int mouseY) {
-        // Check if mouse is pressed
-//        boolean mousePressed = parent.mousePressed;
-
-        // If mouse is pressed, and user has not placed all atoms yet
         if (numAtomGuesses < 7) {
-            // Get mouse coordinates
-//            int mouseX = parent.mouseX;
-//            int mouseY = parent.mouseY;
-
             // Iterate through the hexagon centre coordinates
             for (int i = 0; i < grid.hexagonCentreCoordinates.length; i++) {
                 int[] centre = grid.hexagonCentreCoordinates[i];
                 // Calculate distance between mouse click and hexagon center
                 double distance = PApplet.dist(mouseX, mouseY, centre[0], centre[1]);
-                // If mouse click is within certain distance, consider it as clicking on the hexagon
-                if (distance < 20) { // You can adjust this threshold as needed
+                // Within threshold => clicked
+                if (distance < 20) {
                     // Check if the clicked location is empty (no atom placed yet)
                     boolean locationEmpty = true;
                     for (AtomLocation atomLocation : atomGuessLocationsList) {
@@ -94,9 +100,7 @@ public class Guessing {
                         atomGuessLocationsList.add(newLocation);
                         // Increment number of atom guesses
                         numAtomGuesses++;
-//                        System.out.println(numAtomGuesses);
                     }
-                    // Exit loop since we found the clicked hexagon
                     break;
                 }
             }

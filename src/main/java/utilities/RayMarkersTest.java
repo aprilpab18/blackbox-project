@@ -50,17 +50,20 @@ public class RayMarkersTest {
         // Matching a ray position exactly
         Point exitCoords1 = new Point(4, 4);
         int result1 = findEndIndex(exitCoords1, rayPositions);
-        assertEquals(1, result1, "The index of the matching point in the rayPositions array is incorrect.");
+        assertEquals(1, result1, "The index of the matching point " +
+                "in the rayPositions array is incorrect.");
 
         // Within the specified range (returns index of closest point)
         Point exitCoords2 = new Point(7, 7);
         int result2 = findEndIndex(exitCoords2, rayPositions);
-        assertEquals(2, result2, "The index of the matching point in the rayPositions array is incorrect.");
+        assertEquals(2, result2, "The index of the matching point " +
+                "in the rayPositions array is incorrect.");
 
         // No matching point found
         Point exitCoords3 = new Point(1000, 1000);
         int result3 = findEndIndex(exitCoords3, rayPositions);
-        assertEquals(0, result3, "The index of the matching point in the rayPositions array is incorrect.");
+        assertEquals(0, result3, "The index of the matching point " +
+                "in the rayPositions array is incorrect.");
     }
 }
 

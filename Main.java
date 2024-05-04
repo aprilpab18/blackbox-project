@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static main.java.utilities.Text.*;
+import main.java.utilities.ErrorHandling;
 
 
 public class Main extends PApplet {
@@ -22,6 +23,7 @@ public class Main extends PApplet {
     Guessing guessing;
     EndScreen endScreen;
 
+    // VARIABLES
     public static final int NUMBER_OF_ATOMS = 6;
     public boolean startScreen = true;
     public boolean gameScreen = true;
@@ -61,14 +63,12 @@ public class Main extends PApplet {
         guessing = new Guessing(this, grid);
         endScreen = new EndScreen(myImage, this);
 
-        // Generates unique random atom positions -> Not very efficient way -> Try move into function
         while (!computer.checkIfUnique(atomBoxNumbers, atomBoxNumbers.length)) {
             atomBoxNumbers = computer.generateAtoms(NUMBER_OF_ATOMS);
         }
     }
 
     public void draw() {
-
         if (startScreen) {
             startMenu.displayStartMenu();
 
@@ -78,7 +78,6 @@ public class Main extends PApplet {
                 gameScreen = true;
             }
         }
-
         else if (gameScreen) { // AFTER START SCREEN -> GAMEPLAY
             background(0);
 
@@ -86,7 +85,6 @@ public class Main extends PApplet {
             if (startMenu.isInstructDisplayed()) {
                 startMenu.instructMenu.displayInstructMenu();
             }
-
             // Highlight selected number
             if (!Objects.equals(userInput, "") && Integer.parseInt(userInput) >= 1 && Integer.parseInt(userInput) <= 54) {
                 selectedNumber = Integer.parseInt(userInput);
@@ -94,7 +92,6 @@ public class Main extends PApplet {
             else {
                 selectedNumber = -1;
             }
-
 
             // Draw grid
             grid.drawImage(selectedNumber);
@@ -109,7 +106,6 @@ public class Main extends PApplet {
                 Point start = new Point (Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1]);
                 rayExitCoordinates[i] = Rays.drawRayWithBounces(start, direction, true, false);
 
-
                 // Check for reflected rays
                 if (dist(rayExitCoordinates[i].x, rayExitCoordinates[i].y, Rays.rayPositions[rayNumInList][0], Rays.rayPositions[rayNumInList][1]) < 5) {
                     rayExitCoordinates[i] = new Point(-2, -2);
@@ -121,15 +117,13 @@ public class Main extends PApplet {
             fill(255);
             drawText(30, "Enter Ray Co-ord: " + userInput, 350, 595);
 
-            // ERROR HANDLING - If number is not in range
+            // ERROR HANDLING
             if(!inputInRange){
-                drawError(20, "Number not in range, please try again.", 350, 625);
+                ErrorHandling.handleInputOutOfRange(350, 625);
             }
-
             else if(duplicateInput){
-                drawError(20, "Duplicate input number, please try again.", 350, 625);
+                ErrorHandling.handleDuplicateInput(350, 625);
             }
-
 
             // Show/hide atoms for testing purposes
             fill(255);
@@ -161,7 +155,6 @@ public class Main extends PApplet {
             if(guessedAtoms.size() == 6){
                 guessing.drawEndButton(800, 600);
             }
-
             if (guessing.isEndGamePressed()) {
                 gameScreen = false;
                 showEndScreen = true;
@@ -180,7 +173,6 @@ public class Main extends PApplet {
             if (key == ENTER) {
                 // Try parsing the userInput to an integer
                 if (!Objects.equals(userInput, "")) {
-
                     int num = Integer.parseInt(userInput);
                     // Check if the parsed number is within the range 1 to 54
                     if (num >= 1 && num <= 54) {
@@ -195,17 +187,14 @@ public class Main extends PApplet {
                                 break;
                             }
                         }
-
                         if (!duplicateInput) { // NOT A DUPLICATE
                             shots[numOfRays] = num;
                             numOfRays++;
                         }
-
                     } else {
                         // If it's not within the range, print a message
                         // Print to screen instead
                         inputInRange = false;
-
                     }
                     // Reset userInput to an empty string
                     userInput = "";
@@ -213,7 +202,6 @@ public class Main extends PApplet {
                 /*
                  * Num will be the point that the ray is sent from (i.e. rayPositions - 1)
                  */
-
             }
             // Check if the BACKSPACE key is released
             else if (key == BACKSPACE) {
