@@ -127,7 +127,8 @@ public class StartMenu {
      */
     public void drawStartButton(int x, int y) {
         // Check if the mouse is over the button or pressed
-        boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 100 && parent.mouseY >= y && parent.mouseY <= y + 50);
+        boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 100
+                && parent.mouseY >= y && parent.mouseY <= y + 50);
         boolean mousePressed = parent.mousePressed;
 
         // Hover Logic
@@ -157,7 +158,8 @@ public class StartMenu {
     // Similar to drawStartButton but for instructions
     public void drawInstructButton(int x, int y) {
         // Check if the mouse is over the button or pressed
-        boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 155 && parent.mouseY >= y && parent.mouseY <= y + 50);
+        boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 155
+                && parent.mouseY >= y && parent.mouseY <= y + 50);
 
         // Check if mouse is pressed
         boolean mousePressed = parent.mousePressed;

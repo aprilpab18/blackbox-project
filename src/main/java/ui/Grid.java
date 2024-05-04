@@ -18,12 +18,18 @@ public class Grid {
     public void drawHexagon(int xPos, int yPos, int sideLength) { // Give coord of top of left vertical line
         parent.stroke(255, 38, 125); // Colour of grid
 
-        parent.line(xPos - sideLength, yPos - (sideLength / 2), xPos - sideLength, yPos + (sideLength / 2)); // Left line
-        parent.line(xPos + sideLength, yPos - (sideLength / 2), xPos + sideLength, yPos + (sideLength / 2)); // Right line
-        parent.line(xPos - sideLength, yPos - (sideLength / 2), xPos, yPos - sideLength - 5); // Top left line
-        parent.line(xPos + sideLength, yPos - (sideLength / 2), xPos, yPos - sideLength - 5); // Top right line
-        parent.line(xPos - sideLength, yPos + (sideLength / 2), xPos, yPos + sideLength + 5); // Bottom left line
-        parent.line(xPos + sideLength, yPos + (sideLength / 2), xPos, yPos + sideLength + 5); // Bottom right line
+        parent.line(xPos - sideLength, yPos - (sideLength / 2),
+                xPos - sideLength, yPos + (sideLength / 2)); // Left line
+        parent.line(xPos + sideLength, yPos - (sideLength / 2),
+                xPos + sideLength, yPos + (sideLength / 2)); // Right line
+        parent.line(xPos - sideLength, yPos - (sideLength / 2),
+                xPos, yPos - sideLength - 5); // Top left line
+        parent.line(xPos + sideLength, yPos - (sideLength / 2),
+                xPos, yPos - sideLength - 5); // Top right line
+        parent.line(xPos - sideLength, yPos + (sideLength / 2),
+                xPos, yPos + sideLength + 5); // Bottom left line
+        parent.line(xPos + sideLength, yPos + (sideLength / 2),
+                xPos, yPos + sideLength + 5); // Bottom right line
     }
 
     // xPos of top left of left line of first row
@@ -38,8 +44,10 @@ public class Grid {
 
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5 + i; j++) {
-                drawHexagon(xPos + ((sideLength * 2) * j) - (sideLength * i), yPos + ((sideLength + (sideLength / 2)) * i) + (5 * i), sideLength);
-                hexagonCentreCoordinates[boxNumber] = new int[]{xPos + ((sideLength * 2) * j) - (sideLength * i), yPos + ((sideLength + (sideLength / 2)) * i) + (5 * i)};
+                drawHexagon(xPos + ((sideLength * 2) * j) - (sideLength * i),
+                        yPos + ((sideLength + (sideLength / 2)) * i) + (5 * i), sideLength);
+                hexagonCentreCoordinates[boxNumber] = new int[]{xPos + ((sideLength * 2) * j) - (sideLength * i),
+                        yPos + ((sideLength + (sideLength / 2)) * i) + (5 * i)};
 
                 for (int k = 0; k < 6; k++) {
                     if (boxNumber == atomBoxNumbers[k]) {
@@ -59,8 +67,13 @@ public class Grid {
 
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 8 - i; j++) {
-                drawHexagon(xPos - (3 * sideLength) + ((sideLength * 2) * j) + (sideLength * i), yPos + (7 * sideLength + (sideLength / 2) + 25) + ((sideLength + (sideLength / 2)) * i) + (5 * i), sideLength);
-                hexagonCentreCoordinates[boxNumber] = new int[]{xPos - (3 * sideLength) + ((sideLength * 2) * j) + (sideLength * i), yPos + (7 * sideLength + (sideLength / 2) + 25) + ((sideLength + (sideLength / 2)) * i) + (5 * i)};
+                drawHexagon(xPos - (3 * sideLength) + ((sideLength * 2) * j) + (sideLength * i),
+                        yPos + (7 * sideLength + (sideLength / 2) + 25)
+                                + ((sideLength + (sideLength / 2)) * i) + (5 * i), sideLength);
+                hexagonCentreCoordinates[boxNumber] = new int[]{xPos - (3 * sideLength) + ((sideLength * 2) * j)
+                        + (sideLength * i),
+                        yPos + (7 * sideLength + (sideLength / 2) + 25) + ((sideLength + (sideLength / 2)) * i)
+                                + (5 * i)};
 
                 for (int k = 0; k < 6; k++) {
                     if (boxNumber == atomBoxNumbers[k]) {
@@ -68,8 +81,10 @@ public class Grid {
                     }
 
                     if (atom) {
-                        atomPositions[atomCount][0] = xPos - (3 * sideLength) + ((sideLength * 2) * j) + (sideLength * i);
-                        atomPositions[atomCount][1] = yPos + (7 * sideLength + (sideLength / 2) + 25) + ((sideLength + (sideLength / 2)) * i) + (5 * i);
+                        atomPositions[atomCount][0] = xPos - (3 * sideLength) + ((sideLength * 2) * j)
+                                + (sideLength * i);
+                        atomPositions[atomCount][1] = yPos + (7 * sideLength + (sideLength / 2) + 25)
+                                + ((sideLength + (sideLength / 2)) * i) + (5 * i);
                         atomCount++;
                         atom = false;
                     }

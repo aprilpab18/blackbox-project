@@ -23,30 +23,30 @@ public class Text {
     }
 
     public static void drawError(int size, String text, int x, int y) {
-        if (parent != null) { // Check if parent is not null
+        if (parent != null) {
             parent.fill(255, 0, 0);
             parent.textSize(size);
             parent.text(text, x, y);
         } else {
-            System.out.println("Parent is null!"); // Print error message for debugging
+            System.out.println("Parent is null!");
         }
     }
 
     // Bullet points used in InstructMenu
     public static void drawBullet(int x, int y) {
-        if (parent != null) { // Check if parent is not null
+        if (parent != null) {
             parent.rect(x, y, 5, 5);
         } else {
-            System.out.println("Parent is null!"); // Print error message for debugging
+            System.out.println("Parent is null!");
         }
     }
 
     // Ray Markers used in RayMarkers
     public static void drawSquare(int x, int y) {
-        if (parent != null) { // Check if parent is not null
+        if (parent != null) {
             parent.rect(x, y, 10, 10);
         } else {
-            System.out.println("Parent is null!"); // Print error message for debugging
+            System.out.println("Parent is null!");
         }
     }
 

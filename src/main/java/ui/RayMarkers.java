@@ -257,19 +257,18 @@ public class RayMarkers {
             // Calculate distance between exitCoords and current ray position
             double distance = Math.sqrt(Math.pow(exitCoords.x - positionCoords[0], 2) +
                     Math.pow(exitCoords.y - positionCoords[1], 2));
-            // Check if the current distance is smaller than the minimum distance found so far and within the maximum range
+            // Check if the current distance is smaller than the minimum distance
+            // found so far and within the maximum range
             if (distance < minDistance && distance <= MAX_RANGE) {
                 minDistance = distance;
                 closestIndex = j;
                 foundMatchingPoint = true;
             }
         }
-
         // No matching point found
         if (!foundMatchingPoint) {
             closestIndex = 0;
         }
-
         return closestIndex;
     }
 

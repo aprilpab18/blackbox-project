@@ -35,8 +35,8 @@ public class EndScreen {
         this.rays = new Rays(parent);
     }
 
-    public void drawEndScreen(int[][] atomPositions, boolean showRays, int numOfRays, int[] shots, Point[] rayExitCoordinates, List<AtomLocation> guessedAtoms) {
-
+    public void drawEndScreen(int[][] atomPositions, boolean showRays, int numOfRays,
+                              int[] shots, Point[] rayExitCoordinates, List<AtomLocation> guessedAtoms) {
         grid.drawImage(-1);
 
         // Yellow Atoms => Computer/Setter Atoms
@@ -133,11 +133,10 @@ public class EndScreen {
 
     private void drawExitButton(int x, int y) {
         // Check if the mouse is over the button
-        boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 100 && parent.mouseY >= y && parent.mouseY <= y + 50);
-
+        boolean mouseOver = (parent.mouseX >= x && parent.mouseX <= x + 100
+                && parent.mouseY >= y && parent.mouseY <= y + 50);
         // Check if mouse is pressed
         boolean mousePressed = parent.mousePressed;
-
         // Hover Logic
         if (mouseOver) {
             parent.stroke(255, 255, 255);
@@ -147,7 +146,6 @@ public class EndScreen {
             parent.fill(0);
         }
         parent.rect(x, y, 100, 50, 12);
-
         // Title
         parent.textSize(25);
         parent.fill(255, 38, 125);
@@ -176,8 +174,5 @@ public class EndScreen {
         if (x >= 1100 || x < 0) {
             speed *= -1; // bounce back
         }
-
     }
-
-
 }
