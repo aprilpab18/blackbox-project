@@ -244,33 +244,16 @@ public class Rays {
         // CHECK FOR STARTING INSIDE AN ATOM
         for (int[] atomPosition : atomPositions) {
             if (checkForStartingInsideAtom(start, atomPosition) && firstRay) { // STARTS INSIDE AN ATOM
-
-                if (checkForDirectHit(start, direction, atomPosition, true)) {
-                    drawDirectHit(start, atomPosition, direction, displayRays);
-                    return returnDirectHit();
-                }
-
-                // OTHERWISE REFLECT
-                return returnReflected();
+                return returnStartingInsideAtom(start, direction, atomPosition, displayRays);
             }
         }
 
-
         // Starting position is half distance to next centre point -> Move back half
         Point testCoords = new Point(start);
-
-        if (firstRay) {
-            decrementCoordinatesHalfAPosition(testCoords, direction);
-        }
-
+        decrementCoordinatesHalfAPosition(testCoords, direction, firstRay);
         int[] atomsHit = new int[6];
 
-
-        int incrementX = incrementsAlongLine[direction - 1][0];
-        int incrementY = incrementsAlongLine[direction - 1][1];
-
-        // While next position before exit and no circles of influence found
-        while ((testCoords.x + incrementX) < parent.width && (testCoords.x + incrementX) > 0 && (testCoords.y + incrementY) < parent.height && (testCoords.y + incrementY) > 0 && numOfCirclesOfInfluence == 0) {
+        while (checkIfNextCoordinatesOnScreen(testCoords, direction) && numOfCirclesOfInfluence == 0) {
             incrementCoordinatesOnePosition(testCoords, direction);
 
             // CHECK IF ANY CIRCLES OF INFLUENCE HIT - IF SO STORE THEM AND THE COORDINATES OF THE TEST COORDINATES
@@ -333,15 +316,33 @@ public class Rays {
         return new Point(-2, -2);
     }
 
-    private static void decrementCoordinatesHalfAPosition(Point testCoords, int direction) {
-        testCoords.x -= (incrementsAlongLine[direction - 1][0] / 2);
-        testCoords.y -= (incrementsAlongLine[direction - 1][1] / 2);
+    private static Point returnStartingInsideAtom(Point start, int direction, int[] atomPosition, boolean displayRays) {
+        if (checkForDirectHit(start, direction, atomPosition, true)) {
+            drawDirectHit(start, atomPosition, direction, displayRays);
+            return returnDirectHit();
+        }
+
+        // OTHERWISE REFLECT
+        return returnReflected();
+    }
+
+    private static void decrementCoordinatesHalfAPosition(Point testCoords, int direction, boolean firstRay) {
+        if (firstRay) {
+            testCoords.x -= (incrementsAlongLine[direction - 1][0] / 2);
+            testCoords.y -= (incrementsAlongLine[direction - 1][1] / 2);
+        }
+    }
+
+    private static boolean checkIfNextCoordinatesOnScreen(Point coordinates, int direction) {
+        int incrementX = incrementsAlongLine[direction - 1][0];
+        int incrementY = incrementsAlongLine[direction - 1][1];
+
+        return (coordinates.x + incrementX) < parent.width && (coordinates.x + incrementX) > 0 && (coordinates.y + incrementY) < parent.height && (coordinates.y + incrementY) > 0;
     }
 
 
 
     // ONE CIRCLE OF INFLUENCE -----------------------------------------------------------------------------------------
-
 
     private static boolean checkIfHitsRightSideOfCircle(Point coordinatesOfCircleOfInfluence, int[] atomsHit) {
         return coordinatesOfCircleOfInfluence.x > atomPositions[atomsHit[0]][0];
@@ -420,7 +421,6 @@ public class Rays {
         return oneCircleOfInfluenceRecursiveCalls(direction, coordinatesOfCircleOfInfluence, atomsHit, displayRays);
     }
 
-
     private static Point displayAndReturnForOneCircleOfInfluence(Point start, Point testCoords, int direction, Point coordinatesOfCircleOfInfluence, int[] atomsHit, boolean displayRays) {
 
         // CHECK FOR DIRECT HIT
@@ -436,16 +436,7 @@ public class Rays {
 
 
 
-
-
-
-
-
-
-
-
     // MULTIPLE CIRCLES OF INFLUENCE -----------------------------------------------------------------------------------
-
 
     private static boolean checkIfOneCircleAboveOther(int[] atomsHit, int numOfCirclesOfInfluence) {
         int y = atomPositions[atomsHit[0]][1];

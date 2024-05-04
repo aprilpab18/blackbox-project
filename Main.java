@@ -211,7 +211,7 @@ public class Main extends PApplet {
                     userInput = "";
                 }
                 /*
-                 * Num will be the point that the ray is sent from (i.e. rayPostions - 1)
+                 * Num will be the point that the ray is sent from (i.e. rayPositions - 1)
                  */
 
             }
